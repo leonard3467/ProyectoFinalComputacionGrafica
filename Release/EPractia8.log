@@ -1,0 +1,62 @@
+﻿  Camera.cpp
+  DirectionalLight.cpp
+  Light.cpp
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\DirectionalLight.cpp(18,14): warning C4244: 'argumento': conversión de 'GLfloat' a 'GLint'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\DirectionalLight.cpp(19,14): warning C4244: 'argumento': conversión de 'GLfloat' a 'GLint'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\DirectionalLight.cpp(21,14): warning C4244: 'argumento': conversión de 'GLfloat' a 'GLint'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\DirectionalLight.cpp(22,14): warning C4244: 'argumento': conversión de 'GLfloat' a 'GLint'; posible pérdida de datos
+  Material.cpp
+  Mesh_tn.cpp
+  Model.cpp
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Model.cpp(16,10): warning C4477: 'printf' : la cadena de formato '%s' requiere un argumento de tipo 'char *', pero el argumento variádico 1 tiene el tipo 'const std::string'
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Model.cpp(16,80): warning C4474: "printf": se pasaron demasiados argumentos para la cadena de formato
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Model.cpp(51,7): warning C4804: '<': uso no seguro del tipo 'bool' en la operación
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Model.cpp(51,21): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Model.cpp(138,14): warning C4477: 'printf' : la cadena de formato '%s' requiere un argumento de tipo 'char *', pero el argumento variádico 1 tiene el tipo 'std::string'
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Model.cpp(147,14): warning C4477: 'printf' : la cadena de formato '%s' requiere un argumento de tipo 'char *', pero el argumento variádico 1 tiene el tipo 'std::string'
+  PointLight.cpp
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\PointLight.cpp(28,14): warning C4244: 'argumento': conversión de 'GLfloat' a 'GLint'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\PointLight.cpp(29,14): warning C4244: 'argumento': conversión de 'GLfloat' a 'GLint'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\PointLight.cpp(30,14): warning C4244: 'argumento': conversión de 'GLfloat' a 'GLint'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\PointLight.cpp(32,14): warning C4244: 'argumento': conversión de 'GLfloat' a 'GLint'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\PointLight.cpp(33,14): warning C4244: 'argumento': conversión de 'GLfloat' a 'GLint'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\PointLight.cpp(34,14): warning C4244: 'argumento': conversión de 'GLfloat' a 'GLint'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\PointLight.cpp(35,14): warning C4244: 'argumento': conversión de 'GLfloat' a 'GLint'; posible pérdida de datos
+  practica7.cpp
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Window.h(12,36): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Window.h(13,37): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\practica7.cpp(369,15): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\practica7.cpp(371,33): warning C4244: '+=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+  Shader_light.cpp
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Shader_light.cpp(207,75): warning C4244: 'argumento': conversión de 'GLuint' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Shader_light.cpp(207,26): warning C4244: 'argumento': conversión de 'GLuint' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Shader_light.cpp(206,91): warning C4244: 'argumento': conversión de 'GLuint' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Shader_light.cpp(206,42): warning C4244: 'argumento': conversión de 'GLuint' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Shader_light.cpp(220,98): warning C4244: 'argumento': conversión de 'GLuint' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Shader_light.cpp(220,62): warning C4244: 'argumento': conversión de 'GLuint' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Shader_light.cpp(220,24): warning C4244: 'argumento': conversión de 'GLuint' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Shader_light.cpp(219,70): warning C4244: 'argumento': conversión de 'GLuint' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Shader_light.cpp(219,24): warning C4244: 'argumento': conversión de 'GLuint' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Shader_light.cpp(218,88): warning C4244: 'argumento': conversión de 'GLuint' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Shader_light.cpp(218,42): warning C4244: 'argumento': conversión de 'GLuint' a 'GLfloat'; posible pérdida de datos
+  Skybox.cpp
+  Sphere.cpp
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Sphere.cpp(39,13): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Sphere.cpp(43,16): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+  SpotLight.cpp
+  Texture.cpp
+  Window.cpp
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Window.h(12,36): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Window.h(13,37): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Window.cpp(158,22): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Window.cpp(159,22): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Window.cpp(163,28): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Window.cpp(164,40): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Window.cpp(166,21): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Window.cpp(167,21): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+  Generando código
+  Previous IPDB not found, fall back to full compilation.
+C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\EPractia8\Window.cpp(76): warning C4715: 'Window::Initialise': no todas las rutas de acceso de control devuelven un valor
+  All 895 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Generación de código finalizada
+  EPractia8.vcxproj -> C:\Users\leonard\Downloads\LabCopmpuGrafica\EPractia8\Release\EPractia8.exe
