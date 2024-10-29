@@ -25,7 +25,7 @@
 #include"Model.h"
 #include "Skybox.h"
 
-//para iluminación
+//para iluminaciÃ³n
 #include "CommonValues.h"
 #include "DirectionalLight.h"
 #include "PointLight.h"
@@ -33,7 +33,7 @@
 #include "Material.h"
 const float toRadians = 3.14159265f / 180.0f;
 
-//variables para animación
+//variables para animaciï¿½n
 float movDado;
 float movOffset;
 float rotDadox;
@@ -87,7 +87,7 @@ static const char* vShader = "shaders/shader_light.vert";
 static const char* fShader = "shaders/shader_light.frag";
 
 
-//función de calculo de normales por promedio de vértices 
+//funciÃ³n de calculo de normales por promedio de vÃ©rtices 
 void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat* vertices, unsigned int verticeCount,
 	unsigned int vLength, unsigned int normalOffset)
 {
@@ -140,11 +140,12 @@ void CreateObjects()
 	};
 
 	GLfloat floorVertices[] = {
-		// Posición              // Coordenadas de textura    // Normal
-		-35.0f, 0.0f, -35.0f,    0.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // Vértice 0
-		35.0f, 0.0f, -35.0f,     1.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // Vértice 1
-		-35.0f, 0.0f, 35.0f,     0.0f, 1.0f,                 0.0f, -1.0f, 0.0f,  // Vértice 2
-		35.0f, 0.0f, 35.0f,      1.0f, 1.0f,                 0.0f, -1.0f, 0.0f   // Vértice 3
+		// Posiciï¿½n              // Coordenadas de textura    // Normal
+		-35.0f, 0.0f, -35.0f,    0.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // Vï¿½rtice 0
+		35.0f, 0.0f, -35.0f,     1.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // Vï¿½rtice 1
+		-35.0f, 0.0f, 35.0f,     0.0f, 1.0f,                 0.0f, -1.0f, 0.0f,  // Vï¿½rtice 2
+		35.0f, 0.0f, 35.0f,      1.0f, 1.0f,                 0.0f, -1.0f, 0.0f   // Vï¿½rtice 3
+
 	};
 
 	unsigned int vegetacionIndices[] = {
@@ -259,13 +260,13 @@ int main()
 	Material_opaco = Material(0.3f, 4);
 
 
-	//luz direccional, sólo 1 y siempre debe de existir
+	//luz direccional, sÃ³lo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.3f, 0.3f,
 		0.0f, 0.0f, -1.0f);
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
-	//Declaración de primer luz puntual
+	//DeclaraciÃ³n de primer luz puntual
 	pointLights[0] = PointLight(1.0f, 1.0f, 1.0f,
 		0.0f, 1.0f,
 		6.0f, 1.5f, 0.0f,
@@ -319,7 +320,9 @@ int main()
 		uniformEyePosition = shaderList[0].GetEyePositionLocation();
 		uniformColor = shaderList[0].getColorLocation();
 
-		//información en el shader de intensidad especular y brillo
+
+		//informaciï¿½n en el shader de intensidad especular y brillo
+
 		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
 		uniformShininess = shaderList[0].GetShininessLocation();
 
@@ -327,13 +330,15 @@ int main()
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera.calculateViewMatrix()));
 		glUniform3f(uniformEyePosition, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);
 
-		// luz ligada a la cámara de tipo flash
-		//sirve para que en tiempo de ejecución (dentro del while) se cambien propiedades de la luz
+
+		// luz ligada a la cï¿½mara de tipo flash
+		//sirve para que en tiempo de ejecuciï¿½n (dentro del while) se cambien propiedades de la luz
 		glm::vec3 lowerLight = camera.getCameraPosition();
+
 		lowerLight.y -= 0.3f;
 		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
 
-		//información al shader de fuentes de iluminación
+		//informaciÃ³n al shader de fuentes de iluminaciÃ³n
 		shaderList[0].SetDirectionalLight(&mainLight);
 
 
@@ -388,3 +393,4 @@ int main()
 
 	return 0;
 }
+
