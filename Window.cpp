@@ -15,6 +15,7 @@ Window::Window(GLint windowWidth, GLint windowHeight)
 	height = windowHeight;
 	muevex = 2.0f;
 	Bandera = GL_TRUE;
+	Avanza = false;
 	for (size_t i = 0; i < 1024; i++)
 	{
 		keys[i] = 0;
@@ -131,7 +132,11 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 		
 		
 	}
-
+	if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE) // Detecta solo un pulso de la tecla Espacio
+	{
+		theWindow->Avanza = !theWindow->Avanza;
+		printf("¿Dado cae? %s \n", theWindow->Avanza ? "En efecto" : "Nel");
+	}
 
 
 	if (key >= 0 && key < 1024)
