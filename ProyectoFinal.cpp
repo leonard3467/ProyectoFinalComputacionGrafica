@@ -1,11 +1,13 @@
 #define STB_IMAGE_IMPLEMENTATION
-// regalas actuiales presionar 5 para tirar dados 
+// regalas actuiales presionar espacio para tirar dados 
 #include "Animaciones.h"
 #include <stdio.h>
 #include <string.h>
 #include <cmath>
 #include <vector>
 #include <math.h>
+
+
 
 #include <glew.h>
 #include <glfw3.h>
@@ -25,7 +27,7 @@
 #include"Model.h"
 #include "Skybox.h"
 
-//para iluminaciÃ³n
+//para iluminación
 #include "CommonValues.h"
 #include "DirectionalLight.h"
 #include "PointLight.h"
@@ -33,7 +35,7 @@
 #include "Material.h"
 const float toRadians = 3.14159265f / 180.0f;
 
-//variables para animaciï¿½n
+//variables para animación
 float movDado;
 float movOffset;
 float rotDadox;
@@ -43,23 +45,31 @@ float rotDadoyOffset;
 float rotDadoz;
 float rotDadozOffset;
 
+// textura compleja
+float toffsetTablerou = 0.0f;
+float toffsetTablerov = 0.0f;
+
+float toffsetCasillau = 0.0f;
+float toffsetCasillav = 0.0f;
 
 Window mainWindow;
-Animaciones animaciones;
+Animaciones animaciones; //intancia de control de animaciones 
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
 
 Camera camera;
 
-Texture brickTexture;
-Texture dirtTexture;
-Texture plainTexture;
-Texture pisoTexture;
+
 Texture TableroCentroTexture;
+Texture pisoTexture;
+Texture Casilla1;
+Texture Casilla2;
+Texture Casilla3;
 Texture Lamp;
 Texture dado_8_Caras;
+Texture dado_4_Caras;
 
-Model Lampara;
+
 Model dado8Caras;
 Model Banqueta;
 
@@ -71,6 +81,8 @@ Material Material_opaco;
 
 
 //Sphere cabeza = Sphere(0.5, 20, 20);
+// aqqui pueden ir tambien algunas variables de animacione avanzada 
+
 GLfloat deltaTime = 0.0f;
 GLfloat lastTime = 0.0f;
 static double limitFPS = 1.0 / 60.0;
@@ -88,7 +100,7 @@ static const char* vShader = "shaders/shader_light.vert";
 static const char* fShader = "shaders/shader_light.frag";
 
 
-//funciÃ³n de calculo de normales por promedio de vÃ©rtices 
+//función de calculo de normales por promedio de vértices 
 void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat* vertices, unsigned int verticeCount,
 	unsigned int vLength, unsigned int normalOffset)
 {
@@ -117,10 +129,9 @@ void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat
 	}
 }
 
-
+// va ayudar 
 void CreateObjects()
 {
-	// DefiniciÃ³n de indices y vÃ©rtices anteriores (tablero, vegetaciÃ³n, etc.)
 	unsigned int indices[] = {
 		0, 3, 1,
 		1, 3, 2,
@@ -129,10 +140,11 @@ void CreateObjects()
 	};
 
 	GLfloat vertices[] = {
-		-1.0f, -1.0f, -0.6f,    0.0f, 0.0f,     0.0f, 0.0f, 0.0f,
-		0.0f, -1.0f, 1.0f,      0.5f, 0.0f,     0.0f, 0.0f, 0.0f,
-		1.0f, -1.0f, -0.6f,     1.0f, 0.0f,     0.0f, 0.0f, 0.0f,
-		0.0f, 1.0f, 0.0f,       0.5f, 1.0f,     0.0f, 0.0f, 0.0f
+		//	x      y      z			u	  v			nx	  ny    nz
+			-1.0f, -1.0f, -0.6f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f,
+			0.0f, -1.0f, 1.0f,		0.5f, 0.0f,		0.0f, 0.0f, 0.0f,
+			1.0f, -1.0f, -0.6f,		1.0f, 0.0f,		0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f,		0.5f, 1.0f,		0.0f, 0.0f, 0.0f
 	};
 
 	unsigned int floorIndices[] = {
@@ -141,33 +153,83 @@ void CreateObjects()
 	};
 
 	GLfloat floorVertices[] = {
-		// Posiciï¿½n              // Coordenadas de textura    // Normal
-		-35.0f, 0.0f, -35.0f,    0.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // Vï¿½rtice 0
-		35.0f, 0.0f, -35.0f,     1.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // Vï¿½rtice 1
-		-35.0f, 0.0f, 35.0f,     0.0f, 1.0f,                 0.0f, -1.0f, 0.0f,  // Vï¿½rtice 2
-		35.0f, 0.0f, 35.0f,      1.0f, 1.0f,                 0.0f, -1.0f, 0.0f   // Vï¿½rtice 3
-
+		// Posición              // Coordenadas de textura    // Normal
+		-35.0f, 0.0f, -35.0f,    0.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // Vértice 0
+		35.0f, 0.0f, -35.0f,     1.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // Vértice 1
+		-35.0f, 0.0f, 35.0f,     0.0f, 1.0f,                 0.0f, -1.0f, 0.0f,  // Vértice 2
+		35.0f, 0.0f, 35.0f,      1.0f, 1.0f,                 0.0f, -1.0f, 0.0f   // Vértice 3
 	};
 
-	// VegetaciÃ³n (optimizar si no es necesario)
 	unsigned int vegetacionIndices[] = {
 	   0, 1, 2,
 	   0, 2, 3,
-	   4, 5, 6,
-	   4, 6, 7
+	   4,5,6,
+	   4,6,7
 	};
 
 	GLfloat vegetacionVertices[] = {
-		-0.5f, -0.5f, 0.0f,      0.0f, 0.0f,     0.0f, 0.0f, -1.03f,
-		0.5f, -0.5f, 0.0f,       1.0f, 0.0f,     0.0f, 0.0f, -1.03f,
-		0.5f, 0.5f, 0.0f,        1.0f, 1.0f,     0.0f, 0.0f, -1.0f,
-		-0.5f, 0.5f, 0.0f,       0.0f, 1.0f,     0.0f, 0.0f, -1.0f,
-		0.0f, -0.5f, -0.5f,      0.0f, 0.0f,     -1.0f, 0.0f, 0.0f,
-		0.0f, -0.5f, 0.5f,       1.0f, 0.0f,     -1.0f, 0.0f, 0.0f,
-		0.0f, 0.5f, 0.5f,        1.0f, 1.0f,     -1.0f, 0.0f, 0.0f,
-		0.0f, 0.5f, -0.5f,       0.0f, 1.0f,     -1.0f, 0.0f, 0.0f,
+		// RECORDEMOS QUE HAYD DOS PLANSO DEBEMO DE MODIFICAR LAS VALORES DE SUS NORMALES 
+		// SE AGREGAN NORMALES A DONDE MIRA EL DADO
+		-0.5f, -0.5f, 0.0f,		0.0f, 0.0f,		0.0f, 0.0f, -1.03f,
+		0.5f, -0.5f, 0.0f,		1.0f, 0.0f,		0.0f, 0.0f, -1.03f,
+		0.5f, 0.5f, 0.0f,		1.0f, 1.0f,		0.0f, 0.0f, -1.0f,
+		-0.5f, 0.5f, 0.0f,		0.0f, 1.0f,		0.0f, 0.0f, -1.0f,
+
+		0.0f, -0.5f, -0.5f,		0.0f, 0.0f,		-1.0f, 0.0f, 0.0f,
+		0.0f, -0.5f, 0.5f,		1.0f, 0.0f,		-1.0f, 0.0f, 0.0f,
+		0.0f, 0.5f, 0.5f,		1.0f, 1.0f,		-1.0f, 0.0f, 0.0f,
+		0.0f, 0.5f, -0.5f,		0.0f, 1.0f,		-1.0f, 0.0f, 0.0f,
+
+
+	};
+	unsigned int TableroIndices[] = {
+		0, 2, 1,
+		1, 2, 3
 	};
 
+	GLfloat TableroVertices[] = {
+		// Posición              // Coordenadas de textura    // Normal
+		-22.0f, 0.0f, -24.0f,    0.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // Vértice 0
+		22.0f, 0.0f, -24.0f,     1.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // Vértice 1
+		-22.0f, 0.0f, 24.0f,     0.0f, 1.0f,                 0.0f, -1.0f, 0.0f,  // Vértice 2
+		22.0f, 0.0f, 24.0f,      1.0f, 1.0f,                 0.0f, -1.0f, 0.0f   // Vértice 3
+	};
+	unsigned int CasillasIndices[] = {
+	   0, 1, 2,
+	   0, 2, 3,
+	};
+
+	GLfloat CasillasVertices[] = {
+		// definimos 3 columnas y vamos de 1 en uno para cada vertice
+		// hayq ue considerar que para las orillas de las casillas 
+		//la plantilla va de 2048x2048 
+		// cada casilla es de 256 x 640
+		//                       U     V 
+
+		-1.0f, 0.0f,  1.0f,		 0.0f, 0.6875f,		0.0f, -1.0f, 0.0f,
+		 1.0f, 0.0f,  1.0f,		.125f, 0.6875f,		0.0f, -1.0f, 0.0f,
+		 1.0f, 0.0f, -1.0f,		.125f, 1.0f,		0.0f, -1.0f, 0.0f,
+		-1.0f, 0.0f, -1.0f,		 0.0f, 1.0f,	    0.0f, -1.0f, 0.0f,
+
+	};
+	unsigned int Casillas2Indices[] = {
+	   0, 1, 2,
+	   0, 2, 3,
+	};
+
+	GLfloat Casillas2Vertices[] = {
+		// definimos 3 columnas y vamos de 1 en uno para cada vertice
+		// hayq ue considerar que para las orillas de las casillas 
+		//la plantilla va de 2048x2048 
+		// cada casilla es de 256 x 640
+		//                       U     V 
+
+		-5.5f, 0.0f,  5.5f,		 0.0f, 0.5f,		0.0f, -1.0f, 0.0f,
+		 5.5f, 0.0f,  5.5f,		 0.5f, 0.5f,		0.0f, -1.0f, 0.0f,
+		 5.5f, 0.0f, -5.5f,		 0.5f, 1.0f,		0.0f, -1.0f, 0.0f,
+		-5.5f, 0.0f, -5.5f,		 0.0f, 1.0f,	    0.0f, -1.0f, 0.0f,
+
+	};
 	// **Nuevo Plano Adicional**
 	unsigned int additionalFloorIndices[] = {
 		0, 2, 1,
@@ -175,15 +237,44 @@ void CreateObjects()
 	};
 
 	GLfloat additionalFloorVertices[] = {
-		// PosiciÃ³n             // Coordenadas de textura     // Normal
+		// Posición             // Coordenadas de textura     // Normal
 		-10.0f, 0.0f, -10.0f,   0.0f, 0.0f,                  0.0f, -1.0f, 0.0f,
 		10.0f, 0.0f, -10.0f,    10.0f, 0.0f,                  0.0f, -1.0f, 0.0f,
 		-10.0f, 0.0f, 10.0f,    0.0f, 10.0f,                  0.0f, -1.0f, 0.0f,
 		10.0f, 0.0f, 10.0f,     10.0f, 10.0f,                  0.0f, -1.0f, 0.0f
 	};
+	unsigned int dado4_indices[] = {
+		//Cada cara tiene 3 vértices
+		0, 1, 2,    // Cara 1
+		3, 4, 5,    // Cara 2
+		6, 7, 8,    // Cara 3
+		9, 10, 11     // Cara 4
+	};
 
+	GLfloat dado4_vertices[] = {
+		// x       y       z             S       T          NX          NY       NZ
+		/*Cálculo de S y T
+		S=posición pixel / # total pixel eje x
+		T= 1- posición pixel / # total pixel eje y
+		*/
+		// Cara 1
+		 0.0f,    0.2f,   -0.2f,     0.5117f, 0.8965f,      -0.0f,    -0.447f,     -0.894f,  // Vértice superior 
+		-0.1f,    0.0f,   -0.1f,     0.2988f, 0.5215f,      -0.0f,    -0.447f,     -0.894f,  // Vértice izquierdo
+		 0.1f,    0.0f,   -0.1f,     0.7285f, 0.5215f,      -0.0f,    -0.447f,     -0.894f,  // Vértice derecho
+		 // Cara 2
+		  0.0f,    0.2f,   -0.2f,     0.9414f, 0.1484f,    -0.894f,      -0.0f,    0.447f,  // Vértice superior 
+		  0.1f,    0.0f,   -0.1f,     0.7265f, 0.5253f,    -0.894f,      -0.0f,    0.447f,  // Vértice izquierdo
+		  0.0f,    0.0f,   -0.3f,     0.5136f, 0.1484f,    -0.894f,      -0.0f,    0.447f,  // Vértice derecho
+		  // Cara 3
+		   0.0f,    0.2f,   -0.2f,     0.0839f, 0.1484f,    0.873f,     -0.218f,   0.436f,  // Vértice superior 
+		   0.0f,    0.0f,   -0.3f,     0.5136f, 0.1484f,    0.873f,     -0.218f,   0.436f,  // Vértice izquierdo
+		  -0.1f,    0.0f,   -0.1f,     0.2988f, 0.5215f,    0.873f,     -0.218f,   0.436f,  // Vértice derecho
+		  //Cara 4
+		  0.0f,    0.0f,    -0.3f,    0.5117f, 0.1484f,       0.0f,       1.0f,      0.0f, // Vértice superior
+		  -0.1f,    0.0f,    -0.1f,   0.7265f, 0.5253f,       0.0f,       1.0f,      0.0f, // Vértice izquierdo
+		  0.1f,    0.0f,    -0.1f,    0.2988f, 0.5253f,       0.0f,       1.0f,      0.0f, // Vértice derecho
+	};
 
-	// Crear las mallas
 
 	Mesh* obj1 = new Mesh();
 	obj1->CreateMesh(vertices, indices, 32, 12);
@@ -201,13 +292,29 @@ void CreateObjects()
 	obj4->CreateMesh(vegetacionVertices, vegetacionIndices, 64, 12);
 	meshList.push_back(obj4);
 
+	Mesh* obj5 = new Mesh();
+	obj5->CreateMesh(TableroVertices,TableroIndices, 32, 6);
+	meshList.push_back(obj5);
+
+	Mesh* obj6 = new Mesh();
+	obj6->CreateMesh(CasillasVertices, CasillasIndices, 32, 6);
+	meshList.push_back(obj6);
+
+	Mesh* obj7 = new Mesh();
+	obj7->CreateMesh(Casillas2Vertices, Casillas2Indices, 32, 6);
+	meshList.push_back(obj7);
+
 	// Agregar el nuevo plano a la lista de mallas
 	Mesh* additionalFloor = new Mesh();
 	additionalFloor->CreateMesh(additionalFloorVertices, additionalFloorIndices, 32, 6);
-	meshList.push_back(additionalFloor); // Este serÃ¡ `meshList[4]`
+	meshList.push_back(additionalFloor); // Este será `meshList[7]`
 
-	// Calcular normales para los vÃ©rtices de los otros objetos
+	Mesh* dado4 = new Mesh();
+	dado4->CreateMesh(dado4_vertices, dado4_indices, 96, 12);
+	meshList.push_back(dado4);    // Este será `meshList[8]`
+
 	calcAverageNormals(indices, 12, vertices, 32, 8, 5);
+
 	calcAverageNormals(vegetacionIndices, 12, vegetacionVertices, 64, 8, 5);
 
 }
@@ -232,30 +339,25 @@ int main()
 
 	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 0.3f, 0.5f);
 
-	brickTexture = Texture("Textures/brick.png");
-	brickTexture.LoadTextureA();
-	dirtTexture = Texture("Textures/dirt.png");
-	dirtTexture.LoadTextureA();
-	plainTexture = Texture("Textures/plain.png");
-	plainTexture.LoadTextureA();
+	TableroCentroTexture = Texture("Textures/TableroCentro.tga");
+	TableroCentroTexture.LoadTextureA();
 	pisoTexture = Texture("Textures/pasto.tga");
 	pisoTexture.LoadTextureA();
-
-	TableroCentroTexture = Texture("Textures/TableroFinal_1.tga");
-	TableroCentroTexture.LoadTextureA();
-
-	Lamp = Texture("Textures/lamp.tga");
-	Lamp.LoadTextureA();
+	Casilla1 = Texture("Textures/Casillas1.tga");
+	Casilla1.LoadTextureA();
+	Casilla2 = Texture("Textures/Casillas2.tga");
+	Casilla2.LoadTextureA();
+	Casilla3 = Texture("Textures/Casillas3.tga");
+	Casilla3.LoadTextureA();
 	dado_8_Caras = Texture("Textures/Dado8carasFinal.tga");
 	dado_8_Caras.LoadTextureA();
+	dado_4_Caras = Texture("Textures/Dado_4caras.tga");
+	dado_4_Caras.LoadTextureA();
 
-	//Models
-	Lampara = Model();
-	Lampara.LoadModel("Models/Lampara.obj");
-	dado8Caras = Model();
-	dado8Caras.LoadModel("Models/Dado8Caras.obj");
 	Banqueta = Model();
 	Banqueta.LoadModel("Models/Banqueta.obj");
+	dado8Caras = Model();
+	dado8Caras.LoadModel("Models/Dado8Caras.obj");
 
 	std::vector<std::string> skyboxFaces;
 	////Para el ciclo de noche
@@ -280,13 +382,13 @@ int main()
 	Material_opaco = Material(0.3f, 4);
 
 
-	//luz direccional, sÃ³lo 1 y siempre debe de existir
+	//luz direccional, sólo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.3f, 0.3f,
 		0.0f, 0.0f, -1.0f);
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
-	//DeclaraciÃ³n de primer luz puntual
+	//Declaración de primer luz puntual
 	pointLights[0] = PointLight(1.0f, 1.0f, 1.0f,
 		0.0f, 1.0f,
 		6.0f, 1.5f, 0.0f,
@@ -308,10 +410,16 @@ int main()
 	//se crean mas luces puntuales y spotlight 
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
-		uniformSpecularIntensity = 0, uniformShininess = 0;
+		uniformSpecularIntensity = 0, uniformShininess = 0, uniformTextureOffset = 0;
 	GLuint uniformColor = 0;
 	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
+	// aqui las variables que puedas poner de animacion se modifican ar asu ocrida incial 
 	////Loop mientras no se cierra la ventana
+	
+	// si no mal recuerdo son de 1024 x 1024   dependera de cuantos recuadros aprovechemos pero vemos ahorita 
+	toffsetTablerou = 0.0;
+	toffsetTablerov = 0.0;
+	
 	while (!mainWindow.getShouldClose())
 	{
 		GLfloat now = glfwGetTime();
@@ -324,6 +432,7 @@ int main()
 			&movDado, &movOffset,
 			mainWindow, &deltaTime
 		);
+
 		//Recibir eventos del usuario
 		glfwPollEvents();
 		camera.keyControl(mainWindow.getsKeys(), deltaTime);
@@ -339,10 +448,9 @@ int main()
 		uniformView = shaderList[0].GetViewLocation();
 		uniformEyePosition = shaderList[0].GetEyePositionLocation();
 		uniformColor = shaderList[0].getColorLocation();
+		uniformTextureOffset = shaderList[0].getOffsetLocation();
 
-
-		//informaciï¿½n en el shader de intensidad especular y brillo
-
+		//información en el shader de intensidad especular y brillo
 		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
 		uniformShininess = shaderList[0].GetShininessLocation();
 
@@ -350,20 +458,18 @@ int main()
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera.calculateViewMatrix()));
 		glUniform3f(uniformEyePosition, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);
 
-
-		// luz ligada a la cï¿½mara de tipo flash
-		//sirve para que en tiempo de ejecuciï¿½n (dentro del while) se cambien propiedades de la luz
+		// luz ligada a la cámara de tipo flash
+		//sirve para que en tiempo de ejecución (dentro del while) se cambien propiedades de la luz
 		glm::vec3 lowerLight = camera.getCameraPosition();
-
 		lowerLight.y -= 0.3f;
 		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
 
-		//informaciÃ³n al shader de fuentes de iluminaciÃ³n
+		//información al shader de fuentes de iluminación
 		shaderList[0].SetDirectionalLight(&mainLight);
 
 
 		shaderList[0].SetSpotLights(spotLights, spotLightCount);
-
+		//EN ESTOS MOMENTOS ESTA DESACTIVADA LA LUZ
 		if (mainWindow.getBandera() == GL_TRUE) {
 			shaderList[0].SetPointLights(pointLights, pointLightCount);
 		}
@@ -375,53 +481,196 @@ int main()
 		glm::mat4 model(1.0);
 		glm::mat4 modelaux(1.0);
 		glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glm::vec2 toffset = glm::vec2(0.0f, 0.0f);
 
-		//Tablero
-		// revisen es de 20 x 20 ---z cada cuadrito para cada modelo es de 2 en versiones futuras revisaran si se esala mas este plano 
-		// Tareas para el siguiente upgrade, revisar skybox pero de un cielo claro por que directamente este no va  al caso y generar un suelo diferente  que simule estar abajo del tablero a lo monopoly go
+		////Tablero centro actual de 24 en x por 22 en z 
 
-		// propuestas para nueva skybox, buscar la skybox del espacio de mario kart o cielo claro , por verse 
-		//pdt ctm xhanery 
+		//  Centro del tablero
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, -1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		TableroCentroTexture.UseTexture();
-		meshList[2]->RenderMesh();
+		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		meshList[4]->RenderMesh();
+		
+		// Casillas
+		// primero linea
+		toffsetCasillau = 0.0;
+		toffsetCasillav = 0.0;
+		for (int i = 0; i < 8; i++)
+		{
+			toffset = glm::vec2(toffsetCasillau, toffsetCasillav);
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-19.25f+(i * 5.5f), -1.0f, 29.5f));
+			model = glm::scale(model, glm::vec3(2.75f, 1.0f, 5.5f));
+			model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			color = glm::vec3(1.0f, 1.0f, 1.0f);
+			glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+			Casilla1.UseTexture();
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			meshList[5]->RenderMesh();
+			toffsetCasillau += 0.125;
+			toffsetCasillav = 0.0;
 
+		}
+		// Linea de abajo
+		toffsetCasillau = 0.0;
+		toffsetCasillav =-0.3125;
+		for (int i = 0; i < 8; i++)
+		{
+			toffset = glm::vec2(toffsetCasillau, toffsetCasillav);
+			model = glm::mat4(1.0);
+			model = glm::translate(model, glm::vec3(-19.25f + (i * 5.5f), -1.0f, -29.5f));
+			model = glm::scale(model, glm::vec3(2.75f, 1.0f, 5.5f));
+			model = glm::rotate(model, 360 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			color = glm::vec3(1.0f, 1.0f, 1.0f);
+			glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+			Casilla1.UseTexture();
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			meshList[5]->RenderMesh();
+			toffsetCasillau += 0.125;
+			toffsetCasillav = -0.3125;
+
+		}
+		toffsetCasillau = 0.0;
+		toffsetCasillav = 0.0;
+		for (int i = 0; i < 10; i++)
+		{
+			if (toffsetCasillau > 7 * 0.125) {
+				toffsetCasillau = 0.0;
+				toffsetCasillav = -0.3125;
+			}
+			toffset = glm::vec2(toffsetCasillau, toffsetCasillav);
+			model = glm::mat4(1.0);
+			model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::translate(model, glm::vec3(-21.6f+ (i * 4.8f), -1.0f, -27.5f));
+			model = glm::scale(model, glm::vec3(2.4f, 1.0f, 5.5f));
+
+			glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			color = glm::vec3(1.0f, 1.0f, 1.0f);
+			glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+			Casilla2.UseTexture();
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			meshList[5]->RenderMesh();
+			toffsetCasillau += 0.125;
+
+		}
+		toffsetCasillau = 2 * 0.125;
+		toffsetCasillav = -0.3125;
+		for (int i = 0; i < 10; i++)
+		{
+			if (toffsetCasillau > 7 * 0.125) {
+				toffsetCasillau = 0.0;
+				toffsetCasillav = 2*-0.3125;
+			}
+			toffset = glm::vec2(toffsetCasillau, toffsetCasillav);
+			model = glm::mat4(1.0);
+			model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::translate(model, glm::vec3(-21.6f + (i * 4.8f), -1.0f, 27.5f));
+			model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(2.4f, 1.0f, 5.5f));
+
+			glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			color = glm::vec3(1.0f, 1.0f, 1.0f);
+			glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+			Casilla2.UseTexture();
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			meshList[5]->RenderMesh();
+			toffsetCasillau += 0.125;
+
+		}
+		// esquinas de el tablero, con esto obtenemos las 40 casillas
+		toffsetCasillau = 0.0;
+		toffsetCasillav = 0.0;
+		for (int i = 0; i < 4; i++)
+		{
+			if (toffsetCasillau >  0.5) {
+				toffsetCasillau = 0.0;
+				toffsetCasillav = -0.5;
+			}
+			toffset = glm::vec2(toffsetCasillau, toffsetCasillav);
+			model = glm::mat4(1.0);
+			if (i==0) {
+				model = glm::translate(model, glm::vec3(-27.5f, -1.0f, 29.5f));
+				model = glm::rotate(model,-180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			}
+			else if (i == 1) {
+				model = glm::translate(model, glm::vec3(27.5f, -1.0f, 29.5f));
+				model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+			}
+			else if (i == 2) {
+				model = glm::translate(model, glm::vec3(27.5f, -1.0f, -29.5f));
+			}else {
+				model = glm::translate(model, glm::vec3(-27.5f, -1.0f, -29.5f));
+			}
+			glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+			color = glm::vec3(1.0f, 1.0f, 1.0f);
+			glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+			Casilla3.UseTexture();
+			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+			meshList[6]->RenderMesh();
+			toffsetCasillau += 0.5;
+		}
+
+		toffset = glm::vec2(0.0, 0.0);
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		// Renderizado del plano adicional (Pasto)
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, -1.01f, 0.0f)); 
-		model = glm::scale(model, glm::vec3(20.0f, 1.0f, 20.0f));    
+		model = glm::translate(model, glm::vec3(0.0f, -1.01f, 0.0f));
+		model = glm::scale(model, glm::vec3(20.0f, 1.0f, 20.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		pisoTexture.UseTexture(); 
-		meshList[4]->RenderMesh(); //Si eliminan el agave, cambien esto
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		pisoTexture.UseTexture();
+		meshList[7]->RenderMesh();
 
+		//Banqueta alrededor del tablero, junto con pista
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-36.3f, -1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(3.3f, 3.5f, 3.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		Banqueta.RenderModel();
 
 		//------ Dado 8 caras ---------
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 12.0f + movDado, 0.0f));
-
-
+		model = glm::translate(model, glm::vec3(0.0f, 12.0f + movDado, 10.0f));
 		model = glm::rotate(model, rotDadox * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::rotate(model, rotDadoy * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, rotDadoz * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		
 		model = glm::scale(model, glm::vec3(.7f, .7f, .7f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		dado8Caras.RenderModel();
-		glDisable(GL_BLEND);
-
-		//Banqueta alrededor del tablero, junto con pista
+		//------ Dado 4 caras ---------
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-38.5f, -1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(3.5f, 3.5f, 3.5f));
+		model = glm::translate(model, glm::vec3(0.0f, 8.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(40.0f, 40.0f, 40.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		Banqueta.RenderModel();
+		color = glm::vec3(1.0f, 1.0f, 1.0f); // Asignar color blanco a la textura
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		dado_4_Caras.UseTexture();
+		meshList[8]->RenderMesh();
+
 		glDisable(GL_BLEND);
+		
+
+		//
 
 		glUseProgram(0);
 
@@ -430,4 +679,3 @@ int main()
 
 	return 0;
 }
-

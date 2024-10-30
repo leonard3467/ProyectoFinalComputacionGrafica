@@ -12,8 +12,8 @@ newmtl 01___Default
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka C:\Users\Zoe\Desktop\Modelos PF COMPU\PF\PF\Textures\banqueta.jpg
-	map_Kd C:\Users\Zoe\Desktop\Modelos PF COMPU\PF\PF\Textures\banqueta.jpg
+	map_Ka banqueta.jpg
+	map_Kd banqueta.jpg
 
 newmtl 02___Default
 	Ns 10.0000
@@ -26,8 +26,8 @@ newmtl 02___Default
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka C:\Users\Zoe\Desktop\Modelos PF COMPU\PF\PF\Textures\bordeBanqueta.jpg
-	map_Kd C:\Users\Zoe\Desktop\Modelos PF COMPU\PF\PF\Textures\bordeBanqueta.jpg
+	map_Ka bordeBanqueta.jpg
+	map_Kd bordeBanqueta.jpg
 
 newmtl 07___Default
 	Ns 10.0000
@@ -40,8 +40,8 @@ newmtl 07___Default
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka C:\Users\Zoe\Desktop\Modelos PF COMPU\PF\PF\Textures\verde.png
-	map_Kd C:\Users\Zoe\Desktop\Modelos PF COMPU\PF\PF\Textures\verde.png
+	map_Ka verde.png
+	map_Kd verde.png
 
 newmtl 03___Default
 	Ns 10.0000
@@ -54,8 +54,8 @@ newmtl 03___Default
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka C:\Users\Zoe\Desktop\Modelos PF COMPU\PF\PF\Textures\naranja.png
-	map_Kd C:\Users\Zoe\Desktop\Modelos PF COMPU\PF\PF\Textures\naranja.png
+	map_Ka naranja.png
+	map_Kd naranja.png
 
 newmtl 08___Default
 	Ns 10.0000
@@ -68,8 +68,8 @@ newmtl 08___Default
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka C:\Users\Zoe\Desktop\Modelos PF COMPU\PF\PF\Textures\azul.jpg
-	map_Kd C:\Users\Zoe\Desktop\Modelos PF COMPU\PF\PF\Textures\azul.jpg
+	map_Ka azul.jpg
+	map_Kd azul.jpg
 
 newmtl 09___Default
 	Ns 10.0000
@@ -82,5 +82,5 @@ newmtl 09___Default
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka C:\Users\Zoe\Desktop\Modelos PF COMPU\PF\PF\Textures\morado.jpg
-	map_Kd C:\Users\Zoe\Desktop\Modelos PF COMPU\PF\PF\Textures\morado.jpg
+	map_Ka morado.jpg
+	map_Kd morado.jpg
