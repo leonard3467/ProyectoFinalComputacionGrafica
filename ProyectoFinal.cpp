@@ -61,6 +61,7 @@ Texture dado_8_Caras;
 
 Model Lampara;
 Model dado8Caras;
+Model Banqueta;
 
 Skybox skybox;
 
@@ -119,6 +120,7 @@ void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat
 
 void CreateObjects()
 {
+	// Definición de indices y vértices anteriores (tablero, vegetación, etc.)
 	unsigned int indices[] = {
 		0, 3, 1,
 		1, 3, 2,
@@ -127,11 +129,10 @@ void CreateObjects()
 	};
 
 	GLfloat vertices[] = {
-		//	x      y      z			u	  v			nx	  ny    nz
-			-1.0f, -1.0f, -0.6f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f,
-			0.0f, -1.0f, 1.0f,		0.5f, 0.0f,		0.0f, 0.0f, 0.0f,
-			1.0f, -1.0f, -0.6f,		1.0f, 0.0f,		0.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f,		0.5f, 1.0f,		0.0f, 0.0f, 0.0f
+		-1.0f, -1.0f, -0.6f,    0.0f, 0.0f,     0.0f, 0.0f, 0.0f,
+		0.0f, -1.0f, 1.0f,      0.5f, 0.0f,     0.0f, 0.0f, 0.0f,
+		1.0f, -1.0f, -0.6f,     1.0f, 0.0f,     0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,       0.5f, 1.0f,     0.0f, 0.0f, 0.0f
 	};
 
 	unsigned int floorIndices[] = {
@@ -148,29 +149,41 @@ void CreateObjects()
 
 	};
 
+	// Vegetación (optimizar si no es necesario)
 	unsigned int vegetacionIndices[] = {
 	   0, 1, 2,
 	   0, 2, 3,
-	   4,5,6,
-	   4,6,7
+	   4, 5, 6,
+	   4, 6, 7
 	};
 
 	GLfloat vegetacionVertices[] = {
-		// RECORDEMOS QUE HAYD DOS PLANSO DEBEMO DE MODIFICAR LAS VALORES DE SUS NORMALES 
-		// SE AGREGAN NORMALES A DONDE MIRA EL DADO
-		-0.5f, -0.5f, 0.0f,		0.0f, 0.0f,		0.0f, 0.0f, -1.03f,
-		0.5f, -0.5f, 0.0f,		1.0f, 0.0f,		0.0f, 0.0f, -1.03f,
-		0.5f, 0.5f, 0.0f,		1.0f, 1.0f,		0.0f, 0.0f, -1.0f,
-		-0.5f, 0.5f, 0.0f,		0.0f, 1.0f,		0.0f, 0.0f, -1.0f,
-
-		0.0f, -0.5f, -0.5f,		0.0f, 0.0f,		-1.0f, 0.0f, 0.0f,
-		0.0f, -0.5f, 0.5f,		1.0f, 0.0f,		-1.0f, 0.0f, 0.0f,
-		0.0f, 0.5f, 0.5f,		1.0f, 1.0f,		-1.0f, 0.0f, 0.0f,
-		0.0f, 0.5f, -0.5f,		0.0f, 1.0f,		-1.0f, 0.0f, 0.0f,
-
-
+		-0.5f, -0.5f, 0.0f,      0.0f, 0.0f,     0.0f, 0.0f, -1.03f,
+		0.5f, -0.5f, 0.0f,       1.0f, 0.0f,     0.0f, 0.0f, -1.03f,
+		0.5f, 0.5f, 0.0f,        1.0f, 1.0f,     0.0f, 0.0f, -1.0f,
+		-0.5f, 0.5f, 0.0f,       0.0f, 1.0f,     0.0f, 0.0f, -1.0f,
+		0.0f, -0.5f, -0.5f,      0.0f, 0.0f,     -1.0f, 0.0f, 0.0f,
+		0.0f, -0.5f, 0.5f,       1.0f, 0.0f,     -1.0f, 0.0f, 0.0f,
+		0.0f, 0.5f, 0.5f,        1.0f, 1.0f,     -1.0f, 0.0f, 0.0f,
+		0.0f, 0.5f, -0.5f,       0.0f, 1.0f,     -1.0f, 0.0f, 0.0f,
 	};
 
+	// **Nuevo Plano Adicional**
+	unsigned int additionalFloorIndices[] = {
+		0, 2, 1,
+		1, 2, 3
+	};
+
+	GLfloat additionalFloorVertices[] = {
+		// Posición             // Coordenadas de textura     // Normal
+		-10.0f, 0.0f, -10.0f,   0.0f, 0.0f,                  0.0f, -1.0f, 0.0f,
+		10.0f, 0.0f, -10.0f,    10.0f, 0.0f,                  0.0f, -1.0f, 0.0f,
+		-10.0f, 0.0f, 10.0f,    0.0f, 10.0f,                  0.0f, -1.0f, 0.0f,
+		10.0f, 0.0f, 10.0f,     10.0f, 10.0f,                  0.0f, -1.0f, 0.0f
+	};
+
+
+	// Crear las mallas
 
 	Mesh* obj1 = new Mesh();
 	obj1->CreateMesh(vertices, indices, 32, 12);
@@ -188,9 +201,13 @@ void CreateObjects()
 	obj4->CreateMesh(vegetacionVertices, vegetacionIndices, 64, 12);
 	meshList.push_back(obj4);
 
+	// Agregar el nuevo plano a la lista de mallas
+	Mesh* additionalFloor = new Mesh();
+	additionalFloor->CreateMesh(additionalFloorVertices, additionalFloorIndices, 32, 6);
+	meshList.push_back(additionalFloor); // Este será `meshList[4]`
 
+	// Calcular normales para los vértices de los otros objetos
 	calcAverageNormals(indices, 12, vertices, 32, 8, 5);
-
 	calcAverageNormals(vegetacionIndices, 12, vegetacionVertices, 64, 8, 5);
 
 }
@@ -221,7 +238,7 @@ int main()
 	dirtTexture.LoadTextureA();
 	plainTexture = Texture("Textures/plain.png");
 	plainTexture.LoadTextureA();
-	pisoTexture = Texture("Textures/piso.tga");
+	pisoTexture = Texture("Textures/pasto.tga");
 	pisoTexture.LoadTextureA();
 
 	TableroCentroTexture = Texture("Textures/TableroFinal_1.tga");
@@ -232,10 +249,13 @@ int main()
 	dado_8_Caras = Texture("Textures/Dado8carasFinal.tga");
 	dado_8_Caras.LoadTextureA();
 
+	//Models
 	Lampara = Model();
 	Lampara.LoadModel("Models/Lampara.obj");
 	dado8Caras = Model();
 	dado8Caras.LoadModel("Models/Dado8Caras.obj");
+	Banqueta = Model();
+	Banqueta.LoadModel("Models/Banqueta.obj");
 
 	std::vector<std::string> skyboxFaces;
 	////Para el ciclo de noche
@@ -369,6 +389,14 @@ int main()
 		TableroCentroTexture.UseTexture();
 		meshList[2]->RenderMesh();
 
+		// Renderizado del plano adicional (Pasto)
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, -1.01f, 0.0f)); 
+		model = glm::scale(model, glm::vec3(20.0f, 1.0f, 20.0f));    
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		pisoTexture.UseTexture(); 
+		meshList[4]->RenderMesh(); //Si eliminan el agave, cambien esto
 
 
 		//------ Dado 8 caras ---------
@@ -384,6 +412,15 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		dado8Caras.RenderModel();
+		glDisable(GL_BLEND);
+
+		//Banqueta alrededor del tablero, junto con pista
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-38.5f, -1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(3.5f, 3.5f, 3.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		Banqueta.RenderModel();
 		glDisable(GL_BLEND);
 
 		glUseProgram(0);
