@@ -1,5 +1,6 @@
 #define STB_IMAGE_IMPLEMENTATION
-
+// regalas actuiales presionar 5 para tirar dados 
+#include "Animaciones.h"
 #include <stdio.h>
 #include <string.h>
 #include <cmath>
@@ -32,7 +33,19 @@
 #include "Material.h"
 const float toRadians = 3.14159265f / 180.0f;
 
+//variables para animaci�n
+float movDado;
+float movOffset;
+float rotDadox;
+float rotDadoxOffset;
+float rotDadoy;
+float rotDadoyOffset;
+float rotDadoz;
+float rotDadozOffset;
+
+
 Window mainWindow;
+Animaciones animaciones;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
 
@@ -128,10 +141,12 @@ void CreateObjects()
 	};
 
 	GLfloat floorVertices[] = {
-		-35.0f, 0.0f, -35.0f,    0.0f, 0.0f,     0.0f, -1.0f, 0.0f,
-		35.0f, 0.0f, -35.0f,     1.0f, 0.0f,     0.0f, -1.0f, 0.0f,
-		-35.0f, 0.0f, 35.0f,     0.0f, 1.0f,     0.0f, -1.0f, 0.0f,
-		35.0f, 0.0f, 35.0f,      1.0f, 1.0f,     0.0f, -1.0f, 0.0f
+		// Posici�n              // Coordenadas de textura    // Normal
+		-35.0f, 0.0f, -35.0f,    0.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // V�rtice 0
+		35.0f, 0.0f, -35.0f,     1.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // V�rtice 1
+		-35.0f, 0.0f, 35.0f,     0.0f, 1.0f,                 0.0f, -1.0f, 0.0f,  // V�rtice 2
+		35.0f, 0.0f, 35.0f,      1.0f, 1.0f,                 0.0f, -1.0f, 0.0f   // V�rtice 3
+
 	};
 
 	// Vegetación (optimizar si no es necesario)
@@ -167,7 +182,9 @@ void CreateObjects()
 		10.0f, 0.0f, 10.0f,     10.0f, 10.0f,                  0.0f, -1.0f, 0.0f
 	};
 
+
 	// Crear las mallas
+
 	Mesh* obj1 = new Mesh();
 	obj1->CreateMesh(vertices, indices, 32, 12);
 	meshList.push_back(obj1);
@@ -198,7 +215,7 @@ void CreateObjects()
 
 void CreateShaders()
 {
-	Shader *shader1 = new Shader();
+	Shader* shader1 = new Shader();
 	shader1->CreateFromFiles(vShader, fShader);
 	shaderList.push_back(*shader1);
 }
@@ -211,7 +228,7 @@ int main()
 
 	CreateObjects();
 	CreateShaders();
-	
+
 
 	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 0.3f, 0.5f);
 
@@ -223,7 +240,7 @@ int main()
 	plainTexture.LoadTextureA();
 	pisoTexture = Texture("Textures/pasto.tga");
 	pisoTexture.LoadTextureA();
-	
+
 	TableroCentroTexture = Texture("Textures/TableroFinal_1.tga");
 	TableroCentroTexture.LoadTextureA();
 
@@ -241,12 +258,21 @@ int main()
 	Banqueta.LoadModel("Models/Banqueta.obj");
 
 	std::vector<std::string> skyboxFaces;
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_lf.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_dn.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_up.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_bk.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_ft.tga");
+	////Para el ciclo de noche
+	//skyboxFaces.push_back("Textures/Skybox/EspacioCicloNoche_Lf.tga");
+	//skyboxFaces.push_back("Textures/Skybox/EspacioCicloNoche_Rt.tga");
+	//skyboxFaces.push_back("Textures/Skybox/EspacioCicloNoche_Dn.tga");
+	//skyboxFaces.push_back("Textures/Skybox/EspacioCicloNoche_Up.tga");
+	//skyboxFaces.push_back("Textures/Skybox/EspacioCicloNoche_Bk.tga");
+	//skyboxFaces.push_back("Textures/Skybox/EspacioCicloNoche_Ft.tga");
+	
+	//Para el ciclo de dia 
+	skyboxFaces.push_back("Textures/Skybox/SkyboxCicloDia_Lf.tga");
+	skyboxFaces.push_back("Textures/Skybox/SkyboxCicloDia_Rt.tga");
+	skyboxFaces.push_back("Textures/Skybox/SkyboxCicloDia_Dn.tga");
+	skyboxFaces.push_back("Textures/Skybox/SkyboxCicloDia_Up.tga");
+	skyboxFaces.push_back("Textures/Skybox/SkyboxCicloDia_Bk.tga");
+	skyboxFaces.push_back("Textures/Skybox/SkyboxCicloDia_Ft.tga");
 
 	skybox = Skybox(skyboxFaces);
 
@@ -277,8 +303,8 @@ int main()
 		5.0f);
 	spotLightCount++;
 
-	
-	
+
+
 	//se crean mas luces puntuales y spotlight 
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
@@ -292,7 +318,12 @@ int main()
 		deltaTime = now - lastTime;
 		deltaTime += (now - lastTime) / limitFPS;
 		lastTime = now;
-
+		animaciones.animacionDado8Caras(
+			&rotDadox, &rotDadoy, &rotDadoz,
+			&rotDadoxOffset, &rotDadoyOffset, &rotDadozOffset,
+			&movDado, &movOffset,
+			mainWindow, &deltaTime
+		);
 		//Recibir eventos del usuario
 		glfwPollEvents();
 		camera.keyControl(mainWindow.getsKeys(), deltaTime);
@@ -308,8 +339,10 @@ int main()
 		uniformView = shaderList[0].GetViewLocation();
 		uniformEyePosition = shaderList[0].GetEyePositionLocation();
 		uniformColor = shaderList[0].getColorLocation();
-		
-		//información en el shader de intensidad especular y brillo
+
+
+		//informaci�n en el shader de intensidad especular y brillo
+
 		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
 		uniformShininess = shaderList[0].GetShininessLocation();
 
@@ -317,22 +350,24 @@ int main()
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera.calculateViewMatrix()));
 		glUniform3f(uniformEyePosition, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);
 
-		// luz ligada a la cámara de tipo flash
-		//sirve para que en tiempo de ejecución (dentro del while) se cambien propiedades de la luz
-			glm::vec3 lowerLight = camera.getCameraPosition();
+
+		// luz ligada a la c�mara de tipo flash
+		//sirve para que en tiempo de ejecuci�n (dentro del while) se cambien propiedades de la luz
+		glm::vec3 lowerLight = camera.getCameraPosition();
+
 		lowerLight.y -= 0.3f;
 		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
 
 		//información al shader de fuentes de iluminación
 		shaderList[0].SetDirectionalLight(&mainLight);
-		
-		
+
+
 		shaderList[0].SetSpotLights(spotLights, spotLightCount);
 
 		if (mainWindow.getBandera() == GL_TRUE) {
 			shaderList[0].SetPointLights(pointLights, pointLightCount);
 		}
-		else if(mainWindow.getBandera() == GL_FALSE) {
+		else if (mainWindow.getBandera() == GL_FALSE) {
 			shaderList[0].SetPointLights(pointLights, pointLightCount - 1);
 		}
 
@@ -340,7 +375,7 @@ int main()
 		glm::mat4 model(1.0);
 		glm::mat4 modelaux(1.0);
 		glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
-		
+
 		//Tablero
 		// revisen es de 20 x 20 ---z cada cuadrito para cada modelo es de 2 en versiones futuras revisaran si se esala mas este plano 
 		// Tareas para el siguiente upgrade, revisar skybox pero de un cielo claro por que directamente este no va  al caso y generar un suelo diferente  que simule estar abajo del tablero a lo monopoly go
@@ -363,11 +398,17 @@ int main()
 		pisoTexture.UseTexture(); 
 		meshList[4]->RenderMesh(); //Si eliminan el agave, cambien esto
 
-		
-		//Dado 8 caras
+
+		//------ Dado 8 caras ---------
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(6.0f, 5.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(.5f, .5f, .5f));
+		model = glm::translate(model, glm::vec3(0.0f, 12.0f + movDado, 0.0f));
+
+
+		model = glm::rotate(model, rotDadox * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, rotDadoy * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, rotDadoz * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		
+		model = glm::scale(model, glm::vec3(.7f, .7f, .7f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		dado8Caras.RenderModel();

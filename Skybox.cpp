@@ -51,8 +51,8 @@ Skybox::Skybox(std::vector<std::string> faceLocations)
 		4, 6, 0,
 		0, 6, 1,
 		// top
-		4, 0, 5,
-		5, 0, 2,
+		0, 2, 4,
+		4, 2, 5,
 		// bottom
 		1, 6, 3,
 		3, 6, 7

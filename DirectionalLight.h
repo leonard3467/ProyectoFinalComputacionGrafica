@@ -2,7 +2,7 @@
 #include "Light.h"
 
 class DirectionalLight :
-	public Light
+public Light
 {
 public:
 	DirectionalLight();
