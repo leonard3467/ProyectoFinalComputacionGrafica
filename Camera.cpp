@@ -1,7 +1,27 @@
 #include "Camera.h"
 
 Camera::Camera() {}
+// Establece una nueva posición para la cámara
+void Camera::setPosition(const glm::vec3& newPosition) {
+    position = newPosition;
+}
 
+// Establece nueva orientación (yaw y pitch) para la cámara
+void Camera::setOrientation(float newYaw, float newPitch) {
+    yaw = newYaw;
+    pitch = newPitch;
+    update();  // Actualiza la dirección de la cámara basándose en los nuevos valores de yaw y pitch
+}
+
+// Establece una nueva velocidad de movimiento
+void Camera::setMovementSpeed(float newSpeed) {
+    moveSpeed = newSpeed;
+}
+
+// Establece una nueva velocidad de giro
+void Camera::setTurnSpeed(float newTurnSpeed) {
+    turnSpeed = newTurnSpeed;
+}
 Camera::Camera(glm::vec3 startPosition, glm::vec3 startUp, GLfloat startYaw, GLfloat startPitch, GLfloat startMoveSpeed, GLfloat startTurnSpeed)
 {
 	position = startPosition;
@@ -18,27 +38,67 @@ Camera::Camera(glm::vec3 startPosition, glm::vec3 startUp, GLfloat startYaw, GLf
 
 void Camera::keyControl(bool* keys, GLfloat deltaTime)
 {
-	GLfloat velocity = moveSpeed * deltaTime;
+    GLfloat velocity = moveSpeed * deltaTime;
 
-	if (keys[GLFW_KEY_W])
-	{
-		position += front * velocity;
-	}
+    // Detectar una sola pulsación en la tecla '5'
+    if (keys[GLFW_KEY_5] && !lastKeyState)
+    {
+        printf("\nestado de la camara : %d \n",ModoCamara);
+        ModoCamara += 1;
+        if (ModoCamara > 3)
+        {
+            ModoCamara = 1;
+        }
+    }
+    lastKeyState = keys[GLFW_KEY_5]; // Actualizar el estado de la tecla 5
 
-	if (keys[GLFW_KEY_S])
-	{
-		position -= front * velocity;
-	}
+    if (ModoCamara == 2) // Lógica de cámara ortográfica
+    {
+        // Crear un vector en el plano XZ para movimiento en W y S
+        glm::vec3 forwardXZ = glm::normalize(glm::vec3(front.x, 0.0f, front.z));
 
-	if (keys[GLFW_KEY_A])
-	{
-		position -= right * velocity;
-	}
+        if (keys[GLFW_KEY_W])
+        {
+            position += forwardXZ * velocity;
+        }
 
-	if (keys[GLFW_KEY_D])
-	{
-		position += right * velocity;
-	}
+        if (keys[GLFW_KEY_S])
+        {
+            position -= forwardXZ * velocity;
+        }
+
+        if (keys[GLFW_KEY_A])
+        {
+            position -= right * velocity;
+        }
+
+        if (keys[GLFW_KEY_D])
+        {
+            position += right * velocity;
+        }
+    }
+    else // Lógica normal de cámara en perspectiva
+    {
+        if (keys[GLFW_KEY_W])
+        {
+            position += front * velocity;
+        }
+
+        if (keys[GLFW_KEY_S])
+        {
+            position -= front * velocity;
+        }
+
+        if (keys[GLFW_KEY_A])
+        {
+            position -= right * velocity;
+        }
+
+        if (keys[GLFW_KEY_D])
+        {
+            position += right * velocity;
+        }
+    }
 }
 
 void Camera::mouseControl(GLfloat xChange, GLfloat yChange)
