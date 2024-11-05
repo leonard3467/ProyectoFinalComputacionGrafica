@@ -15,6 +15,7 @@ public:
 	GLfloat getYChange();
 	GLboolean getBandera();
 	GLfloat getmuevex() { return muevex; }
+	GLint rotx, roty, rotz;
 	bool getShouldClose() {
 		return  glfwWindowShouldClose(mainWindow);}
 	bool* getsKeys() { return keys; }
@@ -33,6 +34,8 @@ private:
 	GLfloat xChange;
 	GLfloat yChange;
 	GLfloat muevex;
+	
+	
 	GLboolean Bandera;
 	bool mouseFirstMoved, Avanza;
 	static void ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode);
