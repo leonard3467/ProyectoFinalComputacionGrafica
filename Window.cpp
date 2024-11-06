@@ -169,6 +169,24 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	{
 		theWindow->Avanza = !theWindow->Avanza;
 		printf("¿Dado cae? %s \n", theWindow->Avanza ? "En efecto" : "Nel");
+
+		printf("\nCantidadEsp =: %d \n", theWindow->CantidadEsp);
+		// Cambia de turno en cada segunda pulsación
+		if (theWindow->CantidadEsp == 0) {
+			theWindow->CantidadEsp = 1; // Marca la primera pulsación
+		}
+		else {
+			// Segunda pulsación: cambia el turno
+			theWindow->turno += 1; // Incrementa el turno
+			if (theWindow->turno > 2) { // Resetea el turno si excede 2
+				theWindow->turno = 1;
+			}
+			theWindow->CantidadEsp = 0;
+		}
+
+		
+		
+		
 	}
 
 
