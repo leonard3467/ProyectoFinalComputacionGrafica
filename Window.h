@@ -16,6 +16,8 @@ public:
 	GLboolean getBandera();
 	GLfloat getmuevex() { return muevex; }
 	GLint rotx, roty, rotz;
+	GLint turno = 1;
+	GLint CantidadEsp = 0;
 	bool getShouldClose() {
 		return  glfwWindowShouldClose(mainWindow);}
 	bool* getsKeys() { return keys; }
