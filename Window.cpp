@@ -19,6 +19,9 @@ Window::Window(GLint windowWidth, GLint windowHeight)
 	rotx = 0;
 	roty = 0;
 	rotz = 0;
+
+
+
 	for (size_t i = 0; i < 1024; i++)
 	{
 		keys[i] = 0;
@@ -41,7 +44,7 @@ int Window::Initialise()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	//CREAR VENTANA
-	mainWindow = glfwCreateWindow(width, height, "Ejercicio Practica08:Iluminacion 2", NULL, NULL);
+	mainWindow = glfwCreateWindow(width, height, "Ciudad Virtual con Tablero de Juego Interactivo", NULL, NULL);
 
 	if (!mainWindow)
 	{
@@ -104,7 +107,27 @@ GLboolean Window::getBandera()
 }
 
 
+void Window::update(float deltaTime)
+{
+	// Incrementa el temporizador
+	tiempoLuces += deltaTime;
 
+	// Verifica si han pasado 150 segundos
+	if (tiempoLuces >= intervaloEncendido) {
+		// Alterna el estado de Bandera para encender/apagar las luces
+		if (Bandera == GL_FALSE) {
+			printf("Faro prendido automáticamente\n");
+			Bandera = GL_TRUE;
+		}
+		else {
+			printf("Faro apagado automáticamente\n");
+			Bandera = GL_FALSE;
+		}
+
+		// Reinicia el temporizador después de alcanzar el intervalo
+		tiempoLuces = 0.0f;
+	}
+}
 
 void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode)
 {
@@ -135,6 +158,7 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 
 
 	}
+
 	if (key == GLFW_KEY_B ) // Detecta solo un pulso de la tecla Espacio
 	{
 		theWindow->rotx += 1;

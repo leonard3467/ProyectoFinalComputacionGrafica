@@ -23,6 +23,9 @@ public:
 	bool* getsKeys() { return keys; }
 	void swapBuffers() { return glfwSwapBuffers(mainWindow); }
 	bool getAvanza() { return Avanza; }
+
+	// Declaración de la función updateTimer
+	void update(float deltaTime);
 	
 	~Window();
 private: 
@@ -37,6 +40,9 @@ private:
 	GLfloat yChange;
 	GLfloat muevex;
 	
+	// Variables para el temporizador de luces
+	float tiempoLuces = 0.0f;
+	const float intervaloEncendido = 150.0f; // Intervalo de 150 segundos
 	
 	GLboolean Bandera;
 	bool mouseFirstMoved, Avanza;
