@@ -14,11 +14,12 @@ public:
     // Método que sincroniza las animaciones de manera básica para un dado de 8 caras
     void animacionDado8Caras(float* rotDadox, float* rotDadoy, float* rotDadoz, float* rotDadoxOffset, float* rotDadoyOffset, float* rotDadozOffset, float* movDado, float* movOffset, Window& mainWindow, float* deltaTime);
     void animacionDado4Caras(float* rotDado4x, float* rotDado4y, float* rotDado4z, float* rotDado4xOffset, float* rotDado4yOffset, float* rotDado4zOffset, float* movDado4, float* mov4Offset, Window& mainWindow, float* deltaTime);
-    void movimientoTablero(glm::vec3& posicion, float& rotacionBender, float& saltoBenderY, float& desplazamientoBender, int& pasos, float& deltaTime,  Window& mainWindow, float& Tiempo, float& desplazamientoBenderz, float& rotacionBenderAux);
-    
+    void movimientoTableroBender(glm::vec3& posicion, float& rotacionBender, float& saltoBenderY, float& desplazamientoBender, int& pasos, float& deltaTime, Window& mainWindow, float& Tiempo, float& desplazamientoBenderz, float& rotacionBenderAux);
+    void movimientoTableroDipper(glm::vec3& posicion, float& rotacionBender, float& saltoBenderY, float& desplazamientoBender, int& pasos, float& deltaTime, Window& mainWindow, float& Tiempo, float& desplazamientoBenderz, float& rotacionBenderAux);
+
     //animaciones para tablero modelos
-    void animacionTablero(float& posYObjeto, float& rotacionObjeto, float deltaTime);
-    void controlAnimacionTablero(float posXBici, float posZBici,
+    void animacionTablero(float& posYObjeto, float& rotacionObjeto, float deltaTime, float Tiempo, Window& mainWindow);
+    void controlAnimacionTablero(glm::vec3& posicion,
         float& posY1, float& rotacion1,
         float& posY2, float& rotacion2,
         float& posY3, float& rotacion3,
@@ -59,12 +60,16 @@ public:
         float& posY38, float& rotacion38,
         float& posY39, float& rotacion39,
         float& posY40, float& rotacion40,
-        float deltaTime);
-    int obtenerIDCasilla(float posXBici, float posZBici);
+        float deltaTime, float Tiempo, Window& mainWindow);
+    int obtenerIDCasilla(glm::vec3& posicion);
     // Declaraciones públicas de las variables
     int randomNumber1;
     int randomNumber2;
-    int cantidadCasillas=0;
+    int cantidadCasillas = 0;
     bool numRandom = false;
     bool numRandom1 = false;
+    bool animacionActiva = false;
+    GLfloat tiempo3segundos;
+    GLfloat tiempo10segundos=0;
+    float posYObjetoAnterior, rotacionObjetoAnterior;
 };

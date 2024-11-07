@@ -1,0 +1,32 @@
+# 3ds Max Wavefront OBJ Exporter v0.99 - (c)2007 guruware
+# File Created: 06.11.2024 02:53:08
+
+newmtl Zoiberg_dr_zoidberg_simpsons_palette_skin
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.9000 0.9000 0.9000
+	Tr 0.0000
+	d 1.0000
+	Tf 0.0000 0.0000 0.0000
+	Pr 0.0392
+	Pm 0.0000
+	Pc 0.0000
+	Pcr 0.0000
+	Ni 1.5000
+	Ke 0.0000 0.0000 0.0000
+	illum 2
+	map_Kd simpsons_palette.png
+
+newmtl Zoiberg_dr_zoidberg_drzoidberg
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.9000 0.9000 0.9000
+	Tr 0.0000
+	d 1.0000
+	Tf 0.0000 0.0000 0.0000
+	Pr 0.0392
+	Pm 0.0000
+	Pc 0.0000
+	Pcr 0.0000
+	Ni 1.5000
+	Ke 0.0000 0.0000 0.0000
+	illum 2
+	map_Kd drzoidberg.png
