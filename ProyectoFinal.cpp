@@ -93,6 +93,7 @@ Texture dado_4_Caras;
 
 Model dado8Caras;
 Model Banqueta;
+Model poste_luz;
 //--------------------Modelos Gravity Falls
 Model bill;
 Model cabra;
@@ -107,6 +108,8 @@ Model stan;
 Model wendy;
 Model mystery_shack;
 Model mansion;
+Model bulldog;
+Model arcade;
 //Dipper (Personaje principal)
 Model cabezaDipper;
 Model torsoDipper;
@@ -124,27 +127,6 @@ Model piernaDipper_izq;
 Model llantaTrasera;
 Model llantaDelantera;
 Model bicicleta;
-
-//---------------------Modelos Mario Bros 
-Model Carro1;
-Model Carro2;
-Model Cheep;
-Model CastilloBow;
-Model FlorFuego;
-Model Fortaleza;
-Model Goomba;
-Model IceFlower;
-Model Oruga;
-Model Koopa;
-Model Mario;
-Model Monstruito;
-Model PeachCastle;
-Model Planta_Carnivora;
-Model Toad;
-Model Yoshi;
-
-
-//---------------------Modelos futurama 
 // AHORA SI RECOMIENDO QUE USEN A BENDER JAJAJA
 // 
 //para bender:
@@ -399,11 +381,11 @@ void CreateObjects()
 	// Agregar el nuevo plano a la lista de mallas
 	Mesh* additionalFloor = new Mesh();
 	additionalFloor->CreateMesh(additionalFloorVertices, additionalFloorIndices, 32, 6);
-	meshList.push_back(additionalFloor); // Este será `meshList[7]`
+	meshList.push_back(additionalFloor); // Este será meshList[7]
 
 	Mesh* dado4 = new Mesh();
 	dado4->CreateMesh(dado4_vertices, dado4_indices, 96, 12);
-	meshList.push_back(dado4);    // Este será `meshList[8]`
+	meshList.push_back(dado4);    // Este será meshList[8]
 
 	calcAverageNormals(indices, 12, vertices, 32, 8, 5);
 
@@ -424,11 +406,12 @@ glm::vec3 position(-27.0f, 2.5f, -29.0f);
 //Auxiliar posicion de Dipper
 glm::vec3 positionDipper(-27.0f, 3.5f, -29.0f);
 //Posicion del turno actual 
-glm::vec3 TurnoActual(0.0f,0.0f,0.0f);
+glm::vec3 TurnoActual(0.0f, 0.0f, 0.0f);
 
 int main()
 {
-	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
+	//mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
+	Window mainWindow(1366, 768); // Declaración e inicialización
 	mainWindow.Initialise();
 	// nuestra camara incial sera la isometrica
 	glm::vec3 posicionCamara = glm::vec3(-40.0f, 40.0f, 40.0f); // Posición en altura y diagonal
@@ -461,6 +444,8 @@ int main()
 
 	Banqueta = Model();
 	Banqueta.LoadModel("Models/Banqueta.obj");
+	poste_luz = Model();
+	poste_luz.LoadModel("Models/uploads_files_2971904_Street.Lighting.4.obj");
 	dado8Caras = Model();
 	dado8Caras.LoadModel("Models/Dado8Caras.obj");
 	//----- BENDER-----
@@ -517,6 +502,10 @@ int main()
 	mystery_shack.LoadModel("Models/mystery_shack.obj");
 	mansion = Model();
 	mansion.LoadModel("Models/mansion.obj");
+	bulldog = Model();
+	bulldog.LoadModel("Models/bulldog.obj");
+	arcade = Model();
+	arcade.LoadModel("Models/arcade.obj");
 	//Dipper
 	cabezaDipper = Model();
 	cabezaDipper.LoadModel("Models/cabezaDipper.obj");
@@ -547,42 +536,6 @@ int main()
 	bicicleta = Model();
 	bicicleta.LoadModel("Models/bicicleta.obj");
 
-	//-------------------------------Modelos Mario Bros
-	Carro1 = Model();
-	Carro1.LoadModel("Models/Carro1.obj");
-	Carro2 = Model();
-	Carro2.LoadModel("Models/Carro2.obj");
-	CastilloBow = Model();
-	CastilloBow.LoadModel("Models/CastilloBow.obj");
-	Cheep = Model();
-	Cheep.LoadModel("Models/Cheep.obj");
-	FlorFuego = Model();
-	FlorFuego.LoadModel("Models/FlorFuego.obj");
-	Fortaleza = Model();
-	Fortaleza.LoadModel("Models/Fortaleza.obj");
-	Goomba = Model();
-	Goomba.LoadModel("Models/Goomba.obj");
-	IceFlower = Model();
-	IceFlower.LoadModel("Models/IceFlower.obj");
-	Koopa = Model();
-	Koopa.LoadModel("Models/Koopa.obj");
-	Mario = Model();
-	Mario.LoadModel("Models/Mario.obj");
-	Monstruito = Model();
-	Monstruito.LoadModel("Models/Monstruito.obj");
-	PeachCastle = Model();
-	PeachCastle.LoadModel("Models/PeachCastle.obj");
-	Planta_Carnivora = Model();
-	Planta_Carnivora.LoadModel("Models/Planta_Carnivora.obj");
-	Toad = Model();
-	Toad.LoadModel("Models/Toad.obj");
-	Yoshi = Model();
-	Yoshi.LoadModel("Models/Yoshi.obj");
-	Oruga = Model();
-	Oruga.LoadModel("Models/Oruga.obj");
-
-
-
 	std::vector<std::string> skyboxFaces;
 	////Para el ciclo de noche
 	skyboxFaces.push_back("Textures/Skybox/EspacioCicloNoche_Lf.tga");
@@ -610,24 +563,51 @@ int main()
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.75f, 0.8f,
 		0.0f, 0.0f, -1.0f);
+
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
-	//Declaración de primer luz puntual
-	pointLights[0] = PointLight(1.0f, 1.0f, 1.0f,
-		0.0f, 1.0f,
-		6.0f, 1.5f, 0.0f,
-		0.1f, 0.07f, 0.05f);
+	//------Luces puntuales
+	// Primera luz puntual 
+	pointLights[0] = PointLight(1.0f, 0.0f, 1.0f, // Color de la luz
+		3.0f, 1.5f,   // Intensidades de ambiente y difusa 
+		35.5f, 8.5f, 38.0f,   // Posición de la luz
+		0.3f, 0.05f, 0.02f); // Coeficientes de atenuación ajustados
 	pointLightCount++;
 
+	// Segunda luz puntual 
+	pointLights[1] = PointLight(0.0f, 0.0f, 1.0f,  // Color de la luz
+		3.0f, 1.5f,                               // Intensidades de ambiente y difusa 
+		-35.5f, 8.5f, -38.0f,                        // Posición de la luz
+		0.3f, 0.05f, 0.02f);                      // Coeficientes de atenuación ajustados
+	pointLightCount++;
+
+
 	unsigned int spotLightCount = 0;
-	//linterna
-	spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
+	//Luz Spotlight
+	spotLights[0] = SpotLight(0.0f, 1.0f, 0.0f,
 		0.0f, 2.0f,
-		0.0f, 0.0f, 0.0f,
+		-35.5f, 8.5f, 38.0f,
 		0.0f, -1.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
 		5.0f);
 	spotLightCount++;
+	// Segunda luz spotlight
+	spotLights[1] = SpotLight(1.0f, 0.0f, 0.0f, // Color de la luz
+		2.0f, 5.5f,                            // Intensidades de ambiente y difusa
+		35.5f, 8.5f, -38.0f,                    // Posición de la luz
+		0.0f, 1.0f, 0.0f,                     // Dirección de la luz
+		1.0f, 0.1f, 0.0f,                      // Coeficientes de atenuación
+		20.0f);                                // Ángulo del borde (mayor valor para un cono más abierto)
+	spotLightCount++;
+	// Tercera luz spotlight
+	spotLights[2] = SpotLight(0.0f, 1.0f, 1.0f, // Color de la luz
+		2.0f, 5.5f,                            // Intensidades de ambiente y difusa
+		-35.5f, 8.5f, 38.0f,                    // Posición de la luz
+		0.0f, 1.0f, 0.0f,                     // Dirección de la luz
+		1.0f, 0.1f, 0.0f,                      // Coeficientes de atenuación
+		20.0f);                                // Ángulo del borde (mayor valor para un cono más abierto)
+	spotLightCount++;
+
 
 
 
@@ -689,7 +669,7 @@ int main()
 			&movDado4, &mov4Offset,
 			mainWindow, &deltaTime
 		);
-		
+
 
 		////--------------------------------------------------AYUDA
 		/*switch (estado) {
@@ -892,8 +872,23 @@ int main()
 
 		//información al shader de fuentes de iluminación
 		shaderList[0].SetDirectionalLight(&mainLight);
-		shaderList[0].SetSpotLights(spotLights, spotLightCount - 1);
-		shaderList[0].SetPointLights(pointLights, pointLightCount - 1);
+		//shaderList[0].SetSpotLights(spotLights, spotLightCount - 1);
+		shaderList[0].SetSpotLights(spotLights, spotLightCount);
+		shaderList[0].SetPointLights(pointLights, pointLightCount);
+
+
+		// Actualiza el temporizador de luces en cada fotograma
+		mainWindow.update(deltaTime);
+
+		// Activación de luces basada en el estado de Bandera
+		if (mainWindow.getBandera() == GL_TRUE) {
+			shaderList[0].SetPointLights(pointLights, pointLightCount);
+			shaderList[0].SetSpotLights(spotLights, spotLightCount);
+		}
+		else {
+			shaderList[0].SetPointLights(pointLights, pointLightCount - 2);
+			shaderList[0].SetSpotLights(spotLights, spotLightCount - 2);
+		}
 
 
 
@@ -1066,6 +1061,48 @@ int main()
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		Banqueta.RenderModel();
 
+		//-------------Postes de luz
+		//Poste casilla start
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-35.5f, 2.5f, -38.0f));
+		model = glm::scale(model, glm::vec3(5.5f, 5.5f, 5.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		poste_luz.RenderModel();
+		//Poste casilla Mystery shack
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(35.5f, 2.5f, -38.0f));
+		model = glm::scale(model, glm::vec3(5.5f, 5.5f, 5.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		poste_luz.RenderModel();
+		//Poste casilla 
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(35.5f, 2.5f, 38.0f));
+		model = glm::scale(model, glm::vec3(5.5f, 5.5f, 5.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		poste_luz.RenderModel();
+		//Poste casilla Insert Coin
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-35.5f, 2.5f, 38.0f));
+		model = glm::scale(model, glm::vec3(5.5f, 5.5f, 5.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		poste_luz.RenderModel();
+
 		//------ Dado 8 caras ---------
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		model = glm::mat4(1.0);
@@ -1095,7 +1132,7 @@ int main()
 		dado_4_Caras.UseTexture();
 		meshList[8]->RenderMesh();
 
-		if (mainWindow.turno == 1) {	
+		if (mainWindow.turno == 1) {
 			TurnoActual = positionDipper;
 		}
 		else if (mainWindow.turno == 2) {
@@ -1328,7 +1365,7 @@ int main()
 		//Llamada a controlAnimacionTablero con las coordenadas de la bicicleta y todos los objetos de nuestro tablero (Ajustar traslacion y escala si es necesario para su objeto)
 
 		//Llamada a función con posicion del personaje para activar animación de tablero
-		animaciones.controlAnimacionTablero(TurnoActual, posYObjeto1, rotacionObjeto1, posYObjeto2, rotacionObjeto2, posYObjeto3, rotacionObjeto3, posYObjeto4, rotacionObjeto4, posYObjeto5, rotacionObjeto5, posYObjeto6, rotacionObjeto6, posYObjeto7, rotacionObjeto7, posYObjeto8, rotacionObjeto8, posYObjeto9, rotacionObjeto9, posYObjeto10, rotacionObjeto10, posYObjeto11, rotacionObjeto11, posYObjeto12, rotacionObjeto12, posYObjeto13, rotacionObjeto13, posYObjeto14, rotacionObjeto14, posYObjeto15, rotacionObjeto15, posYObjeto16, rotacionObjeto16, posYObjeto17, rotacionObjeto17, posYObjeto18, rotacionObjeto18, posYObjeto19, rotacionObjeto19, posYObjeto20, rotacionObjeto20, posYObjeto21, rotacionObjeto21, posYObjeto22, rotacionObjeto22, posYObjeto23, rotacionObjeto23, posYObjeto24, rotacionObjeto24, posYObjeto25, rotacionObjeto25, posYObjeto26, rotacionObjeto26, posYObjeto27, rotacionObjeto27, posYObjeto28, rotacionObjeto28, posYObjeto29, rotacionObjeto29, posYObjeto30, rotacionObjeto30, posYObjeto31, rotacionObjeto31, posYObjeto32, rotacionObjeto32, posYObjeto33, rotacionObjeto33, posYObjeto34, rotacionObjeto34, posYObjeto35, rotacionObjeto35, posYObjeto36, rotacionObjeto36, posYObjeto37, rotacionObjeto37, posYObjeto38, rotacionObjeto38, posYObjeto39, rotacionObjeto39, posYObjeto40, rotacionObjeto40, deltaTime,Tiempo);
+		animaciones.controlAnimacionTablero(TurnoActual, posYObjeto1, rotacionObjeto1, posYObjeto2, rotacionObjeto2, posYObjeto3, rotacionObjeto3, posYObjeto4, rotacionObjeto4, posYObjeto5, rotacionObjeto5, posYObjeto6, rotacionObjeto6, posYObjeto7, rotacionObjeto7, posYObjeto8, rotacionObjeto8, posYObjeto9, rotacionObjeto9, posYObjeto10, rotacionObjeto10, posYObjeto11, rotacionObjeto11, posYObjeto12, rotacionObjeto12, posYObjeto13, rotacionObjeto13, posYObjeto14, rotacionObjeto14, posYObjeto15, rotacionObjeto15, posYObjeto16, rotacionObjeto16, posYObjeto17, rotacionObjeto17, posYObjeto18, rotacionObjeto18, posYObjeto19, rotacionObjeto19, posYObjeto20, rotacionObjeto20, posYObjeto21, rotacionObjeto21, posYObjeto22, rotacionObjeto22, posYObjeto23, rotacionObjeto23, posYObjeto24, rotacionObjeto24, posYObjeto25, rotacionObjeto25, posYObjeto26, rotacionObjeto26, posYObjeto27, rotacionObjeto27, posYObjeto28, rotacionObjeto28, posYObjeto29, rotacionObjeto29, posYObjeto30, rotacionObjeto30, posYObjeto31, rotacionObjeto31, posYObjeto32, rotacionObjeto32, posYObjeto33, rotacionObjeto33, posYObjeto34, rotacionObjeto34, posYObjeto35, rotacionObjeto35, posYObjeto36, rotacionObjeto36, posYObjeto37, rotacionObjeto37, posYObjeto38, rotacionObjeto38, posYObjeto39, rotacionObjeto39, posYObjeto40, rotacionObjeto40, deltaTime, Tiempo);
 		//Casilla Start
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		model = glm::mat4(1.0);
@@ -1363,7 +1400,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		Oruga.RenderModel();
+		cerdo.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Espacio Naturaleza (4)
@@ -1399,7 +1436,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		PeachCastle.RenderModel();
+		flor_azul.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Elefanbria (7)
@@ -1435,7 +1472,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		Toad.RenderModel();
+		stan.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Oink (10)
@@ -1469,7 +1506,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		mystery_shack.RenderModel();
+		arcade.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Mordelon (13)
@@ -1492,7 +1529,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		FlorFuego.RenderModel();
+		wendy.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Destronador (15)
@@ -1503,7 +1540,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		Koopa.RenderModel();
+		cerdo.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla trebol de 7 (16)
@@ -1538,7 +1575,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		Fortaleza.RenderModel();
+		flor_azul.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Devorado (19)
@@ -1585,7 +1622,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		Yoshi.RenderModel();
+		mabel.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Cabra (23)
@@ -1608,7 +1645,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		Planta_Carnivora.RenderModel();
+		soos.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Mr Langosta (25)
@@ -1643,7 +1680,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		Goomba.RenderModel();
+		bill.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Cuidado (28)
@@ -1677,7 +1714,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		CastilloBow.RenderModel();
+		cabra.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Lento (31)
@@ -1712,7 +1749,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		Mario.RenderModel();
+		bill.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Esperanza (34)
@@ -1731,24 +1768,24 @@ int main()
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(8.f, posYObjeto8, -39.0f));
-		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto8), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		cerdo.RenderModel();
+		bulldog.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Impacto (36)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(4.0f, posYObjeto7, -39.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto7), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		IceFlower.RenderModel();
+		flor_azul.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Determined (37)
@@ -1793,8 +1830,8 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		Cheep.RenderModel();
-		
+		dipper.RenderModel();
+
 		glUseProgram(0);
 
 		mainWindow.swapBuffers();
