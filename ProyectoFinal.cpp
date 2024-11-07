@@ -23,7 +23,7 @@
 #include"Model.h"
 #include "Skybox.h"
 
-//para iluminaciÛn
+//para iluminaci√≥n
 #include "CommonValues.h"
 #include "DirectionalLight.h"
 #include "PointLight.h"
@@ -31,7 +31,7 @@
 #include "Material.h"
 const float toRadians = 3.14159265f / 180.0f;
 
-//variables para animaciÛn
+//variables para animaci√≥n
 float movDado;
 float movOffset;
 float rotDadox;
@@ -57,7 +57,7 @@ float toffsetTablerov = 0.0f;
 float toffsetCasillau = 0.0f;
 float toffsetCasillav = 0.0f;
 // movimiento por el tablero bender 
-float rotacionBender = 0.0f;        // Inicializar rotaciÛn de Bender
+float rotacionBender = 0.0f;        // Inicializar rotaci√≥n de Bender
 float rotacionBenderAux = 0.0f;
 float saltoBenderY = 0.0f;          // Altura del salto en el eje Y
 float desplazamientoBender = 0.0f;  // Desplazamiento inicial
@@ -65,7 +65,7 @@ float desplazamientoBenderz = 0.0f;
 int pasos = 0;                      // Contador de pasos
 
 //Movimiento tablero dipper
-float rotacionDipper = 0.0f;        // Inicializar rotaciÛn de Bender
+float rotacionDipper = 0.0f;        // Inicializar rotaci√≥n de Bender
 float rotacionDipperAux = 0.0f;
 float saltoDipperY = 0.0f;          // Altura del salto en el eje Y
 float desplazamientoDipper = 0.0f;  // Desplazamiento inicial
@@ -118,6 +118,7 @@ Model musloDipper_der;
 Model musloDipper_izq;
 Model piernaDipper_der;
 Model piernaDipper_izq;
+
 // modelos Futurama
 // 
 Model PerroFry;
@@ -134,11 +135,33 @@ Model Trebol;
 Model CasillaJungla;
 
 
+
 //AYUDA------
 //Modelo de bicicleta
 Model llantaTrasera;
 Model llantaDelantera;
 Model bicicleta;
+
+//---------------------Modelos Mario Bros 
+Model Carro1;
+Model Carro2;
+Model Cheep;
+Model CastilloBow;
+Model FlorFuego;
+Model Fortaleza;
+Model Goomba;
+Model IceFlower;
+Model Oruga;
+Model Koopa;
+Model Mario;
+Model Monstruito;
+Model PeachCastle;
+Model Planta_Carnivora;
+Model Toad;
+Model Yoshi;
+
+
+//---------------------Modelos futurama 
 // AHORA SI RECOMIENDO QUE USEN A BENDER JAJAJA
 // 
 //para bender:
@@ -187,7 +210,7 @@ static const char* vShader = "shaders/shader_light.vert";
 static const char* fShader = "shaders/shader_light.frag";
 
 
-//funciÛn de calculo de normales por promedio de vÈrtices 
+//funci√≥n de calculo de normales por promedio de v√©rtices 
 void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat* vertices, unsigned int verticeCount,
 	unsigned int vLength, unsigned int normalOffset)
 {
@@ -240,11 +263,11 @@ void CreateObjects()
 	};
 
 	GLfloat floorVertices[] = {
-		// PosiciÛn              // Coordenadas de textura    // Normal
-		-35.0f, 0.0f, -35.0f,    0.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // VÈrtice 0
-		35.0f, 0.0f, -35.0f,     1.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // VÈrtice 1
-		-35.0f, 0.0f, 35.0f,     0.0f, 1.0f,                 0.0f, -1.0f, 0.0f,  // VÈrtice 2
-		35.0f, 0.0f, 35.0f,      1.0f, 1.0f,                 0.0f, -1.0f, 0.0f   // VÈrtice 3
+		// Posici√≥n              // Coordenadas de textura    // Normal
+		-35.0f, 0.0f, -35.0f,    0.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // V√©rtice 0
+		35.0f, 0.0f, -35.0f,     1.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // V√©rtice 1
+		-35.0f, 0.0f, 35.0f,     0.0f, 1.0f,                 0.0f, -1.0f, 0.0f,  // V√©rtice 2
+		35.0f, 0.0f, 35.0f,      1.0f, 1.0f,                 0.0f, -1.0f, 0.0f   // V√©rtice 3
 	};
 
 	unsigned int vegetacionIndices[] = {
@@ -275,11 +298,11 @@ void CreateObjects()
 	};
 
 	GLfloat TableroVertices[] = {
-		// PosiciÛn              // Coordenadas de textura    // Normal
-		-22.0f, 0.0f, -24.0f,    0.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // VÈrtice 0
-		22.0f, 0.0f, -24.0f,     1.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // VÈrtice 1
-		-22.0f, 0.0f, 24.0f,     0.0f, 1.0f,                 0.0f, -1.0f, 0.0f,  // VÈrtice 2
-		22.0f, 0.0f, 24.0f,      1.0f, 1.0f,                 0.0f, -1.0f, 0.0f   // VÈrtice 3
+		// Posici√≥n              // Coordenadas de textura    // Normal
+		-22.0f, 0.0f, -24.0f,    0.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // V√©rtice 0
+		22.0f, 0.0f, -24.0f,     1.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // V√©rtice 1
+		-22.0f, 0.0f, 24.0f,     0.0f, 1.0f,                 0.0f, -1.0f, 0.0f,  // V√©rtice 2
+		22.0f, 0.0f, 24.0f,      1.0f, 1.0f,                 0.0f, -1.0f, 0.0f   // V√©rtice 3
 	};
 	unsigned int CasillasIndices[] = {
 	   0, 1, 2,
@@ -324,14 +347,14 @@ void CreateObjects()
 	};
 
 	GLfloat additionalFloorVertices[] = {
-		// PosiciÛn             // Coordenadas de textura     // Normal
+		// Posici√≥n             // Coordenadas de textura     // Normal
 		-10.0f, 0.0f, -10.0f,   0.0f, 0.0f,                  0.0f, -1.0f, 0.0f,
 		10.0f, 0.0f, -10.0f,    10.0f, 0.0f,                  0.0f, -1.0f, 0.0f,
 		-10.0f, 0.0f, 10.0f,    0.0f, 10.0f,                  0.0f, -1.0f, 0.0f,
 		10.0f, 0.0f, 10.0f,     10.0f, 10.0f,                  0.0f, -1.0f, 0.0f
 	};
 	unsigned int dado4_indices[] = {
-		//Cada cara tiene 3 vÈrtices
+		//Cada cara tiene 3 v√©rtices
 		0, 1, 2,    // Cara 1
 		3, 4, 5,    // Cara 2
 		6, 7, 8,    // Cara 3
@@ -393,11 +416,11 @@ void CreateObjects()
 	// Agregar el nuevo plano a la lista de mallas
 	Mesh* additionalFloor = new Mesh();
 	additionalFloor->CreateMesh(additionalFloorVertices, additionalFloorIndices, 32, 6);
-	meshList.push_back(additionalFloor); // Este ser· `meshList[7]`
+	meshList.push_back(additionalFloor); // Este ser√° `meshList[7]`
 
 	Mesh* dado4 = new Mesh();
 	dado4->CreateMesh(dado4_vertices, dado4_indices, 96, 12);
-	meshList.push_back(dado4);    // Este ser· `meshList[8]`
+	meshList.push_back(dado4);    // Este ser√° `meshList[8]`
 
 	calcAverageNormals(indices, 12, vertices, 32, 8, 5);
 
@@ -413,7 +436,7 @@ void CreateShaders()
 	shaderList.push_back(*shader1);
 }
 
-//PosiciÛn inicial Bender
+//Posici√≥n inicial Bender
 glm::vec3 position(-27.0f, 2.5f, -29.0f);
 //Auxiliar posicion de Dipper
 glm::vec3 positionDipper(-27.0f, 3.5f, -29.0f);
@@ -425,12 +448,12 @@ int main()
 	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
 	mainWindow.Initialise();
 	// nuestra camara incial sera la isometrica
-	glm::vec3 posicionCamara = glm::vec3(-40.0f, 40.0f, 40.0f); // PosiciÛn en altura y diagonal
+	glm::vec3 posicionCamara = glm::vec3(-40.0f, 40.0f, 40.0f); // Posici√≥n en altura y diagonal
 	glm::vec3 objetivo = glm::vec3(20.0f, 1.0f, 1.0f);          // Mira hacia el centro del tablero
 	glm::vec3 upVector = glm::vec3(0.0f, 1.0f, 0.0f);          // Define "arriba" en el eje Y
-	// Aplica 45 grados de rotaciÛn en el eje X y el eje Z
-	float yaw = -45.0f;   // RotaciÛn horizontal
-	float pitch = -35.264f; // RotaciÛn vertical (aproximaciÛn isomÈtrica)
+	// Aplica 45 grados de rotaci√≥n en el eje X y el eje Z
+	float yaw = -45.0f;   // Rotaci√≥n horizontal
+	float pitch = -35.264f; // Rotaci√≥n vertical (aproximaci√≥n isom√©trica)
 	camera = Camera(posicionCamara, upVector, yaw, pitch, 0.0f, 0.0f);
 	glm::mat4 view = glm::lookAt(posicionCamara, objetivo, upVector);
 
@@ -532,6 +555,7 @@ int main()
 	piernaDipper_der.LoadModel("Models/piernaDipper_der.obj");
 	piernaDipper_izq = Model();
 	piernaDipper_izq.LoadModel("Models/piernaDipper_izq.obj");
+
 	//Futurama
 	PerroFry= Model();
 	PerroFry.LoadModel("Models/PerroFry.fbx");
@@ -559,6 +583,7 @@ int main()
 	CasillaJungla.LoadModel("Models/Jungla.obj");
 	
 
+
 	//-----------------------------------------Bicicleta
 	llantaTrasera = Model();
 	llantaTrasera.LoadModel("Models/llanta_trasera.obj");
@@ -566,6 +591,42 @@ int main()
 	llantaDelantera.LoadModel("Models/llanta_delantera.obj");
 	bicicleta = Model();
 	bicicleta.LoadModel("Models/bicicleta.obj");
+
+	//-------------------------------Modelos Mario Bros
+	Carro1 = Model();
+	Carro1.LoadModel("Models/Carro1.obj");
+	Carro2 = Model();
+	Carro2.LoadModel("Models/Carro2.obj");
+	CastilloBow = Model();
+	CastilloBow.LoadModel("Models/CastilloBow.obj");
+	Cheep = Model();
+	Cheep.LoadModel("Models/Cheep.obj");
+	FlorFuego = Model();
+	FlorFuego.LoadModel("Models/FlorFuego.obj");
+	Fortaleza = Model();
+	Fortaleza.LoadModel("Models/Fortaleza.obj");
+	Goomba = Model();
+	Goomba.LoadModel("Models/Goomba.obj");
+	IceFlower = Model();
+	IceFlower.LoadModel("Models/IceFlower.obj");
+	Koopa = Model();
+	Koopa.LoadModel("Models/Koopa.obj");
+	Mario = Model();
+	Mario.LoadModel("Models/Mario.obj");
+	Monstruito = Model();
+	Monstruito.LoadModel("Models/Monstruito.obj");
+	PeachCastle = Model();
+	PeachCastle.LoadModel("Models/PeachCastle.obj");
+	Planta_Carnivora = Model();
+	Planta_Carnivora.LoadModel("Models/Planta_Carnivora.obj");
+	Toad = Model();
+	Toad.LoadModel("Models/Toad.obj");
+	Yoshi = Model();
+	Yoshi.LoadModel("Models/Yoshi.obj");
+	Oruga = Model();
+	Oruga.LoadModel("Models/Oruga.obj");
+
+
 
 	std::vector<std::string> skyboxFaces;
 	////Para el ciclo de noche
@@ -590,13 +651,13 @@ int main()
 	Material_opaco = Material(0.3f, 4);
 
 
-	//luz direccional, sÛlo 1 y siempre debe de existir
+	//luz direccional, s√≥lo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.75f, 0.8f,
 		0.0f, 0.0f, -1.0f);
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
-	//DeclaraciÛn de primer luz puntual
+	//Declaraci√≥n de primer luz puntual
 	pointLights[0] = PointLight(1.0f, 1.0f, 1.0f,
 		0.0f, 1.0f,
 		6.0f, 1.5f, 0.0f,
@@ -622,7 +683,7 @@ int main()
 	GLuint uniformColor = 0;
 	////----------------------------- CAMARA ISOMETRICA -------------------
 	float aspectRatio = (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight();
-	float viewSize = 50.0f; // TamaÒo que permitir· ver todo el tablero	
+	float viewSize = 50.0f; // Tama√±o que permitir√° ver todo el tablero	
 	glm::mat4 projection = glm::ortho(-viewSize * aspectRatio, viewSize * aspectRatio, -viewSize, viewSize, 1.0f, 1500.0f);
 
 	int lastModoCamara = camera.getModoCamara();
@@ -632,7 +693,7 @@ int main()
 	toffsetTablerov = 0.0;
 	// aqui se inicia todo
 		//B----------------------AYUDA
-	//float posicionZ = -25.0f;  // PosiciÛn inicial en el eje Z (Inicio en casilla Gravity Falls)
+	//float posicionZ = -25.0f;  // Posici√≥n inicial en el eje Z (Inicio en casilla Gravity Falls)
 	float posicionX = -20.9104f;
 	//float posicionY = 3.0f; //BICI
 	float posicionZ = -28.0086f;
@@ -640,14 +701,14 @@ int main()
 	float velocidad = 4.0f;    // Velocidad de avance en Z
 	//float zObjetivo = 28.0f;   // Punto donde nos detenemos en z (BICI)
 	float radioRueda = 0.5f;    // Radio de las ruedas
-	float rotacionRueda = 0.0f; // ¡ngulo acumulado de rotaciÛn de las ruedas
-	float rotacionY = 0.0f;    // ¡ngulo acumulado de rotaciÛn sobre el eje Y
-	float velocidadRotacion = 45.0f;  // Velocidad de rotaciÛn en grados por segundo
-	//float posicionX = -28.0f;  // PosiciÛn inicial en X (BICI)
+	float rotacionRueda = 0.0f; // √Ångulo acumulado de rotaci√≥n de las ruedas
+	float rotacionY = 0.0f;    // √Ångulo acumulado de rotaci√≥n sobre el eje Y
+	float velocidadRotacion = 45.0f;  // Velocidad de rotaci√≥n en grados por segundo
+	//float posicionX = -28.0f;  // Posici√≥n inicial en X (BICI)
 	float xObjetivo = 28.0f;   // Punto donde nos detenemos en x
 	float zObjetivoNegativo = -28.0f;  // Punto donde nos detenemos en -z
 	float xObjetivoNegativo = -28.0f;  // Punto donde nos detenemos en -x
-	//Todos los lÌmites son con respecto a como mi modelo sigue dentro del tablero
+	//Todos los l√≠mites son con respecto a como mi modelo sigue dentro del tablero
 	int estado = 0;  // Control de fases: 0: Avanzar en Z positivo, 1: Girar a X, 2: Avanzar en X, 3: Girar a Z negativo, 4: Avanzar en Z negativo, 5: Gira a X negativo, 6: Avanza en X negativo y 7: Gira a Z positivo
 
 	float posYObjeto1 = -5.0f, posYObjeto2 = -5.0f, posYObjeto3 = -5.0f, posYObjeto4 = -5.0f, posYObjeto5 = -5.0f, posYObjeto6 = -5.0f, posYObjeto7 = -5.0f, posYObjeto8 = -5.0f, posYObjeto9 = -5.0f, posYObjeto10 = -5.0f, posYObjeto11 = -5.0f, posYObjeto12 = -5.0f, posYObjeto13 = -5.0f, posYObjeto14 = -5.0f, posYObjeto15 = -5.0f, posYObjeto16 = -5.0f, posYObjeto17 = -5.0f, posYObjeto18 = -5.0f, posYObjeto19 = -5.0f, posYObjeto20 = -5.0f, posYObjeto21 = -5.0f, posYObjeto22 = -5.0f, posYObjeto23 = -5.0f, posYObjeto24 = -5.0f, posYObjeto25 = -5.0f, posYObjeto26 = -5.0f, posYObjeto27 = -5.0f, posYObjeto28 = -5.0f, posYObjeto29 = -5.0f, posYObjeto30 = -5.0f, posYObjeto31 = -5.0f, posYObjeto32 = -5.0f, posYObjeto33 = -5.0f, posYObjeto34 = -5.0f, posYObjeto35 = -5.0f, posYObjeto36 = -5.0f, posYObjeto37 = -5.0f, posYObjeto38 = -5.0f, posYObjeto39 = -5.0f, posYObjeto40 = -5.0f;
@@ -658,6 +719,7 @@ int main()
 		GLfloat now = glfwGetTime();
 		deltaTime = now - lastTime;
 		Tiempo += now - lastTime;
+		printf("tiempo actual :  %f \n", Tiempo);
 		deltaTime += (now - lastTime) / limitFPS;
 		lastTime = now;
 		animaciones.animacionDado8Caras(
@@ -790,12 +852,12 @@ int main()
 				std::cout << "Posiciones - X: " << posicionX << ", Y: " << posicionY << ", Z: " << posicionZ << std::endl;
 			}
 			else {
-				rotacionY = 0.0f;  // Reiniciamos la rotaciÛn a 0 (equivalente a 360 grados)
+				rotacionY = 0.0f;  // Reiniciamos la rotaci√≥n a 0 (equivalente a 360 grados)
 				estado = 0;  // Volver al estado inicial para comenzar el ciclo otra vez
 			}
 			break;
 		default:
-			// Fin de la animaciÛn
+			// Fin de la animaci√≥n
 			break;
 		}*/
 
@@ -807,38 +869,38 @@ int main()
 		// Control de camaras
 
 
-			// Configura la c·mara y la proyecciÛn seg˙n el modo
-			// Comprobar si el modo de c·mara ha cambiado
+			// Configura la c√°mara y la proyecci√≥n seg√∫n el modo
+			// Comprobar si el modo de c√°mara ha cambiado
 		if (camera.getModoCamara() != lastModoCamara) {
-			lastModoCamara = camera.getModoCamara();  // Actualizar el ˙ltimo modo
+			lastModoCamara = camera.getModoCamara();  // Actualizar el √∫ltimo modo
 
 			if (camera.getModoCamara() == 1) {
-				// Modo 1: Vista isomÈtrica
+				// Modo 1: Vista isom√©trica
 				viewSize = 50.0f;
 				projection = glm::ortho(-viewSize * aspectRatio, viewSize * aspectRatio, -viewSize, viewSize, 1.0f, 1500.0f);
 
-				// Actualizar posiciÛn y orientaciÛn sin crear una nueva instancia
+				// Actualizar posici√≥n y orientaci√≥n sin crear una nueva instancia
 				camera.setPosition(glm::vec3(-40.0f, 40.0f, 40.0f));
 				camera.setOrientation(-45.0f, -35.264f);  // Yaw y Pitch
 				camera.setMovementSpeed(0.0f);
 				camera.setTurnSpeed(0.0f);
 			}
 			else if (camera.getModoCamara() == 2) {
-				// Modo 2: Vista aÈrea
+				// Modo 2: Vista a√©rea
 				viewSize = 75.0f;
 				projection = glm::ortho(-viewSize * aspectRatio, viewSize * aspectRatio, -viewSize, viewSize, 0.1f, 1000.0f);
 
-				// Actualizar posiciÛn y orientaciÛn sin crear una nueva instancia
+				// Actualizar posici√≥n y orientaci√≥n sin crear una nueva instancia
 				camera.setPosition(glm::vec3(0.0f, 40.0f, 0.0f));
 				camera.setOrientation(-90.0f, -90.0f);  // Yaw y Pitch
 				camera.setMovementSpeed(0.5f);
-				camera.setTurnSpeed(0.0f);  // Desactivar rotaciÛn de la c·mara en modo aÈreo
+				camera.setTurnSpeed(0.0f);  // Desactivar rotaci√≥n de la c√°mara en modo a√©reo
 			}
 			else if (camera.getModoCamara() == 3) {
 				// Modo 3: Vista en perspectiva predeterminada
 				projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
 
-				// Actualizar posiciÛn y orientaciÛn sin crear una nueva instancia
+				// Actualizar posici√≥n y orientaci√≥n sin crear una nueva instancia
 				camera.setPosition(glm::vec3(5.0f, 15.0f, -5.0f));
 				camera.setOrientation(-60.0f, 0.0f);  // Yaw y Pitch
 				camera.setMovementSpeed(0.3f);
@@ -859,7 +921,7 @@ int main()
 		uniformColor = shaderList[0].getColorLocation();
 		uniformTextureOffset = shaderList[0].getOffsetLocation();
 
-		//informaciÛn en el shader de intensidad especular y brillo
+		//informaci√≥n en el shader de intensidad especular y brillo
 		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
 		uniformShininess = shaderList[0].GetShininessLocation();
 
@@ -867,13 +929,13 @@ int main()
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera.calculateViewMatrix()));
 		glUniform3f(uniformEyePosition, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);
 
-		// luz ligada a la c·mara de tipo flash
-		//sirve para que en tiempo de ejecuciÛn (dentro del while) se cambien propiedades de la luz
+		// luz ligada a la c√°mara de tipo flash
+		//sirve para que en tiempo de ejecuci√≥n (dentro del while) se cambien propiedades de la luz
 		glm::vec3 lowerLight = camera.getCameraPosition();
 		lowerLight.y -= 0.3f;
 		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
 
-		//informaciÛn al shader de fuentes de iluminaciÛn
+		//informaci√≥n al shader de fuentes de iluminaci√≥n
 		shaderList[0].SetDirectionalLight(&mainLight);
 		shaderList[0].SetSpotLights(spotLights, spotLightCount - 1);
 		shaderList[0].SetPointLights(pointLights, pointLightCount - 1);
@@ -1090,11 +1152,11 @@ int main()
 		// --- TORZO
 		model = glm::mat4(1.0);
 		model = glm::translate(model, position);
-		// Extraer la posiciÛn actual de la matriz de model
+		// Extraer la posici√≥n actual de la matriz de model
 		animaciones.movimientoTableroBender(position, rotacionBender, saltoBenderY, desplazamientoBender, pasos, deltaTime, mainWindow, Tiempo, desplazamientoBenderz, rotacionBenderAux);
 		model = glm::translate(model, glm::vec3(0.0f + desplazamientoBender, 0.0f, 0.0f + desplazamientoBenderz));
 		model = glm::rotate(model, (rotacionBender + rotacionBenderAux - 180) * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		/*std::cout << "PosiciÛn actual del modelo: "
+		/*std::cout << "Posici√≥n actual del modelo: "
 			<< "X: " << position.x << ", "
 			<< "Y: " << position.y << ", "
 			<< "Z: " << position.z << std::endl;*/
@@ -1106,7 +1168,7 @@ int main()
 		BenderTorzo.RenderModel();
 
 
-		// Imprimir la posiciÛn
+		// Imprimir la posici√≥n
 
 		//-- Cabeza
 		model = modelaux;
@@ -1204,7 +1266,7 @@ int main()
 		animaciones.movimientoTableroDipper(positionDipper, rotacionDipper, saltoDipperY, desplazamientoDipper, pasos, deltaTime, mainWindow, Tiempo, desplazamientoDipperz, rotacionDipperAux);
 		model = glm::translate(model, glm::vec3(0.0f + desplazamientoDipper, 0.0f, 0.0f + desplazamientoDipperz));
 		model = glm::rotate(model, (rotacionDipper + rotacionDipperAux - 180) * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		/*std::cout << "PosiciÛn actual del modelo: "
+		/*std::cout << "Posici√≥n actual del modelo: "
 			<< "X: " << position.x << ", "
 			<< "Y: " << position.y << ", "
 			<< "Z: " << position.z << std::endl;*/
@@ -1216,7 +1278,7 @@ int main()
 		torsoDipper.RenderModel();
 
 
-		// Imprimir la posiciÛn
+		// Imprimir la posici√≥n
 
 		//-- Cabeza
 		model = modelaux;
@@ -1310,15 +1372,19 @@ int main()
 				//------------------------ OBJETOS TABLERO
 		//Llamada a controlAnimacionTablero con las coordenadas de la bicicleta y todos los objetos de nuestro tablero (Ajustar traslacion y escala si es necesario para su objeto)
 
-		//Llamada a funciÛn con posicion del personaje para activar animaciÛn de tablero
+		//Llamada a funci√≥n con posicion del personaje para activar animaci√≥n de tablero
+
 		animaciones.controlAnimacionTablero(TurnoActual, posYObjeto1, rotacionObjeto1, posYObjeto2, rotacionObjeto2, posYObjeto3, rotacionObjeto3, posYObjeto4, rotacionObjeto4, posYObjeto5, rotacionObjeto5, posYObjeto6, rotacionObjeto6, posYObjeto7, rotacionObjeto7, posYObjeto8, rotacionObjeto8, posYObjeto9, rotacionObjeto9, posYObjeto10, rotacionObjeto10, posYObjeto11, rotacionObjeto11, posYObjeto12, rotacionObjeto12, posYObjeto13, rotacionObjeto13, posYObjeto14, rotacionObjeto14, posYObjeto15, rotacionObjeto15, posYObjeto16, rotacionObjeto16, posYObjeto17, rotacionObjeto17, posYObjeto18, rotacionObjeto18, posYObjeto19, rotacionObjeto19, posYObjeto20, rotacionObjeto20, posYObjeto21, rotacionObjeto21, posYObjeto22, rotacionObjeto22, posYObjeto23, rotacionObjeto23, posYObjeto24, rotacionObjeto24, posYObjeto25, rotacionObjeto25, posYObjeto26, rotacionObjeto26, posYObjeto27, rotacionObjeto27, posYObjeto28, rotacionObjeto28, posYObjeto29, rotacionObjeto29, posYObjeto30, rotacionObjeto30, posYObjeto31, rotacionObjeto31, posYObjeto32, rotacionObjeto32, posYObjeto33, rotacionObjeto33, posYObjeto34, rotacionObjeto34, posYObjeto35, rotacionObjeto35, posYObjeto36, rotacionObjeto36, posYObjeto37, rotacionObjeto37, posYObjeto38, rotacionObjeto38, posYObjeto39, rotacionObjeto39, posYObjeto40, rotacionObjeto40, deltaTime,Tiempo, mainWindow);
+
 		//Casilla Start
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-37.0f, posYObjeto1, -30.0f));
+		model = glm::translate(model, glm::vec3(-37.0f, posYObjeto2, -30.0f));
 		//model = glm::translate(model, glm::vec3(-35.0f, posYObjeto1, 7.0f)); //Bill
+
 		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto1), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1335,6 +1401,7 @@ int main()
 		model = glm::rotate(model, -90.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		
 		color = glm::vec3(0.804f, 0.498f, 0.196f);
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1345,23 +1412,27 @@ int main()
 		//Casilla Sigue Avanzando
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(-37.0f, posYObjeto39, -17.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto39), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		cerdo.RenderModel();
+		Oruga.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Espacio Naturaleza (4)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(-37.0f, posYObjeto38, -12.0f));
 		model = glm::scale(model, glm::vec3(0.10f, 0.10f, 0.10f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto38), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, -90.0f * toRadians, glm::vec3(1.0f, .0f, 0.0f));
 		color = glm::vec3(0.0f, 1.0f, 1.0f);
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1372,9 +1443,11 @@ int main()
 		//Casilla Soos (5)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(-37.0f, posYObjeto37, -7.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto37), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1384,21 +1457,25 @@ int main()
 		//Casilla Gran Castillo (6)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(-37.0f, posYObjeto36, -2.0f));
 		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto36), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		flor_azul.RenderModel();
+		PeachCastle.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Elefanbria (7)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(-37.0f, posYObjeto35, 3.0f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto35), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1408,9 +1485,11 @@ int main()
 		//Casilla Nueva luz (8)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(-37.0f, posYObjeto34, 7.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto34), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1420,21 +1499,25 @@ int main()
 		//Casilla Kinopio (9)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(-37.0f, posYObjeto33, 13.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto33), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		stan.RenderModel();
+		Toad.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Oink (10)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(-37.0f, posYObjeto32, 17.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto32), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1443,11 +1526,13 @@ int main()
 		model = glm::mat4(1.0);
 		//Casilla Puerto diversion (11)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+
 		model = glm::translate(model, glm::vec3(-37.0f, posYObjeto31, 22.0f));
 		model = glm::scale(model, glm::vec3(0.00005f, 0.00005f, 0.00005f));
 		model = glm::rotate(model, 90.0f * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		color = glm::vec3(0.804f, 0.498f, 0.196f);
 		model = glm::rotate(model, glm::radians(rotacionObjeto31), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1457,9 +1542,11 @@ int main()
 		model = glm::mat4(1.0);
 		//Casilla Insert Coin (12)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+
 		model = glm::translate(model, glm::vec3(-37.0f, posYObjeto30, 30.0f));
 		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto30), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1469,11 +1556,13 @@ int main()
 		//Casilla Mordelon (13)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(-19.5f, posYObjeto29, 38.0f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto5), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, -90.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		color = glm::vec3(0.804f, 0.498f, 0.196f);
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1483,32 +1572,38 @@ int main()
 		model = glm::mat4(1.0);
 		//Casilla Te tengo (14)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+
 		model = glm::translate(model, glm::vec3(-14.0f, posYObjeto28, 38.0f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto28), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		wendy.RenderModel();
+		FlorFuego.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Destronador (15)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+
 		model = glm::translate(model, glm::vec3(-8.5f, posYObjeto27, 38.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto27), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		cerdo.RenderModel();
+		Koopa.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla trebol de 7 (16)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+
 		model = glm::translate(model, glm::vec3(-3.0f, posYObjeto26, 38.0f));
 		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto26), glm::vec3(0.0f, 1.0f, 0.0f));
 		color = glm::vec3(0.0f, 1.0f, 0.0f);
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1519,9 +1614,11 @@ int main()
 		//Casilla Estafado (17)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(2.5f, posYObjeto25, 38.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto25), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1531,21 +1628,25 @@ int main()
 		//Casilla Mazmorra (18)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(8.0f, posYObjeto24, 38.0f));
 		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto24), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		flor_azul.RenderModel();
+		Fortaleza.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Devorado (19)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(13.5f, posYObjeto23, 38.0f));
 		model = glm::scale(model, glm::vec3(15.5f, 15.5f, 15.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto23), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1555,9 +1656,11 @@ int main()
 		//Casilla Gnomo (20)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(18.5f, posYObjeto22, 38.0f));
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto22), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1566,9 +1669,9 @@ int main()
 		model = glm::mat4(1.0);
 		//Casilla trbunal (esquina) (21)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		model = glm::translate(model, glm::vec3(24.5f, posYObjeto21, 38.0f));
+		model = glm::translate(model, glm::vec3(24.5f, posYObjeto22, 38.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-		model = glm::rotate(model, glm::radians(rotacionObjeto21), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(rotacionObjeto22), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1578,21 +1681,25 @@ int main()
 		//Casilla Saltarin (22)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(36.5f, posYObjeto20, 21.5f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto20), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		mabel.RenderModel();
+		Yoshi.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Cabra (23)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(36.5f, posYObjeto19, 16.5f));
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto19), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1601,21 +1708,25 @@ int main()
 		model = glm::mat4(1.0);
 		//Casilla a comer (24)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+
 		model = glm::translate(model, glm::vec3(36.5f, posYObjeto18, 11.5f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto18), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		soos.RenderModel();
+		Planta_Carnivora.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Mr Langosta (25)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(36.5f, posYObjeto17, 6.5f));
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto17), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1624,9 +1735,11 @@ int main()
 		model = glm::mat4(1.0);
 		//Casilla Mansion Noroeste (26)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+
 		model = glm::translate(model, glm::vec3(36.5f, posYObjeto16, 1.5f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto16), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1636,21 +1749,25 @@ int main()
 		//Casilla Furia(27)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(36.5f, posYObjeto15, -4.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto15), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		bill.RenderModel();
+		Goomba.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Cuidado (28)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+
 		model = glm::translate(model, glm::vec3(36.5f, posYObjeto14, -7.5f));
 		model = glm::scale(model, glm::vec3(.6f, 0.6f, .6f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto14), glm::vec3(0.0f, 1.0f, 0.0f));
 		
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1659,9 +1776,11 @@ int main()
 		model = glm::mat4(1.0);
 		//Casilla Relajate (29)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+
 		model = glm::translate(model, glm::vec3(36.5f, posYObjeto13, -11.5f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto13), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1671,21 +1790,25 @@ int main()
 		//Casilla Castillo del terror (30)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(36.5f, posYObjeto12, -16.5f));
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto12), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		cabra.RenderModel();
+		CastilloBow.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Lento (31)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(36.5f, posYObjeto11, -21.5f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto11), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1694,9 +1817,11 @@ int main()
 		model = glm::mat4(1.0);
 		//Casilla Mystery Shack (32)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+
 		model = glm::translate(model, glm::vec3(36.5f, posYObjeto10, -28.5f));
 		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto10), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1706,21 +1831,25 @@ int main()
 		//Casilla Yahoo (33)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(19.5f, posYObjeto9, -39.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto9), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		bill.RenderModel();
+		Mario.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Esperanza (34)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(14.0f, posYObjeto8, -39.0f));
 		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto8), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1730,9 +1859,11 @@ int main()
 		//Casilla Bulldog (35)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(8.f, posYObjeto7, -39.0f));
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto7), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1742,22 +1873,26 @@ int main()
 		//Casilla Impacto (36)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(4.0f, posYObjeto6, -39.0f));
 		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto6), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		flor_azul.RenderModel();
+		IceFlower.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Determined (37)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+
 		model = glm::translate(model, glm::vec3(-1.0f, posYObjeto5, -39.0f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto5), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, -90.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		color = glm::vec3(0.804f, 0.498f, 0.196f);
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1767,9 +1902,11 @@ int main()
 		model = glm::mat4(1.0);
 		//Casilla Brillantina (38)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+
 		model = glm::translate(model, glm::vec3(-8.0f, posYObjeto4, -39.0f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto4), glm::vec3(0.0f, 1.0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1779,10 +1916,12 @@ int main()
 		//Casilla Floripondio (39)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
+
 		model = glm::translate(model, glm::vec3(-13.0f, posYObjeto3, -39.0f));
 		model = glm::scale(model, glm::vec3(0.10f, 0.10f, 0.10f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto3), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, -90.0f * toRadians, glm::vec3(1.0f, .0f, 0.0f));
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		color = glm::vec3(0.0f, 1.0f, 0.0f);
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
@@ -1793,6 +1932,7 @@ int main()
 		model = glm::mat4(1.0);
 		//Casilla Chapoteo (40)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+
 		model = glm::translate(model, glm::vec3(-18.0f, posYObjeto2, -39.0f));
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto2), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -1800,6 +1940,7 @@ int main()
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		dipper.RenderModel();
+
 		
 		glUseProgram(0);
 
