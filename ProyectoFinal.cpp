@@ -124,6 +124,27 @@ Model piernaDipper_izq;
 Model llantaTrasera;
 Model llantaDelantera;
 Model bicicleta;
+
+//---------------------Modelos Mario Bros 
+Model Carro1;
+Model Carro2;
+Model Cheep;
+Model CastilloBow;
+Model FlorFuego;
+Model Fortaleza;
+Model Goomba;
+Model IceFlower;
+Model Oruga;
+Model Koopa;
+Model Mario;
+Model Monstruito;
+Model PeachCastle;
+Model Planta_Carnivora;
+Model Toad;
+Model Yoshi;
+
+
+//---------------------Modelos futurama 
 // AHORA SI RECOMIENDO QUE USEN A BENDER JAJAJA
 // 
 //para bender:
@@ -525,6 +546,42 @@ int main()
 	llantaDelantera.LoadModel("Models/llanta_delantera.obj");
 	bicicleta = Model();
 	bicicleta.LoadModel("Models/bicicleta.obj");
+
+	//-------------------------------Modelos Mario Bros
+	Carro1 = Model();
+	Carro1.LoadModel("Models/Carro1.obj");
+	Carro2 = Model();
+	Carro2.LoadModel("Models/Carro2.obj");
+	CastilloBow = Model();
+	CastilloBow.LoadModel("Models/CastilloBow.obj");
+	Cheep = Model();
+	Cheep.LoadModel("Models/Cheep.obj");
+	FlorFuego = Model();
+	FlorFuego.LoadModel("Models/FlorFuego.obj");
+	Fortaleza = Model();
+	Fortaleza.LoadModel("Models/Fortaleza.obj");
+	Goomba = Model();
+	Goomba.LoadModel("Models/Goomba.obj");
+	IceFlower = Model();
+	IceFlower.LoadModel("Models/IceFlower.obj");
+	Koopa = Model();
+	Koopa.LoadModel("Models/Koopa.obj");
+	Mario = Model();
+	Mario.LoadModel("Models/Mario.obj");
+	Monstruito = Model();
+	Monstruito.LoadModel("Models/Monstruito.obj");
+	PeachCastle = Model();
+	PeachCastle.LoadModel("Models/PeachCastle.obj");
+	Planta_Carnivora = Model();
+	Planta_Carnivora.LoadModel("Models/Planta_Carnivora.obj");
+	Toad = Model();
+	Toad.LoadModel("Models/Toad.obj");
+	Yoshi = Model();
+	Yoshi.LoadModel("Models/Yoshi.obj");
+	Oruga = Model();
+	Oruga.LoadModel("Models/Oruga.obj");
+
+
 
 	std::vector<std::string> skyboxFaces;
 	////Para el ciclo de noche
@@ -1306,7 +1363,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		cerdo.RenderModel();
+		Oruga.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Espacio Naturaleza (4)
@@ -1342,7 +1399,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		flor_azul.RenderModel();
+		PeachCastle.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Elefanbria (7)
@@ -1378,7 +1435,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		stan.RenderModel();
+		Toad.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Oink (10)
@@ -1435,7 +1492,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		wendy.RenderModel();
+		FlorFuego.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Destronador (15)
@@ -1446,7 +1503,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		cerdo.RenderModel();
+		Koopa.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla trebol de 7 (16)
@@ -1481,7 +1538,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		flor_azul.RenderModel();
+		Fortaleza.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Devorado (19)
@@ -1528,7 +1585,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		mabel.RenderModel();
+		Yoshi.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Cabra (23)
@@ -1551,7 +1608,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		soos.RenderModel();
+		Planta_Carnivora.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Mr Langosta (25)
@@ -1586,7 +1643,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		bill.RenderModel();
+		Goomba.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Cuidado (28)
@@ -1620,7 +1677,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		cabra.RenderModel();
+		CastilloBow.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Lento (31)
@@ -1655,7 +1712,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		bill.RenderModel();
+		Mario.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Esperanza (34)
@@ -1674,7 +1731,7 @@ int main()
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(8.f, posYObjeto8, -39.0f));
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto8), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
@@ -1686,12 +1743,12 @@ int main()
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(4.0f, posYObjeto7, -39.0f));
-		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto7), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		flor_azul.RenderModel();
+		IceFlower.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Determined (37)
@@ -1736,7 +1793,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		dipper.RenderModel();
+		Cheep.RenderModel();
 		
 		glUseProgram(0);
 
