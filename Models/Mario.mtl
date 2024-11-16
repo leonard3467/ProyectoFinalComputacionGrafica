@@ -14,7 +14,8 @@ newmtl Material__36
 	Ni 1.5200
 	Ke 0.0000 0.0000 0.0000
 	illum 2
-	map_Kd C:\Users\Visitante\Downloads\0x3b7d69bc.png
+	# map_Kd C:\Users\Visitante\Downloads\0x3b7d69bc.png
+	map_Kd 0x3b7d69bc.png
 
 newmtl Material__38
 	Kd 0.5000 0.5000 0.5000
@@ -29,7 +30,8 @@ newmtl Material__38
 	Ni 1.5200
 	Ke 0.0000 0.0000 0.0000
 	illum 2
-	map_Kd C:\Users\Visitante\Downloads\0x39b36443.png
+	# map_Kd C:\Users\Visitante\Downloads\0x39b36443.png
+	map_Kd 0x39b36443.png
 
 newmtl Material__37
 	Kd 0.5000 0.5000 0.5000
@@ -44,7 +46,8 @@ newmtl Material__37
 	Ni 1.5200
 	Ke 0.0000 0.0000 0.0000
 	illum 2
-	map_Kd C:\Users\Visitante\Downloads\0x4c506d2f.png
+	# map_Kd C:\Users\Visitante\Downloads\0x4c506d2f.png
+	map_Kd 0x4c506d2f.png
 
 newmtl Material__42
 	Kd 0.5000 0.5000 0.5000
@@ -59,7 +62,8 @@ newmtl Material__42
 	Ni 1.5200
 	Ke 0.0000 0.0000 0.0000
 	illum 2
-	map_Kd C:\Users\Visitante\Downloads\0x95852189.png
+	# map_Kd C:\Users\Visitante\Downloads\0x95852189.png
+	map_Kd 0x95852189.png
 
 newmtl Material__43
 	Kd 0.5000 0.5000 0.5000
@@ -74,7 +78,8 @@ newmtl Material__43
 	Ni 1.5200
 	Ke 0.0000 0.0000 0.0000
 	illum 2
-	map_Kd C:\Users\Visitante\Downloads\0xbc4e9ae5.png
+	# map_Kd C:\Users\Visitante\Downloads\0xbc4e9ae5.png
+	map_Kd 0xbc4e9ae5.png
 
 newmtl Material__41
 	Kd 0.5000 0.5000 0.5000
@@ -89,7 +94,8 @@ newmtl Material__41
 	Ni 1.5200
 	Ke 0.0000 0.0000 0.0000
 	illum 2
-	map_Kd C:\Users\Visitante\Downloads\0x96b71089.png
+	# map_Kd C:\Users\Visitante\Downloads\0x96b71089.png
+	map_Kd 0x96b71089.png
 
 newmtl Material__39
 	Kd 0.5000 0.5000 0.5000
@@ -104,7 +110,8 @@ newmtl Material__39
 	Ni 1.5200
 	Ke 0.0000 0.0000 0.0000
 	illum 2
-	map_Kd C:\Users\Visitante\Downloads\0x54faa61.png
+	# map_Kd C:\Users\Visitante\Downloads\0x54faa61.png
+	map_Kd 0x54faa61.png
 
 newmtl Material__40
 	Kd 0.5000 0.5000 0.5000
@@ -119,4 +126,5 @@ newmtl Material__40
 	Ni 1.5200
 	Ke 0.0000 0.0000 0.0000
 	illum 2
-	map_Kd C:\Users\Visitante\Downloads\0x73e72eb1.png
+	# map_Kd C:\Users\Visitante\Downloads\0x73e72eb1.png
+	map_Kd 0x73e72eb1.png
