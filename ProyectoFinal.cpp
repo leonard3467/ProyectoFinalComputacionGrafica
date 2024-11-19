@@ -26,7 +26,7 @@ using namespace irrklang;
 #include"Model.h"
 #include "Skybox.h"
 
-//para iluminaciÛn
+//para iluminaci√≥n
 #include "CommonValues.h"
 #include "DirectionalLight.h"
 #include "PointLight.h"
@@ -34,7 +34,7 @@ using namespace irrklang;
 #include "Material.h"
 const float toRadians = 3.14159265f / 180.0f;
 
-//variables para animaciÛn
+//variables para animaci√≥n
 float movDado;
 float movOffset;
 float rotDadox;
@@ -60,7 +60,7 @@ float toffsetTablerov = 0.0f;
 float toffsetCasillau = 0.0f;
 float toffsetCasillav = 0.0f;
 // movimiento por el tablero bender 
-float rotacionBender = 0.0f;        // Inicializar rotaciÛn de Bender
+float rotacionBender = 0.0f;        // Inicializar rotaci√≥n de Bender
 float rotacionBenderAux = 0.0f;
 float saltoBenderY = 0.0f;          // Altura del salto en el eje Y
 float desplazamientoBender = 0.0f;  // Desplazamiento inicial
@@ -68,7 +68,7 @@ float desplazamientoBenderz = 0.0f;
 int pasos = 0;                      // Contador de pasos
 
 //Movimiento tablero dipper
-float rotacionDipper = 0.0f;        // Inicializar rotaciÛn de Bender
+float rotacionDipper = 0.0f;        // Inicializar rotaci√≥n de Bender
 float rotacionDipperAux = 0.0f;
 float saltoDipperY = 0.0f;          // Altura del salto en el eje Y
 float desplazamientoDipper = 0.0f;  // Desplazamiento inicial
@@ -200,11 +200,11 @@ static const char* fShader = "shaders/shader_light.frag";
 //variables para keyframes
 float reproduciranimacion, habilitaranimacion, guardoFrame, reinicioFrame, ciclo, ciclo2, contador = 0;
 
-//funciÛn para teclado de keyframes 
+//funci√≥n para teclado de keyframes 
 void inputKeyframes(bool* keys);
 
 
-//funciÛn de calculo de normales por promedio de vÈrtices 
+//funci√≥n de calculo de normales por promedio de v√©rtices 
 void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat* vertices, unsigned int verticeCount,
 	unsigned int vLength, unsigned int normalOffset)
 {
@@ -257,11 +257,11 @@ void CreateObjects()
 	};
 
 	GLfloat floorVertices[] = {
-		// PosiciÛn              // Coordenadas de textura    // Normal
-		-35.0f, 0.0f, -35.0f,    0.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // VÈrtice 0
-		35.0f, 0.0f, -35.0f,     1.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // VÈrtice 1
-		-35.0f, 0.0f, 35.0f,     0.0f, 1.0f,                 0.0f, -1.0f, 0.0f,  // VÈrtice 2
-		35.0f, 0.0f, 35.0f,      1.0f, 1.0f,                 0.0f, -1.0f, 0.0f   // VÈrtice 3
+		// Posici√≥n              // Coordenadas de textura    // Normal
+		-35.0f, 0.0f, -35.0f,    0.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // V√©rtice 0
+		35.0f, 0.0f, -35.0f,     1.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // V√©rtice 1
+		-35.0f, 0.0f, 35.0f,     0.0f, 1.0f,                 0.0f, -1.0f, 0.0f,  // V√©rtice 2
+		35.0f, 0.0f, 35.0f,      1.0f, 1.0f,                 0.0f, -1.0f, 0.0f   // V√©rtice 3
 	};
 
 	unsigned int vegetacionIndices[] = {
@@ -292,11 +292,11 @@ void CreateObjects()
 	};
 
 	GLfloat TableroVertices[] = {
-		// PosiciÛn              // Coordenadas de textura    // Normal
-		-22.0f, 0.0f, -24.0f,    0.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // VÈrtice 0
-		22.0f, 0.0f, -24.0f,     1.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // VÈrtice 1
-		-22.0f, 0.0f, 24.0f,     0.0f, 1.0f,                 0.0f, -1.0f, 0.0f,  // VÈrtice 2
-		22.0f, 0.0f, 24.0f,      1.0f, 1.0f,                 0.0f, -1.0f, 0.0f   // VÈrtice 3
+		// Posici√≥n              // Coordenadas de textura    // Normal
+		-22.0f, 0.0f, -24.0f,    0.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // V√©rtice 0
+		22.0f, 0.0f, -24.0f,     1.0f, 0.0f,                 0.0f, -1.0f, 0.0f,  // V√©rtice 1
+		-22.0f, 0.0f, 24.0f,     0.0f, 1.0f,                 0.0f, -1.0f, 0.0f,  // V√©rtice 2
+		22.0f, 0.0f, 24.0f,      1.0f, 1.0f,                 0.0f, -1.0f, 0.0f   // V√©rtice 3
 	};
 	unsigned int CasillasIndices[] = {
 	   0, 1, 2,
@@ -341,14 +341,14 @@ void CreateObjects()
 	};
 
 	GLfloat additionalFloorVertices[] = {
-		// PosiciÛn             // Coordenadas de textura     // Normal
+		// Posici√≥n             // Coordenadas de textura     // Normal
 		-10.0f, 0.0f, -10.0f,   0.0f, 0.0f,                  0.0f, -1.0f, 0.0f,
 		10.0f, 0.0f, -10.0f,    10.0f, 0.0f,                  0.0f, -1.0f, 0.0f,
 		-10.0f, 0.0f, 10.0f,    0.0f, 10.0f,                  0.0f, -1.0f, 0.0f,
 		10.0f, 0.0f, 10.0f,     10.0f, 10.0f,                  0.0f, -1.0f, 0.0f
 	};
 	unsigned int dado4_indices[] = {
-		//Cada cara tiene 3 vÈrtices
+		//Cada cara tiene 3 v√©rtices
 		0, 1, 2,    // Cara 1
 		3, 4, 5,    // Cara 2
 		6, 7, 8,    // Cara 3
@@ -410,11 +410,11 @@ void CreateObjects()
 	// Agregar el nuevo plano a la lista de mallas
 	Mesh* additionalFloor = new Mesh();
 	additionalFloor->CreateMesh(additionalFloorVertices, additionalFloorIndices, 32, 6);
-	meshList.push_back(additionalFloor); // Este ser· meshList[7]
+	meshList.push_back(additionalFloor); // Este ser√° meshList[7]
 
 	Mesh* dado4 = new Mesh();
 	dado4->CreateMesh(dado4_vertices, dado4_indices, 96, 12);
-	meshList.push_back(dado4);    // Este ser· meshList[8]
+	meshList.push_back(dado4);    // Este ser√° meshList[8]
 
 	calcAverageNormals(indices, 12, vertices, 32, 8, 5);
 
@@ -432,7 +432,7 @@ void CreateShaders()
 
 
 //KEYFRAMES
-bool animacion = false; //Reproducir animaciÛn
+bool animacion = false; //Reproducir animaci√≥n
 
 
 
@@ -537,18 +537,18 @@ void animate(void)
 	//Movimiento del objeto con barra espaciadora
 	if (play)
 	{
-		if (i_curr_steps >= i_max_steps) //fin de animaciÛn entre frames?
+		if (i_curr_steps >= i_max_steps) //fin de animaci√≥n entre frames?
 		{
 			playIndex++;
 			printf("playindex : %d\n", playIndex);
-			if (playIndex > FrameIndex - 2)	//Fin de toda la animaciÛn con ˙ltimo frame?
+			if (playIndex > FrameIndex - 2)	//Fin de toda la animaci√≥n con √∫ltimo frame?
 			{
 				printf("Frame index= %d\n", FrameIndex);
 				printf("termino la animacion\n");
 				playIndex = 0;
 				play = false;
 			}
-			else //InterpolaciÛn del prÛximo cuadro
+			else //Interpolaci√≥n del pr√≥ximo cuadro
 			{
 
 				i_curr_steps = 0; //Resetea contador
@@ -558,7 +558,7 @@ void animate(void)
 		}
 		else
 		{
-			//Dibujar AnimaciÛn
+			//Dibujar Animaci√≥n
 			movBill_x += KeyFrame[playIndex].movBill_xInc;
 			movBill_y += KeyFrame[playIndex].movBill_yInc;
 			giroBill += KeyFrame[playIndex].giroBillInc;
@@ -570,7 +570,7 @@ void animate(void)
 
 
 
-//PosiciÛn inicial Bender
+//Posici√≥n inicial Bender
 glm::vec3 position(-27.0f, 2.5f, -29.0f);
 //Auxiliar posicion de Dipper
 glm::vec3 positionDipper(-27.0f, 3.5f, -29.0f);
@@ -580,15 +580,15 @@ glm::vec3 TurnoActual(0.0f, 0.0f, 0.0f);
 int main()
 {
 	//mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
-	Window mainWindow(1366, 768); // DeclaraciÛn e inicializaciÛn
+	Window mainWindow(1366, 768); // Declaraci√≥n e inicializaci√≥n
 	mainWindow.Initialise();
 	// nuestra camara incial sera la isometrica
-	glm::vec3 posicionCamara = glm::vec3(-40.0f, 40.0f, 40.0f); // PosiciÛn en altura y diagonal
+	glm::vec3 posicionCamara = glm::vec3(-40.0f, 40.0f, 40.0f); // Posici√≥n en altura y diagonal
 	glm::vec3 objetivo = glm::vec3(20.0f, 1.0f, 1.0f);          // Mira hacia el centro del tablero
 	glm::vec3 upVector = glm::vec3(0.0f, 1.0f, 0.0f);          // Define "arriba" en el eje Y
-	// Aplica 45 grados de rotaciÛn en el eje X y el eje Z
-	float yaw = -45.0f;   // RotaciÛn horizontal
-	float pitch = -35.264f; // RotaciÛn vertical (aproximaciÛn isomÈtrica)
+	// Aplica 45 grados de rotaci√≥n en el eje X y el eje Z
+	float yaw = -45.0f;   // Rotaci√≥n horizontal
+	float pitch = -35.264f; // Rotaci√≥n vertical (aproximaci√≥n isom√©trica)
 	camera = Camera(posicionCamara, upVector, yaw, pitch, 0.0f, 0.0f);
 	glm::mat4 view = glm::lookAt(posicionCamara, objetivo, upVector);
 
@@ -618,9 +618,9 @@ int main()
 	dado8Caras = Model();
 	dado8Caras.LoadModel("Models/Dado8Caras.obj");
 
-	//---------------- M˙sica
+	//---------------- M√∫sica
 	// Crea el motor de sonido
-	/*
+	
 	ISoundEngine* engine = createIrrKlangDevice();
 	if (!engine) {
 		std::cout << "Error al inicializar irrKlang" << std::endl;
@@ -636,13 +636,13 @@ int main()
 	}
 	//Verificando que se reproduzca el audio
 	if (engine->isCurrentlyPlaying("media/audio_principal.ogg")) {
-		std::cout << "El audio est· reproduciÈndose correctamente" << std::endl;
+		std::cout << "El audio est√° reproduci√©ndose correctamente" << std::endl;
 	}
 	else {
-		std::cout << "El audio no est· reproduciÈndose" << std::endl;
+		std::cout << "El audio no est√° reproduci√©ndose" << std::endl;
 	}
 	// Libera recursos
-	engine->drop();*/
+	engine->drop();
 
 
 	//----- BENDER-----
@@ -791,7 +791,7 @@ int main()
 	Material_opaco = Material(0.3f, 4);
 
 
-	//luz direccional, sÛlo 1 y siempre debe de existir
+	//luz direccional, s√≥lo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.75f, 0.8f,
 		0.0f, 0.0f, -1.0f);
@@ -802,15 +802,15 @@ int main()
 	// Primera luz puntual 
 	pointLights[0] = PointLight(1.0f, 0.0f, 1.0f, // Color de la luz
 		3.0f, 1.5f,   // Intensidades de ambiente y difusa 
-		35.5f, 8.5f, 38.0f,   // PosiciÛn de la luz
-		0.3f, 0.05f, 0.02f); // Coeficientes de atenuaciÛn ajustados
+		35.5f, 8.5f, 38.0f,   // Posici√≥n de la luz
+		0.3f, 0.05f, 0.02f); // Coeficientes de atenuaci√≥n ajustados
 	pointLightCount++;
 
 	// Segunda luz puntual 
 	pointLights[1] = PointLight(0.0f, 0.0f, 1.0f,  // Color de la luz
 		3.0f, 1.5f,                               // Intensidades de ambiente y difusa 
-		-35.5f, 8.5f, -38.0f,                        // PosiciÛn de la luz
-		0.3f, 0.05f, 0.02f);                      // Coeficientes de atenuaciÛn ajustados
+		-35.5f, 8.5f, -38.0f,                        // Posici√≥n de la luz
+		0.3f, 0.05f, 0.02f);                      // Coeficientes de atenuaci√≥n ajustados
 	pointLightCount++;
 
 
@@ -826,18 +826,18 @@ int main()
 	// Segunda luz spotlight
 	spotLights[1] = SpotLight(1.0f, 0.0f, 0.0f, // Color de la luz
 		2.0f, 5.5f,                            // Intensidades de ambiente y difusa
-		35.5f, 8.5f, -38.0f,                    // PosiciÛn de la luz
-		0.0f, 1.0f, 0.0f,                     // DirecciÛn de la luz
-		1.0f, 0.1f, 0.0f,                      // Coeficientes de atenuaciÛn
-		20.0f);                                // ¡ngulo del borde (mayor valor para un cono m·s abierto)
+		35.5f, 8.5f, -38.0f,                    // Posici√≥n de la luz
+		0.0f, 1.0f, 0.0f,                     // Direcci√≥n de la luz
+		1.0f, 0.1f, 0.0f,                      // Coeficientes de atenuaci√≥n
+		20.0f);                                // √Ångulo del borde (mayor valor para un cono m√°s abierto)
 	spotLightCount++;
 	// Tercera luz spotlight
 	spotLights[2] = SpotLight(0.0f, 1.0f, 1.0f, // Color de la luz
 		2.0f, 5.5f,                            // Intensidades de ambiente y difusa
-		-35.5f, 8.5f, 38.0f,                    // PosiciÛn de la luz
-		0.0f, 1.0f, 0.0f,                     // DirecciÛn de la luz
-		1.0f, 0.1f, 0.0f,                      // Coeficientes de atenuaciÛn
-		20.0f);                                // ¡ngulo del borde (mayor valor para un cono m·s abierto)
+		-35.5f, 8.5f, 38.0f,                    // Posici√≥n de la luz
+		0.0f, 1.0f, 0.0f,                     // Direcci√≥n de la luz
+		1.0f, 0.1f, 0.0f,                      // Coeficientes de atenuaci√≥n
+		20.0f);                                // √Ångulo del borde (mayor valor para un cono m√°s abierto)
 	spotLightCount++;
 
 
@@ -850,7 +850,7 @@ int main()
 	GLuint uniformColor = 0;
 	////----------------------------- CAMARA ISOMETRICA -------------------
 	float aspectRatio = (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight();
-	float viewSize = 50.0f; // TamaÒo que permitir· ver todo el tablero	
+	float viewSize = 50.0f; // Tama√±o que permitir√° ver todo el tablero	
 	glm::mat4 projection = glm::ortho(-viewSize * aspectRatio, viewSize * aspectRatio, -viewSize, viewSize, 1.0f, 1500.0f);
 
 	int lastModoCamara = camera.getModoCamara();
@@ -860,7 +860,7 @@ int main()
 	toffsetTablerov = 0.0;
 	// aqui se inicia todo
 		//B----------------------AYUDA
-	//float posicionZ = -25.0f;  // PosiciÛn inicial en el eje Z (Inicio en casilla Gravity Falls)
+	//float posicionZ = -25.0f;  // Posici√≥n inicial en el eje Z (Inicio en casilla Gravity Falls)
 	float posicionX = -20.9104f;
 	//float posicionY = 3.0f; //BICI
 	float posicionZ = -28.0086f;
@@ -868,14 +868,14 @@ int main()
 	float velocidad = 4.0f;    // Velocidad de avance en Z
 	//float zObjetivo = 28.0f;   // Punto donde nos detenemos en z (BICI)
 	float radioRueda = 0.5f;    // Radio de las ruedas
-	float rotacionRueda = 0.0f; // ¡ngulo acumulado de rotaciÛn de las ruedas
-	float rotacionY = 0.0f;    // ¡ngulo acumulado de rotaciÛn sobre el eje Y
-	float velocidadRotacion = 45.0f;  // Velocidad de rotaciÛn en grados por segundo
-	//float posicionX = -28.0f;  // PosiciÛn inicial en X (BICI)
+	float rotacionRueda = 0.0f; // √Ångulo acumulado de rotaci√≥n de las ruedas
+	float rotacionY = 0.0f;    // √Ångulo acumulado de rotaci√≥n sobre el eje Y
+	float velocidadRotacion = 45.0f;  // Velocidad de rotaci√≥n en grados por segundo
+	//float posicionX = -28.0f;  // Posici√≥n inicial en X (BICI)
 	float xObjetivo = 28.0f;   // Punto donde nos detenemos en x
 	float zObjetivoNegativo = -28.0f;  // Punto donde nos detenemos en -z
 	float xObjetivoNegativo = -28.0f;  // Punto donde nos detenemos en -x
-	//Todos los lÌmites son con respecto a como mi modelo sigue dentro del tablero
+	//Todos los l√≠mites son con respecto a como mi modelo sigue dentro del tablero
 	int estado = 0;  // Control de fases: 0: Avanzar en Z positivo, 1: Girar a X, 2: Avanzar en X, 3: Girar a Z negativo, 4: Avanzar en Z negativo, 5: Gira a X negativo, 6: Avanza en X negativo y 7: Gira a Z positivo
 
 	float posYObjeto1 = -5.0f, posYObjeto2 = -5.0f, posYObjeto3 = -5.0f, posYObjeto4 = -5.0f, posYObjeto5 = -5.0f, posYObjeto6 = -5.0f, posYObjeto7 = -5.0f, posYObjeto8 = -5.0f, posYObjeto9 = -5.0f, posYObjeto10 = -5.0f, posYObjeto11 = -5.0f, posYObjeto12 = -5.0f, posYObjeto13 = -5.0f, posYObjeto14 = -5.0f, posYObjeto15 = -5.0f, posYObjeto16 = -5.0f, posYObjeto17 = -5.0f, posYObjeto18 = -5.0f, posYObjeto19 = -5.0f, posYObjeto20 = -5.0f, posYObjeto21 = -5.0f, posYObjeto22 = -5.0f, posYObjeto23 = -5.0f, posYObjeto24 = -5.0f, posYObjeto25 = -5.0f, posYObjeto26 = -5.0f, posYObjeto27 = -5.0f, posYObjeto28 = -5.0f, posYObjeto29 = -5.0f, posYObjeto30 = -5.0f, posYObjeto31 = -5.0f, posYObjeto32 = -5.0f, posYObjeto33 = -5.0f, posYObjeto34 = -5.0f, posYObjeto35 = -5.0f, posYObjeto36 = -5.0f, posYObjeto37 = -5.0f, posYObjeto38 = -5.0f, posYObjeto39 = -5.0f, posYObjeto40 = -5.0f;
@@ -960,38 +960,38 @@ int main()
 		inputKeyframes(mainWindow.getsKeys());
 		animate();
 
-			// Configura la c·mara y la proyecciÛn seg˙n el modo
-			// Comprobar si el modo de c·mara ha cambiado
+			// Configura la c√°mara y la proyecci√≥n seg√∫n el modo
+			// Comprobar si el modo de c√°mara ha cambiado
 		if (camera.getModoCamara() != lastModoCamara) {
-			lastModoCamara = camera.getModoCamara();  // Actualizar el ˙ltimo modo
+			lastModoCamara = camera.getModoCamara();  // Actualizar el √∫ltimo modo
 
 			if (camera.getModoCamara() == 1) {
-				// Modo 1: Vista isomÈtrica
+				// Modo 1: Vista isom√©trica
 				viewSize = 50.0f;
 				projection = glm::ortho(-viewSize * aspectRatio, viewSize * aspectRatio, -viewSize, viewSize, 1.0f, 1500.0f);
 
-				// Actualizar posiciÛn y orientaciÛn sin crear una nueva instancia
+				// Actualizar posici√≥n y orientaci√≥n sin crear una nueva instancia
 				camera.setPosition(glm::vec3(-40.0f, 40.0f, 40.0f));
 				camera.setOrientation(-45.0f, -35.264f);  // Yaw y Pitch
 				camera.setMovementSpeed(0.0f);
 				camera.setTurnSpeed(0.0f);
 			}
 			else if (camera.getModoCamara() == 2) {
-				// Modo 2: Vista aÈrea
+				// Modo 2: Vista a√©rea
 				viewSize = 75.0f;
 				projection = glm::ortho(-viewSize * aspectRatio, viewSize * aspectRatio, -viewSize, viewSize, 0.1f, 1000.0f);
 
-				// Actualizar posiciÛn y orientaciÛn sin crear una nueva instancia
+				// Actualizar posici√≥n y orientaci√≥n sin crear una nueva instancia
 				camera.setPosition(glm::vec3(0.0f, 40.0f, 0.0f));
 				camera.setOrientation(-90.0f, -90.0f);  // Yaw y Pitch
 				camera.setMovementSpeed(0.5f);
-				camera.setTurnSpeed(0.0f);  // Desactivar rotaciÛn de la c·mara en modo aÈreo
+				camera.setTurnSpeed(0.0f);  // Desactivar rotaci√≥n de la c√°mara en modo a√©reo
 			}
 			else if (camera.getModoCamara() == 3) {
 				// Modo 3: Vista en perspectiva predeterminada
 				projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
 
-				// Actualizar posiciÛn y orientaciÛn sin crear una nueva instancia
+				// Actualizar posici√≥n y orientaci√≥n sin crear una nueva instancia
 				camera.setPosition(glm::vec3(5.0f, 15.0f, -5.0f));
 				camera.setOrientation(-60.0f, 0.0f);  // Yaw y Pitch
 				camera.setMovementSpeed(0.3f);
@@ -1012,7 +1012,7 @@ int main()
 		uniformColor = shaderList[0].getColorLocation();
 		uniformTextureOffset = shaderList[0].getOffsetLocation();
 
-		//informaciÛn en el shader de intensidad especular y brillo
+		//informaci√≥n en el shader de intensidad especular y brillo
 		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
 		uniformShininess = shaderList[0].GetShininessLocation();
 
@@ -1020,13 +1020,13 @@ int main()
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera.calculateViewMatrix()));
 		glUniform3f(uniformEyePosition, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);
 
-		// luz ligada a la c·mara de tipo flash
-		//sirve para que en tiempo de ejecuciÛn (dentro del while) se cambien propiedades de la luz
+		// luz ligada a la c√°mara de tipo flash
+		//sirve para que en tiempo de ejecuci√≥n (dentro del while) se cambien propiedades de la luz
 		glm::vec3 lowerLight = camera.getCameraPosition();
 		lowerLight.y -= 0.3f;
 		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
 
-		//informaciÛn al shader de fuentes de iluminaciÛn
+		//informaci√≥n al shader de fuentes de iluminaci√≥n
 		shaderList[0].SetDirectionalLight(&mainLight);
 		//shaderList[0].SetSpotLights(spotLights, spotLightCount - 1);
 		shaderList[0].SetSpotLights(spotLights, spotLightCount);
@@ -1036,7 +1036,7 @@ int main()
 		// Actualiza el temporizador de luces en cada fotograma
 		mainWindow.update(deltaTime);
 
-		// ActivaciÛn de luces basada en el estado de Bandera
+		// Activaci√≥n de luces basada en el estado de Bandera
 		if (mainWindow.getBandera() == GL_TRUE) {
 			shaderList[0].SetPointLights(pointLights, pointLightCount);
 			shaderList[0].SetSpotLights(spotLights, spotLightCount);
@@ -1217,7 +1217,7 @@ int main()
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		Banqueta.RenderModel();
 
-		//------------- EscenografÌa
+		//------------- Escenograf√≠a
 		//Mystery Shack
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		model = glm::mat4(1.0);
@@ -1403,11 +1403,11 @@ int main()
 		// --- TORZO
 		model = glm::mat4(1.0);
 		model = glm::translate(model, position);
-		// Extraer la posiciÛn actual de la matriz de model
+		// Extraer la posici√≥n actual de la matriz de model
 		animaciones.movimientoTableroBender(position, rotacionBender, saltoBenderY, desplazamientoBender, pasos, deltaTime, mainWindow, Tiempo, desplazamientoBenderz, rotacionBenderAux);
 		model = glm::translate(model, glm::vec3(0.0f + desplazamientoBender, 0.0f, 0.0f + desplazamientoBenderz));
 		model = glm::rotate(model, (rotacionBender + rotacionBenderAux - 180) * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		/*std::cout << "PosiciÛn actual del modelo: "
+		/*std::cout << "Posici√≥n actual del modelo: "
 			<< "X: " << position.x << ", "
 			<< "Y: " << position.y << ", "
 			<< "Z: " << position.z << std::endl;*/
@@ -1419,7 +1419,7 @@ int main()
 		BenderTorzo.RenderModel();
 
 
-		// Imprimir la posiciÛn
+		// Imprimir la posici√≥n
 
 		//-- Cabeza
 		model = modelaux;
@@ -1517,7 +1517,7 @@ int main()
 		animaciones.movimientoTableroDipper(positionDipper, rotacionDipper, saltoDipperY, desplazamientoDipper, pasos, deltaTime, mainWindow, Tiempo, desplazamientoDipperz, rotacionDipperAux);
 		model = glm::translate(model, glm::vec3(0.0f + desplazamientoDipper, 0.0f, 0.0f + desplazamientoDipperz));
 		model = glm::rotate(model, (rotacionDipper + rotacionDipperAux - 180) * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		/*std::cout << "PosiciÛn actual del modelo: "
+		/*std::cout << "Posici√≥n actual del modelo: "
 			<< "X: " << position.x << ", "
 			<< "Y: " << position.y << ", "
 			<< "Z: " << position.z << std::endl;*/
@@ -1529,7 +1529,7 @@ int main()
 		torsoDipper.RenderModel();
 
 
-		// Imprimir la posiciÛn
+		// Imprimir la posici√≥n
 
 		//-- Cabeza
 		model = modelaux;
@@ -1623,7 +1623,7 @@ int main()
 				//------------------------ OBJETOS TABLERO
 		//Llamada a controlAnimacionTablero con las coordenadas de la bicicleta y todos los objetos de nuestro tablero (Ajustar traslacion y escala si es necesario para su objeto)
 
-		//Llamada a funciÛn con posicion del personaje para activar animaciÛn de tablero
+		//Llamada a funci√≥n con posicion del personaje para activar animaci√≥n de tablero
 		animaciones.controlAnimacionTablero(TurnoActual, posYObjeto1, rotacionObjeto1, posYObjeto2, rotacionObjeto2, posYObjeto3, rotacionObjeto3, posYObjeto4, rotacionObjeto4, posYObjeto5, rotacionObjeto5, posYObjeto6, rotacionObjeto6, posYObjeto7, rotacionObjeto7, posYObjeto8, rotacionObjeto8, posYObjeto9, rotacionObjeto9, posYObjeto10, rotacionObjeto10, posYObjeto11, rotacionObjeto11, posYObjeto12, rotacionObjeto12, posYObjeto13, rotacionObjeto13, posYObjeto14, rotacionObjeto14, posYObjeto15, rotacionObjeto15, posYObjeto16, rotacionObjeto16, posYObjeto17, rotacionObjeto17, posYObjeto18, rotacionObjeto18, posYObjeto19, rotacionObjeto19, posYObjeto20, rotacionObjeto20, posYObjeto21, rotacionObjeto21, posYObjeto22, rotacionObjeto22, posYObjeto23, rotacionObjeto23, posYObjeto24, rotacionObjeto24, posYObjeto25, rotacionObjeto25, posYObjeto26, rotacionObjeto26, posYObjeto27, rotacionObjeto27, posYObjeto28, rotacionObjeto28, posYObjeto29, rotacionObjeto29, posYObjeto30, rotacionObjeto30, posYObjeto31, rotacionObjeto31, posYObjeto32, rotacionObjeto32, posYObjeto33, rotacionObjeto33, posYObjeto34, rotacionObjeto34, posYObjeto35, rotacionObjeto35, posYObjeto36, rotacionObjeto36, posYObjeto37, rotacionObjeto37, posYObjeto38, rotacionObjeto38, posYObjeto39, rotacionObjeto39, posYObjeto40, rotacionObjeto40, deltaTime, Tiempo);
 		//Casilla Start
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -2127,7 +2127,7 @@ void inputKeyframes(bool* keys)
 				playIndex = 0;
 				i_curr_steps = 0;
 				reproduciranimacion++;
-				printf("\n presiona 0 para habilitar reproducir de nuevo la animaciÛn'\n");
+				printf("\n presiona 0 para habilitar reproducir de nuevo la animaci√≥n'\n");
 				habilitaranimacion = 0;
 
 			}
@@ -2142,7 +2142,7 @@ void inputKeyframes(bool* keys)
 	{
 		if (habilitaranimacion < 1 && reproduciranimacion>0)
 		{
-			printf("Ya puedes reproducir de nuevo la animaciÛn con la tecla de barra espaciadora'\n");
+			printf("Ya puedes reproducir de nuevo la animaci√≥n con la tecla de barra espaciadora'\n");
 			reproduciranimacion = 0;
 
 		}
