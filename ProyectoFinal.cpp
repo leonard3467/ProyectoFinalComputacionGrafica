@@ -11,6 +11,9 @@
 #include <glm.hpp>
 #include <gtc\matrix_transform.hpp>
 #include <gtc\type_ptr.hpp>
+//Biblioteca para nuestro sonido
+#include <irrKlang.h>
+using namespace irrklang;
 //para probar el importer
 //#include<assimp/Importer.hpp>
 
@@ -110,6 +113,7 @@ Model mystery_shack;
 Model mansion;
 Model bulldog;
 Model arcade;
+Model billNuevo;
 //Dipper (Personaje principal)
 Model cabezaDipper;
 Model torsoDipper;
@@ -121,6 +125,24 @@ Model musloDipper_der;
 Model musloDipper_izq;
 Model piernaDipper_der;
 Model piernaDipper_izq;
+
+//------------------------------- Modelos Mario Bross
+Model CastilloBow;
+Model Carro1;
+Model Carro2;
+Model Cheep;
+Model FlorFuego;
+Model Fortaleza;
+Model Goomba;
+Model IceFlower;
+Model Koopa;
+Model Mario;
+Model Monstruito;
+Model PeachCastle;
+Model Planta_Carnivora;
+Model Toad;
+Model Yoshi;
+Model Oruga;
 
 //AYUDA------
 //Modelo de bicicleta
@@ -173,6 +195,13 @@ static const char* vShader = "shaders/shader_light.vert";
 
 // Fragment Shader
 static const char* fShader = "shaders/shader_light.frag";
+
+
+//variables para keyframes
+float reproduciranimacion, habilitaranimacion, guardoFrame, reinicioFrame, ciclo, ciclo2, contador = 0;
+
+//función para teclado de keyframes 
+void inputKeyframes(bool* keys);
 
 
 //función de calculo de normales por promedio de vértices 
@@ -401,6 +430,146 @@ void CreateShaders()
 	shaderList.push_back(*shader1);
 }
 
+
+//KEYFRAMES
+bool animacion = false; //Reproducir animación
+
+
+
+//NEW// Keyframes
+float posXbill = -40.0, posYbill = 10.0, posZbill = 0.0;
+float	movBill_x = 0.0f, movBill_y = 0.0f;
+float giroBill = 0;
+
+#define MAX_FRAMES 100  //Numero max de frames que podemos guardar
+int i_max_steps = 90; //Interpolaciones
+int i_curr_steps = 10; // A partir de que frame vamos a empezar a guardar
+typedef struct _frame
+{
+	//Variables para GUARDAR Key Frames
+	float movBill_x;		//Variable para PosicionX
+	float movBill_y;		//Variable para PosicionY
+	float movBill_xInc;		//Variable para IncrementoX
+	float movBill_yInc;		//Variable para IncrementoY
+	float giroBill;
+	float giroBillInc;
+}FRAME;
+
+FRAME KeyFrame[MAX_FRAMES];
+int FrameIndex = 10;			//introducir datos (igual a i_curr_steps)
+bool play = false;
+int playIndex = 0;
+
+bool guardados = false; // Verifica si los primeros 7 keyframes ya fueron guardados
+
+void guardarKeyframes()
+{
+	std::ofstream file("keyframes.txt");
+	if (!file) {
+		printf("Error al abrir el archivo\n");
+		return;
+	}
+
+	file << "Primeros  Keyframes:\n";
+	for (int i = 0; i < FrameIndex; i++) { // Guardamos los primeros 7
+		file << "Keyframe [" << i << "]:\n";
+		file << "movBill_x: " << KeyFrame[i].movBill_x << "\n";
+		file << "movBill_y: " << KeyFrame[i].movBill_y << "\n";
+		file << "giroBill: " << KeyFrame[i].giroBill << "\n";
+		file << "------------------\n";
+	}
+	file.close();
+	printf("Los primeros 7 Keyframes han sido guardados \n");
+
+	guardados = true; // Marca como guardado
+}
+void saveKeyframe(int frameIndex)
+{
+	std::ofstream file("keyframes.txt", std::ios::app); 
+	if (!file) {
+		printf("Error al abrir el archivo \n");
+		return;
+	}
+
+	file << "Keyframe [" << frameIndex << "]:\n";
+	file << "movBill_x: " << KeyFrame[frameIndex].movBill_x << "\n";
+	file << "movBill_y: " << KeyFrame[frameIndex].movBill_y << "\n";
+	file << "giroBill: " << KeyFrame[frameIndex].giroBill << "\n";
+	file << "------------------\n";
+	file.close();
+
+	printf("Keyframe [%d] guardado\n", frameIndex);
+}
+
+//Tecla L
+void saveFrame(void) //tecla L
+{
+
+	printf("frameindex %d\n", FrameIndex);
+
+
+	KeyFrame[FrameIndex].movBill_x = movBill_x;
+	KeyFrame[FrameIndex].movBill_y = movBill_y;
+	KeyFrame[FrameIndex].giroBill;//completar
+	//no volatil, agregar una forma de escribir a un archivo para guardar los frames
+	FrameIndex++;
+}
+
+void resetElements(void) //Tecla 0
+{
+
+	movBill_x = KeyFrame[0].movBill_x;
+	movBill_y = KeyFrame[0].movBill_y;
+	giroBill = KeyFrame[0].giroBill;
+}
+
+void interpolation(void)
+{
+	KeyFrame[playIndex].movBill_xInc = (KeyFrame[playIndex + 1].movBill_x - KeyFrame[playIndex].movBill_x) / i_max_steps;
+	KeyFrame[playIndex].movBill_yInc = (KeyFrame[playIndex + 1].movBill_y - KeyFrame[playIndex].movBill_y) / i_max_steps;
+	KeyFrame[playIndex].giroBillInc = (KeyFrame[playIndex + 1].giroBill - KeyFrame[playIndex].giroBill) / i_max_steps;
+
+}
+
+
+void animate(void)
+{
+	//Movimiento del objeto con barra espaciadora
+	if (play)
+	{
+		if (i_curr_steps >= i_max_steps) //fin de animación entre frames?
+		{
+			playIndex++;
+			printf("playindex : %d\n", playIndex);
+			if (playIndex > FrameIndex - 2)	//Fin de toda la animación con último frame?
+			{
+				printf("Frame index= %d\n", FrameIndex);
+				printf("termino la animacion\n");
+				playIndex = 0;
+				play = false;
+			}
+			else //Interpolación del próximo cuadro
+			{
+
+				i_curr_steps = 0; //Resetea contador
+				//Interpolar
+				interpolation();
+			}
+		}
+		else
+		{
+			//Dibujar Animación
+			movBill_x += KeyFrame[playIndex].movBill_xInc;
+			movBill_y += KeyFrame[playIndex].movBill_yInc;
+			giroBill += KeyFrame[playIndex].giroBillInc;
+			i_curr_steps++;
+		}
+
+	}
+}
+
+
+
 //Posición inicial Bender
 glm::vec3 position(-27.0f, 2.5f, -29.0f);
 //Auxiliar posicion de Dipper
@@ -448,6 +617,34 @@ int main()
 	poste_luz.LoadModel("Models/uploads_files_2971904_Street.Lighting.4.obj");
 	dado8Caras = Model();
 	dado8Caras.LoadModel("Models/Dado8Caras.obj");
+
+	//---------------- Música
+	// Crea el motor de sonido
+	/*
+	ISoundEngine* engine = createIrrKlangDevice();
+	if (!engine) {
+		std::cout << "Error al inicializar irrKlang" << std::endl;
+		return 0;
+	}
+	// Configura el volumen global del sonido (entre 0.0 y 1.0)
+	engine->setSoundVolume(0.8f); 
+	// Reproduce un archivo de sonido
+	engine->play2D("media/audio_principal.ogg", true);
+	//Para hacer que nuestro sonido se repita en bucle y hasta que se cierre la ventana
+	while (true) {
+
+	}
+	//Verificando que se reproduzca el audio
+	if (engine->isCurrentlyPlaying("media/audio_principal.ogg")) {
+		std::cout << "El audio está reproduciéndose correctamente" << std::endl;
+	}
+	else {
+		std::cout << "El audio no está reproduciéndose" << std::endl;
+	}
+	// Libera recursos
+	engine->drop();*/
+
+
 	//----- BENDER-----
 	BenderCabeza = Model();
 	BenderCabeza.LoadModel("Models/Bender_Cabeza.obj");
@@ -527,6 +724,41 @@ int main()
 	piernaDipper_der.LoadModel("Models/piernaDipper_der.obj");
 	piernaDipper_izq = Model();
 	piernaDipper_izq.LoadModel("Models/piernaDipper_izq.obj");
+	billNuevo = Model();
+	billNuevo.LoadModel("Models/billNormal.obj");
+	//-------------------------- Modelos Mario Bross
+	CastilloBow = Model();
+	CastilloBow.LoadModel("Models/CastilloBow.obj");
+	Carro1 = Model();
+	Carro1.LoadModel("Models/Carro1.obj");
+	Carro2 = Model();
+	Carro2.LoadModel("Models/Carro2.obj");
+	Cheep = Model();
+	Cheep.LoadModel("Models/Cheep.obj");
+	FlorFuego = Model();
+	FlorFuego.LoadModel("Models/FlorFuego.obj");
+	Fortaleza = Model();
+	Fortaleza.LoadModel("Models/Fortaleza.obj");
+	Goomba = Model();
+	Goomba.LoadModel("Models/Goomba.obj");
+	IceFlower = Model();
+	IceFlower.LoadModel("Models/IceFlower.obj");
+	Koopa = Model();
+	Koopa.LoadModel("Models/Koopa.obj");
+	Mario = Model();
+	Mario.LoadModel("Models/Mario.obj");
+	Monstruito = Model();
+	Monstruito.LoadModel("Models/Monstruito.obj");
+	PeachCastle = Model();
+	PeachCastle.LoadModel("Models/PeachCastle.obj");
+	Planta_Carnivora = Model();
+	Planta_Carnivora.LoadModel("Models/Planta_Carnivora.obj");
+	Toad = Model();
+	Toad.LoadModel("Models/Toad.obj");
+	Yoshi = Model();
+	Yoshi.LoadModel("Models/Yoshi.obj");
+	Oruga = Model();
+	Oruga.LoadModel("Models/Oruga.obj");
 
 	//-----------------------------------------Bicicleta
 	llantaTrasera = Model();
@@ -649,12 +881,56 @@ int main()
 	float posYObjeto1 = -5.0f, posYObjeto2 = -5.0f, posYObjeto3 = -5.0f, posYObjeto4 = -5.0f, posYObjeto5 = -5.0f, posYObjeto6 = -5.0f, posYObjeto7 = -5.0f, posYObjeto8 = -5.0f, posYObjeto9 = -5.0f, posYObjeto10 = -5.0f, posYObjeto11 = -5.0f, posYObjeto12 = -5.0f, posYObjeto13 = -5.0f, posYObjeto14 = -5.0f, posYObjeto15 = -5.0f, posYObjeto16 = -5.0f, posYObjeto17 = -5.0f, posYObjeto18 = -5.0f, posYObjeto19 = -5.0f, posYObjeto20 = -5.0f, posYObjeto21 = -5.0f, posYObjeto22 = -5.0f, posYObjeto23 = -5.0f, posYObjeto24 = -5.0f, posYObjeto25 = -5.0f, posYObjeto26 = -5.0f, posYObjeto27 = -5.0f, posYObjeto28 = -5.0f, posYObjeto29 = -5.0f, posYObjeto30 = -5.0f, posYObjeto31 = -5.0f, posYObjeto32 = -5.0f, posYObjeto33 = -5.0f, posYObjeto34 = -5.0f, posYObjeto35 = -5.0f, posYObjeto36 = -5.0f, posYObjeto37 = -5.0f, posYObjeto38 = -5.0f, posYObjeto39 = -5.0f, posYObjeto40 = -5.0f;
 	float rotacionObjeto1 = 0.0f, rotacionObjeto2 = 0.0f, rotacionObjeto3 = 0.0f, rotacionObjeto4 = 0.0f, rotacionObjeto5 = 0.0f, rotacionObjeto6 = 0.0f, rotacionObjeto7 = 0.0f, rotacionObjeto8 = 0.0f, rotacionObjeto9 = 0.0f, rotacionObjeto10 = 0.0f, rotacionObjeto11 = 0.0f, rotacionObjeto12 = 0.0f, rotacionObjeto13 = 0.0f, rotacionObjeto14 = 0.0f, rotacionObjeto15 = 0.0f, rotacionObjeto16 = 0.0f, rotacionObjeto17 = 0.0f, rotacionObjeto18 = 0.0f, rotacionObjeto19 = 0.0f, rotacionObjeto20 = 0.0f, rotacionObjeto21 = 0.0f, rotacionObjeto22 = 0.0f, rotacionObjeto23 = 0.0f, rotacionObjeto24 = 0.0f, rotacionObjeto25 = 0.0f, rotacionObjeto26 = 0.0f, rotacionObjeto27 = 0.0f, rotacionObjeto28 = 0.0f, rotacionObjeto29 = 0.0f, rotacionObjeto30 = 0.0f, rotacionObjeto31 = 0.0f, rotacionObjeto32 = 0.0f, rotacionObjeto33 = 0.0f, rotacionObjeto34 = 0.0f, rotacionObjeto35 = 0.0f, rotacionObjeto36 = 0.0f, rotacionObjeto37 = 0.0f, rotacionObjeto38 = 0.0f, rotacionObjeto39 = 0.0f, rotacionObjeto40 = 0.0f;
 
+
+	glm::vec3 posBill = glm::vec3(-40.0f, 10.0f, 0.0f);
+	//---------KeyFrames
+
+	KeyFrame[0].movBill_x = 0.0f;
+	KeyFrame[0].movBill_y = 0.0f;
+	KeyFrame[0].giroBill = 0.0f;
+
+	//Izquierda
+	KeyFrame[1].movBill_x = -2.5f;
+	KeyFrame[1].movBill_y = 2.5f;
+	KeyFrame[1].giroBill = 360.0f;
+	KeyFrame[2].movBill_x = -5.0f;
+	KeyFrame[2].movBill_y = 5.0f;
+	KeyFrame[2].giroBill = -360.0f;
+
+	//Arriba
+	KeyFrame[3].movBill_x =-2.5f;
+	KeyFrame[3].movBill_y = 7.5f;
+	KeyFrame[3].giroBill = 360.0f;
+	KeyFrame[4].movBill_x = 0.0f;
+	KeyFrame[4].movBill_y = 10.0f;
+	KeyFrame[4].giroBill = -360.0f;
+
+	//Derecha
+	KeyFrame[5].movBill_x = 2.5f;
+	KeyFrame[5].movBill_y = 7.5f;
+	KeyFrame[5].giroBill = 360.0f;
+	KeyFrame[6].movBill_x = 5.0f;
+	KeyFrame[6].movBill_y = 5.0f;
+	KeyFrame[6].giroBill = -360.0f;
+
+	//Abajo
+	KeyFrame[7].movBill_x = 2.5f;
+	KeyFrame[7].movBill_y = 2.5f;
+	KeyFrame[7].giroBill = 360.0f;
+	KeyFrame[8].movBill_x = 0.0f;
+	KeyFrame[8].movBill_y = 0.0f;
+	KeyFrame[8].giroBill = -360.0f;
+
+
+	printf("\nTeclas para uso de Keyframes:\n1.-Presionar Z para reproducir animacion.\n2.-Presionar 0 para volver a habilitar reproduccion de la animacion\n");
+	//printf("3.-Presiona L para guardar frame\n4.-Presiona P para habilitar guardar nuevo frame\n5.-Presiona 1 para mover en X\n6.-Presiona 2 para habilitar mover en X");
+
 	while (!mainWindow.getShouldClose())
 	{
 		GLfloat now = glfwGetTime();
 		deltaTime = now - lastTime;
 		Tiempo += now - lastTime;
-		printf("tiempo actual :  %f \n", Tiempo);
+		//printf("tiempo actual :  %f \n", Tiempo);
 		deltaTime += (now - lastTime) / limitFPS;
 		lastTime = now;
 		animaciones.animacionDado8Caras(
@@ -671,130 +947,7 @@ int main()
 		);
 
 
-		////--------------------------------------------------AYUDA
-		/*switch (estado) {
-			// Fase 1: Avanzar en Z positivo
-		case 0:
-			if (posicionZ < zObjetivo) {
-				// Avanzar en Z
-				posicionZ += velocidad * deltaTime;
-				float distanciaRecorrida = velocidad * deltaTime;
-				rotacionRueda += (distanciaRecorrida / radioRueda);  // Rotando las ruedas
-				// Imprimir posiciones
-				std::cout << "Posiciones - X: " << posicionX << ", Y: " << posicionY << ", Z: " << posicionZ << std::endl;
-			}
-			else {
-				estado = 1;  // Pasar al estado de girar hacia X
-			}
-			break;
-			// Fase 2: Girar 90 grados para avanzar en X
-		case 1:
-			if (rotacionY < glm::radians(90.0f)) {
-				// Girar 90 grados sobre el eje Y
-				float anguloRotacion = glm::radians(velocidadRotacion) * deltaTime;
-				rotacionY += anguloRotacion;
-				float distanciaRecorrida = velocidad * deltaTime;
-				rotacionRueda += (distanciaRecorrida / radioRueda);  // Rotando las ruedas mientras gira
-				// Imprimir posiciones
-				std::cout << "Posiciones - X: " << posicionX << ", Y: " << posicionY << ", Z: " << posicionZ << std::endl;
-			}
-			else {
-				rotacionY = glm::radians(90.0f);  // Asegurar que no pase de 90 grados
-				estado = 2;  // Pasar al estado de avanzar en X
-			}
-			break;
-			// Fase 3: Avanzar en X
-		case 2:
-			if (posicionX < xObjetivo) {
-				// Avanzar en X
-				posicionX += velocidad * deltaTime;
-				float distanciaRecorrida = velocidad * deltaTime;
-				rotacionRueda += (distanciaRecorrida / radioRueda);  // Rotar las ruedas
-				// Imprimir posiciones
-				std::cout << "Posiciones - X: " << posicionX << ", Y: " << posicionY << ", Z: " << posicionZ << std::endl;
-			}
-			else {
-				estado = 3;  // Pasar al estado de girar hacia Z negativo
-			}
-			break;
-			// Fase 4: Girar otros 90 grados para orientarse en Z negativo
-		case 3:
-			if (rotacionY < glm::radians(180.0f)) {
-				// Girar otros 90 grados (hasta 180 grados acumulados)
-				float anguloRotacion = glm::radians(velocidadRotacion) * deltaTime;
-				rotacionY += anguloRotacion;
-				float distanciaRecorrida = velocidad * deltaTime;
-				rotacionRueda += (distanciaRecorrida / radioRueda);  // Rotando las ruedas mientras gira
-				// Imprimir posiciones
-				std::cout << "Posiciones - X: " << posicionX << ", Y: " << posicionY << ", Z: " << posicionZ << std::endl;
-			}
-			else {
-				rotacionY = glm::radians(180.0f);  // Asegurar que no pase de 180 grados
-				estado = 4;  // Pasar al estado de avanzar en Z negativo
-			}
-			break;
-			// Fase 5: Avanzar en Z negativo
-		case 4:
-			if (posicionZ > zObjetivoNegativo) {
-				// Avanzar en Z negativo
-				posicionZ -= velocidad * deltaTime;
-				float distanciaRecorrida = velocidad * deltaTime;
-				rotacionRueda += (distanciaRecorrida / radioRueda);  // Rotar las ruedas
-				// Imprimir posiciones
-				std::cout << "Posiciones - X: " << posicionX << ", Y: " << posicionY << ", Z: " << posicionZ << std::endl;
-			}
-			else {
-				estado = 5;  // Pasar al estado de girar hacia X negativo
-			}
-			break;
-			// Fase 6: Girar 90 grados adicionales para avanzar en X negativo
-		case 5:
-			if (rotacionY < glm::radians(270.0f)) {  // Ahora rotamos hasta 270 grados
-				float anguloRotacion = glm::radians(velocidadRotacion) * deltaTime;
-				rotacionY += anguloRotacion;
-				float distanciaRecorrida = velocidad * deltaTime;
-				rotacionRueda += (distanciaRecorrida / radioRueda);  // Rotando las ruedas mientras gira
-				// Imprimir posiciones
-				std::cout << "Posiciones - X: " << posicionX << ", Y: " << posicionY << ", Z: " << posicionZ << std::endl;
-			}
-			else {
-				rotacionY = glm::radians(270.0f);  // Fijar en 270 grados exactos
-				estado = 6;  // Pasar al estado de avanzar en X negativo
-			}
-			break;
-			// Fase 7: Avanzar en X negativo
-		case 6:
-			if (posicionX > xObjetivoNegativo) {
-				// Avanzar en X negativo
-				posicionX -= velocidad * deltaTime;
-				float distanciaRecorrida = velocidad * deltaTime;
-				rotacionRueda += (distanciaRecorrida / radioRueda);  // Rotar las ruedas
-				// Imprimir posiciones
-				std::cout << "Posiciones - X: " << posicionX << ", Y: " << posicionY << ", Z: " << posicionZ << std::endl;
-			}
-			else {
-				estado = 7;  // Pasar al estado de girar hacia Z positivo
-			}
-			break;
-			// Fase 8: Girar 90 grados para orientarse hacia Z positivo y reiniciar
-		case 7:
-			if (rotacionY < glm::radians(360.0f)) {  // Rotamos hasta llegar a los 360 grados
-				float anguloRotacion = glm::radians(velocidadRotacion) * deltaTime;
-				rotacionY += anguloRotacion;
-				float distanciaRecorrida = velocidad * deltaTime;
-				rotacionRueda += (distanciaRecorrida / radioRueda);  // Rotando las ruedas mientras gira
-				// Imprimir posiciones
-				std::cout << "Posiciones - X: " << posicionX << ", Y: " << posicionY << ", Z: " << posicionZ << std::endl;
-			}
-			else {
-				rotacionY = 0.0f;  // Reiniciamos la rotación a 0 (equivalente a 360 grados)
-				estado = 0;  // Volver al estado inicial para comenzar el ciclo otra vez
-			}
-			break;
-		default:
-			// Fin de la animación
-			break;
-		}*/
+		
 
 
 		//Recibir eventos del usuario
@@ -803,6 +956,9 @@ int main()
 		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 		// Control de camaras
 
+		//-------Para Keyframes
+		inputKeyframes(mainWindow.getsKeys());
+		animate();
 
 			// Configura la cámara y la proyección según el modo
 			// Comprobar si el modo de cámara ha cambiado
@@ -1060,6 +1216,109 @@ int main()
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		Banqueta.RenderModel();
+
+		//------------- Escenografía
+		//Mystery Shack
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-140.0f, -0.5f, -60.0f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		mystery_shack.RenderModel();
+		//Castillo Bowser
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-140.0f, -0.5f, 40.0f));
+		model = glm::scale(model, glm::vec3(30.0f, 30.0f, 30.0f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		CastilloBow.RenderModel();
+		//Castillo Peach
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(110.0f, 20.5f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.5f, 2.5f, 2.5f));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		PeachCastle.RenderModel();
+		//Arcade
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-30.0f, 0.0f, -130.0f));
+		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
+		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		arcade.RenderModel();
+		//Mansion Noroeste
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(30.0f, 28.0f, 130.0f));
+		model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		mansion.RenderModel();
+		//Fortaleza en cada esquina
+		//Primera esquina
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-160.0f, -1.0f, 160.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = glm::rotate(model, glm::radians(135.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Fortaleza.RenderModel();
+		//Segunda esquina
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(160.0f, -1.0f, 160.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = glm::rotate(model, glm::radians(-135.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Fortaleza.RenderModel();
+		//Tercera esquina
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(160.0f, -1.0f, -160.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = glm::rotate(model, glm::radians(-45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Fortaleza.RenderModel();
+		//Cuarta esquina
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-160.0f, -1.0f, -160.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		Fortaleza.RenderModel();
+
 
 		//-------------Postes de luz
 		//Poste casilla start
@@ -1395,12 +1654,12 @@ int main()
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-37.0f, posYObjeto40, -17.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto40), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		cerdo.RenderModel();
+		Oruga.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Espacio Naturaleza (4)
@@ -1436,7 +1695,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		flor_azul.RenderModel();
+		PeachCastle.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Elefanbria (7)
@@ -1466,13 +1725,13 @@ int main()
 		//Casilla Kinopio (9)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-37.0f, posYObjeto34, 13.0f));
+		model = glm::translate(model, glm::vec3(-37.0f, posYObjeto34, 12.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto34), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		stan.RenderModel();
+		Toad.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Oink (10)
@@ -1529,7 +1788,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		wendy.RenderModel();
+		FlorFuego.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Destronador (15)
@@ -1540,7 +1799,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		cerdo.RenderModel();
+		Koopa.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla trebol de 7 (16)
@@ -1551,7 +1810,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		soos.RenderModel();
+		Koopa.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Estafado (17)
@@ -1570,12 +1829,12 @@ int main()
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(8.0f, posYObjeto25, 38.0f));
-		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto25), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		flor_azul.RenderModel();
+		Fortaleza.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Devorado (19)
@@ -1622,7 +1881,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		mabel.RenderModel();
+		Yoshi.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Cabra (23)
@@ -1645,7 +1904,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		soos.RenderModel();
+		Planta_Carnivora.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Mr Langosta (25)
@@ -1680,7 +1939,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		bill.RenderModel();
+		Goomba.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Cuidado (28)
@@ -1714,7 +1973,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		cabra.RenderModel();
+		CastilloBow.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Lento (31)
@@ -1749,7 +2008,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		bill.RenderModel();
+		Mario.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Esperanza (34)
@@ -1780,12 +2039,12 @@ int main()
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		//model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(4.0f, posYObjeto7, -39.0f));
-		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto7), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		flor_azul.RenderModel();
+		IceFlower.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Determined (37)
@@ -1796,7 +2055,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		mabel.RenderModel();
+		FlorFuego.RenderModel();
 		//Reestablece
 		model = glm::mat4(1.0);
 		//Casilla Brillantina (38)
@@ -1824,13 +2083,26 @@ int main()
 		model = glm::mat4(1.0);
 		//Casilla Chapoteo (40)
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		model = glm::translate(model, glm::vec3(-18.0f, posYObjeto3, -39.0f));
+		model = glm::translate(model, glm::vec3(-19.5f, posYObjeto3, -39.0f));
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto3), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		dipper.RenderModel();
+		Cheep.RenderModel();
+
+		//--------------Keyframe de bill
+		model = glm::mat4(1.0);
+		posBill = glm::vec3(posXbill + movBill_x, posYbill + movBill_y, posZbill);
+		model = glm::translate(model, posBill);
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		model = glm::rotate(model, giroBill * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		billNuevo.RenderModel();
+
 
 		glUseProgram(0);
 
@@ -1838,4 +2110,44 @@ int main()
 	}
 
 	return 0;
+}
+
+void inputKeyframes(bool* keys)
+{
+	if (keys[GLFW_KEY_Z])
+	{
+		if (reproduciranimacion < 1)
+		{
+			if (play == false && (FrameIndex > 1))
+			{
+				resetElements();
+				//First Interpolation				
+				interpolation();
+				play = true;
+				playIndex = 0;
+				i_curr_steps = 0;
+				reproduciranimacion++;
+				printf("\n presiona 0 para habilitar reproducir de nuevo la animación'\n");
+				habilitaranimacion = 0;
+
+			}
+			else
+			{
+				play = false;
+
+			}
+		}
+	}
+	if (keys[GLFW_KEY_0])
+	{
+		if (habilitaranimacion < 1 && reproduciranimacion>0)
+		{
+			printf("Ya puedes reproducir de nuevo la animación con la tecla de barra espaciadora'\n");
+			reproduciranimacion = 0;
+
+		}
+	}
+
+	
+
 }
