@@ -1,4 +1,4 @@
-﻿#define STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_IMPLEMENTATION
 // regalas actuiales presionar espacio para tirar dados 
 #include "Animaciones.h"
 #include <stdio.h>
@@ -11,9 +11,6 @@
 #include <glm.hpp>
 #include <gtc\matrix_transform.hpp>
 #include <gtc\type_ptr.hpp>
-//Biblioteca para nuestro sonido
-#include <irrKlang.h>
-using namespace irrklang;
 //para probar el importer
 //#include<assimp/Importer.hpp>
 
@@ -26,10 +23,7 @@ using namespace irrklang;
 #include"Model.h"
 #include "Skybox.h"
 
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 //para iluminación
 #include "CommonValues.h"
 #include "DirectionalLight.h"
@@ -121,7 +115,6 @@ Model mystery_shack;
 Model mansion;
 Model bulldog;
 Model arcade;
-Model billNuevo;
 //Dipper (Personaje principal)
 Model cabezaDipper;
 Model torsoDipper;
@@ -134,35 +127,7 @@ Model musloDipper_izq;
 Model piernaDipper_der;
 Model piernaDipper_izq;
 
-<<<<<<< Updated upstream
-//------------------------------- Modelos Mario Bross
-Model CastilloBow;
-Model Carro1;
-Model Carro2;
-Model Cheep;
-Model FlorFuego;
-Model Fortaleza;
-Model Goomba;
-Model IceFlower;
-Model Koopa;
-Model Mario;
-Model Monstruito;
-Model PeachCastle;
-Model Planta_Carnivora;
-Model Toad;
-Model Yoshi;
-Model Oruga;
-
-//AYUDA------
-//Modelo de bicicleta
-Model llantaTrasera;
-Model llantaDelantera;
-Model bicicleta;
-// AHORA SI RECOMIENDO QUE USEN A BENDER JAJAJA
-// 
-=======
 //--------------------------- Modelos Futurama ------------------------------
->>>>>>> Stashed changes
 //para bender:
 Model BenderCabeza;
 Model BenderTorzo;
@@ -240,16 +205,6 @@ static const char* vShader = "shaders/shader_light.vert";
 static const char* fShader = "shaders/shader_light.frag";
 
 
-<<<<<<< Updated upstream
-//variables para keyframes
-float reproduciranimacion, habilitaranimacion, guardoFrame, reinicioFrame, ciclo, ciclo2, contador = 0;
-
-//función para teclado de keyframes 
-void inputKeyframes(bool* keys);
-
-
-=======
->>>>>>> Stashed changes
 //función de calculo de normales por promedio de vértices 
 void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat* vertices, unsigned int verticeCount,
 	unsigned int vLength, unsigned int normalOffset)
@@ -456,19 +411,11 @@ void CreateObjects()
 	// Agregar el nuevo plano a la lista de mallas
 	Mesh* additionalFloor = new Mesh();
 	additionalFloor->CreateMesh(additionalFloorVertices, additionalFloorIndices, 32, 6);
-<<<<<<< Updated upstream
-	meshList.push_back(additionalFloor); // Este será meshList[7]
-
-	Mesh* dado4 = new Mesh();
-	dado4->CreateMesh(dado4_vertices, dado4_indices, 96, 12);
-	meshList.push_back(dado4);    // Este será meshList[8]
-=======
 	meshList.push_back(additionalFloor); // Este será `meshList[7]`
 
 	Mesh* dado4 = new Mesh();
 	dado4->CreateMesh(dado4_vertices, dado4_indices, 96, 12);
 	meshList.push_back(dado4);    // Este será `meshList[8]`
->>>>>>> Stashed changes
 
 	calcAverageNormals(indices, 12, vertices, 32, 8, 5);
 
@@ -486,149 +433,6 @@ void CreateShaders()
 //
 //using namespace irrklang;
 
-<<<<<<< Updated upstream
-
-//KEYFRAMES
-bool animacion = false; //Reproducir animación
-
-
-
-//NEW// Keyframes
-float posXbill = -40.0, posYbill = 10.0, posZbill = 0.0;
-float	movBill_x = 0.0f, movBill_y = 0.0f;
-float giroBill = 0;
-
-#define MAX_FRAMES 100  //Numero max de frames que podemos guardar
-int i_max_steps = 90; //Interpolaciones
-int i_curr_steps = 10; // A partir de que frame vamos a empezar a guardar
-typedef struct _frame
-{
-	//Variables para GUARDAR Key Frames
-	float movBill_x;		//Variable para PosicionX
-	float movBill_y;		//Variable para PosicionY
-	float movBill_xInc;		//Variable para IncrementoX
-	float movBill_yInc;		//Variable para IncrementoY
-	float giroBill;
-	float giroBillInc;
-}FRAME;
-
-FRAME KeyFrame[MAX_FRAMES];
-int FrameIndex = 10;			//introducir datos (igual a i_curr_steps)
-bool play = false;
-int playIndex = 0;
-
-bool guardados = false; // Verifica si los primeros 7 keyframes ya fueron guardados
-
-void guardarKeyframes()
-{
-	std::ofstream file("keyframes.txt");
-	if (!file) {
-		printf("Error al abrir el archivo\n");
-		return;
-	}
-
-	file << "Primeros  Keyframes:\n";
-	for (int i = 0; i < FrameIndex; i++) { // Guardamos los primeros 7
-		file << "Keyframe [" << i << "]:\n";
-		file << "movBill_x: " << KeyFrame[i].movBill_x << "\n";
-		file << "movBill_y: " << KeyFrame[i].movBill_y << "\n";
-		file << "giroBill: " << KeyFrame[i].giroBill << "\n";
-		file << "------------------\n";
-	}
-	file.close();
-	printf("Los primeros 7 Keyframes han sido guardados \n");
-
-	guardados = true; // Marca como guardado
-}
-void saveKeyframe(int frameIndex)
-{
-	std::ofstream file("keyframes.txt", std::ios::app); 
-	if (!file) {
-		printf("Error al abrir el archivo \n");
-		return;
-	}
-
-	file << "Keyframe [" << frameIndex << "]:\n";
-	file << "movBill_x: " << KeyFrame[frameIndex].movBill_x << "\n";
-	file << "movBill_y: " << KeyFrame[frameIndex].movBill_y << "\n";
-	file << "giroBill: " << KeyFrame[frameIndex].giroBill << "\n";
-	file << "------------------\n";
-	file.close();
-
-	printf("Keyframe [%d] guardado\n", frameIndex);
-}
-
-//Tecla L
-void saveFrame(void) //tecla L
-{
-
-	printf("frameindex %d\n", FrameIndex);
-
-
-	KeyFrame[FrameIndex].movBill_x = movBill_x;
-	KeyFrame[FrameIndex].movBill_y = movBill_y;
-	KeyFrame[FrameIndex].giroBill;//completar
-	//no volatil, agregar una forma de escribir a un archivo para guardar los frames
-	FrameIndex++;
-}
-
-void resetElements(void) //Tecla 0
-{
-
-	movBill_x = KeyFrame[0].movBill_x;
-	movBill_y = KeyFrame[0].movBill_y;
-	giroBill = KeyFrame[0].giroBill;
-}
-
-void interpolation(void)
-{
-	KeyFrame[playIndex].movBill_xInc = (KeyFrame[playIndex + 1].movBill_x - KeyFrame[playIndex].movBill_x) / i_max_steps;
-	KeyFrame[playIndex].movBill_yInc = (KeyFrame[playIndex + 1].movBill_y - KeyFrame[playIndex].movBill_y) / i_max_steps;
-	KeyFrame[playIndex].giroBillInc = (KeyFrame[playIndex + 1].giroBill - KeyFrame[playIndex].giroBill) / i_max_steps;
-
-}
-
-
-void animate(void)
-{
-	//Movimiento del objeto con barra espaciadora
-	if (play)
-	{
-		if (i_curr_steps >= i_max_steps) //fin de animación entre frames?
-		{
-			playIndex++;
-			printf("playindex : %d\n", playIndex);
-			if (playIndex > FrameIndex - 2)	//Fin de toda la animación con último frame?
-			{
-				printf("Frame index= %d\n", FrameIndex);
-				printf("termino la animacion\n");
-				playIndex = 0;
-				play = false;
-			}
-			else //Interpolación del próximo cuadro
-			{
-
-				i_curr_steps = 0; //Resetea contador
-				//Interpolar
-				interpolation();
-			}
-		}
-		else
-		{
-			//Dibujar Animación
-			movBill_x += KeyFrame[playIndex].movBill_xInc;
-			movBill_y += KeyFrame[playIndex].movBill_yInc;
-			giroBill += KeyFrame[playIndex].giroBillInc;
-			i_curr_steps++;
-		}
-
-	}
-}
-
-
-
-=======
->>>>>>> Stashed changes
 //Posición inicial Bender
 glm::vec3 position(-27.0f, 2.5f, -29.0f);
 //Auxiliar posicion de Dipper
@@ -638,12 +442,8 @@ glm::vec3 TurnoActual(0.0f, 0.0f, 0.0f);
 
 int main()
 {
-<<<<<<< Updated upstream
-	//mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
-=======
 	glm::vec3 PosicionCamara = position;
 	TurnoActual = position;
->>>>>>> Stashed changes
 	Window mainWindow(1366, 768); // Declaración e inicialización
 	mainWindow.Initialise();
 	mainWindow.turno = 2;
@@ -684,39 +484,8 @@ int main()
 	dado8Caras = Model();
 	dado8Caras.LoadModel("Models/Dado8Caras.obj");
 
-<<<<<<< Updated upstream
-	//---------------- Música
-	// Crea el motor de sonido
-	
-	ISoundEngine* engine = createIrrKlangDevice();
-	if (!engine) {
-		std::cout << "Error al inicializar irrKlang" << std::endl;
-		return 0;
-	}
-	// Configura el volumen global del sonido (entre 0.0 y 1.0)
-	engine->setSoundVolume(0.8f); 
-	// Reproduce un archivo de sonido
-	engine->play2D("media/audio_principal.ogg", true);
-	//Para hacer que nuestro sonido se repita en bucle y hasta que se cierre la ventana
-	while (true) {
-
-	}
-	//Verificando que se reproduzca el audio
-	if (engine->isCurrentlyPlaying("media/audio_principal.ogg")) {
-		std::cout << "El audio está reproduciéndose correctamente" << std::endl;
-	}
-	else {
-		std::cout << "El audio no está reproduciéndose" << std::endl;
-	}
-	// Libera recursos
-	engine->drop();
-
-
-	//----- BENDER-----
-=======
 
 	//------------------- Modelos Futurama -----------
->>>>>>> Stashed changes
 	BenderCabeza = Model();
 	BenderCabeza.LoadModel("Models/Bender_Cabeza.obj");
 	BenderTorzo = Model();
@@ -823,41 +592,6 @@ int main()
 	piernaDipper_der.LoadModel("Models/piernaDipper_der.obj");
 	piernaDipper_izq = Model();
 	piernaDipper_izq.LoadModel("Models/piernaDipper_izq.obj");
-	billNuevo = Model();
-	billNuevo.LoadModel("Models/billNormal.obj");
-	//-------------------------- Modelos Mario Bross
-	CastilloBow = Model();
-	CastilloBow.LoadModel("Models/CastilloBow.obj");
-	Carro1 = Model();
-	Carro1.LoadModel("Models/Carro1.obj");
-	Carro2 = Model();
-	Carro2.LoadModel("Models/Carro2.obj");
-	Cheep = Model();
-	Cheep.LoadModel("Models/Cheep.obj");
-	FlorFuego = Model();
-	FlorFuego.LoadModel("Models/FlorFuego.obj");
-	Fortaleza = Model();
-	Fortaleza.LoadModel("Models/Fortaleza.obj");
-	Goomba = Model();
-	Goomba.LoadModel("Models/Goomba.obj");
-	IceFlower = Model();
-	IceFlower.LoadModel("Models/IceFlower.obj");
-	Koopa = Model();
-	Koopa.LoadModel("Models/Koopa.obj");
-	Mario = Model();
-	Mario.LoadModel("Models/Mario.obj");
-	Monstruito = Model();
-	Monstruito.LoadModel("Models/Monstruito.obj");
-	PeachCastle = Model();
-	PeachCastle.LoadModel("Models/PeachCastle.obj");
-	Planta_Carnivora = Model();
-	Planta_Carnivora.LoadModel("Models/Planta_Carnivora.obj");
-	Toad = Model();
-	Toad.LoadModel("Models/Toad.obj");
-	Yoshi = Model();
-	Yoshi.LoadModel("Models/Yoshi.obj");
-	Oruga = Model();
-	Oruga.LoadModel("Models/Oruga.obj");
 
 	// Modelos Mario 
 	CastilloBow = Model();
@@ -968,86 +702,16 @@ int main()
 
 	toffsetTablerou = 0.0;
 	toffsetTablerov = 0.0;
-<<<<<<< Updated upstream
-	// aqui se inicia todo
-		//B----------------------AYUDA
-	//float posicionZ = -25.0f;  // Posición inicial en el eje Z (Inicio en casilla Gravity Falls)
-	float posicionX = -20.9104f;
-	//float posicionY = 3.0f; //BICI
-	float posicionZ = -28.0086f;
-	float posicionY = 3.0f;
-	float velocidad = 4.0f;    // Velocidad de avance en Z
-	//float zObjetivo = 28.0f;   // Punto donde nos detenemos en z (BICI)
-	float radioRueda = 0.5f;    // Radio de las ruedas
-	float rotacionRueda = 0.0f; // Ángulo acumulado de rotación de las ruedas
-	float rotacionY = 0.0f;    // Ángulo acumulado de rotación sobre el eje Y
-	float velocidadRotacion = 45.0f;  // Velocidad de rotación en grados por segundo
-	//float posicionX = -28.0f;  // Posición inicial en X (BICI)
-	float xObjetivo = 28.0f;   // Punto donde nos detenemos en x
-	float zObjetivoNegativo = -28.0f;  // Punto donde nos detenemos en -z
-	float xObjetivoNegativo = -28.0f;  // Punto donde nos detenemos en -x
-	//Todos los límites son con respecto a como mi modelo sigue dentro del tablero
-	int estado = 0;  // Control de fases: 0: Avanzar en Z positivo, 1: Girar a X, 2: Avanzar en X, 3: Girar a Z negativo, 4: Avanzar en Z negativo, 5: Gira a X negativo, 6: Avanza en X negativo y 7: Gira a Z positivo
-=======
->>>>>>> Stashed changes
 
 	float posYObjeto1 = -5.0f, posYObjeto2 = -5.0f, posYObjeto3 = -5.0f, posYObjeto4 = -5.0f, posYObjeto5 = -5.0f, posYObjeto6 = -5.0f, posYObjeto7 = -5.0f, posYObjeto8 = -5.0f, posYObjeto9 = -5.0f, posYObjeto10 = -5.0f, posYObjeto11 = -5.0f, posYObjeto12 = -5.0f, posYObjeto13 = -5.0f, posYObjeto14 = -5.0f, posYObjeto15 = -5.0f, posYObjeto16 = -5.0f, posYObjeto17 = -5.0f, posYObjeto18 = -5.0f, posYObjeto19 = -5.0f, posYObjeto20 = -5.0f, posYObjeto21 = -5.0f, posYObjeto22 = -5.0f, posYObjeto23 = -5.0f, posYObjeto24 = -5.0f, posYObjeto25 = -5.0f, posYObjeto26 = -5.0f, posYObjeto27 = -5.0f, posYObjeto28 = -5.0f, posYObjeto29 = -5.0f, posYObjeto30 = -5.0f, posYObjeto31 = -5.0f, posYObjeto32 = -5.0f, posYObjeto33 = -5.0f, posYObjeto34 = -5.0f, posYObjeto35 = -5.0f, posYObjeto36 = -5.0f, posYObjeto37 = -5.0f, posYObjeto38 = -5.0f, posYObjeto39 = -5.0f, posYObjeto40 = -5.0f;
 	float rotacionObjeto1 = 0.0f, rotacionObjeto2 = 0.0f, rotacionObjeto3 = 0.0f, rotacionObjeto4 = 0.0f, rotacionObjeto5 = 0.0f, rotacionObjeto6 = 0.0f, rotacionObjeto7 = 0.0f, rotacionObjeto8 = 0.0f, rotacionObjeto9 = 0.0f, rotacionObjeto10 = 0.0f, rotacionObjeto11 = 0.0f, rotacionObjeto12 = 0.0f, rotacionObjeto13 = 0.0f, rotacionObjeto14 = 0.0f, rotacionObjeto15 = 0.0f, rotacionObjeto16 = 0.0f, rotacionObjeto17 = 0.0f, rotacionObjeto18 = 0.0f, rotacionObjeto19 = 0.0f, rotacionObjeto20 = 0.0f, rotacionObjeto21 = 0.0f, rotacionObjeto22 = 0.0f, rotacionObjeto23 = 0.0f, rotacionObjeto24 = 0.0f, rotacionObjeto25 = 0.0f, rotacionObjeto26 = 0.0f, rotacionObjeto27 = 0.0f, rotacionObjeto28 = 0.0f, rotacionObjeto29 = 0.0f, rotacionObjeto30 = 0.0f, rotacionObjeto31 = 0.0f, rotacionObjeto32 = 0.0f, rotacionObjeto33 = 0.0f, rotacionObjeto34 = 0.0f, rotacionObjeto35 = 0.0f, rotacionObjeto36 = 0.0f, rotacionObjeto37 = 0.0f, rotacionObjeto38 = 0.0f, rotacionObjeto39 = 0.0f, rotacionObjeto40 = 0.0f;
-
-
-	glm::vec3 posBill = glm::vec3(-40.0f, 10.0f, 0.0f);
-	//---------KeyFrames
-
-	KeyFrame[0].movBill_x = 0.0f;
-	KeyFrame[0].movBill_y = 0.0f;
-	KeyFrame[0].giroBill = 0.0f;
-
-	//Izquierda
-	KeyFrame[1].movBill_x = -2.5f;
-	KeyFrame[1].movBill_y = 2.5f;
-	KeyFrame[1].giroBill = 360.0f;
-	KeyFrame[2].movBill_x = -5.0f;
-	KeyFrame[2].movBill_y = 5.0f;
-	KeyFrame[2].giroBill = -360.0f;
-
-	//Arriba
-	KeyFrame[3].movBill_x =-2.5f;
-	KeyFrame[3].movBill_y = 7.5f;
-	KeyFrame[3].giroBill = 360.0f;
-	KeyFrame[4].movBill_x = 0.0f;
-	KeyFrame[4].movBill_y = 10.0f;
-	KeyFrame[4].giroBill = -360.0f;
-
-	//Derecha
-	KeyFrame[5].movBill_x = 2.5f;
-	KeyFrame[5].movBill_y = 7.5f;
-	KeyFrame[5].giroBill = 360.0f;
-	KeyFrame[6].movBill_x = 5.0f;
-	KeyFrame[6].movBill_y = 5.0f;
-	KeyFrame[6].giroBill = -360.0f;
-
-	//Abajo
-	KeyFrame[7].movBill_x = 2.5f;
-	KeyFrame[7].movBill_y = 2.5f;
-	KeyFrame[7].giroBill = 360.0f;
-	KeyFrame[8].movBill_x = 0.0f;
-	KeyFrame[8].movBill_y = 0.0f;
-	KeyFrame[8].giroBill = -360.0f;
-
-
-	printf("\nTeclas para uso de Keyframes:\n1.-Presionar Z para reproducir animacion.\n2.-Presionar 0 para volver a habilitar reproduccion de la animacion\n");
-	//printf("3.-Presiona L para guardar frame\n4.-Presiona P para habilitar guardar nuevo frame\n5.-Presiona 1 para mover en X\n6.-Presiona 2 para habilitar mover en X");
 
 	while (!mainWindow.getShouldClose())
 	{
 		GLfloat now = glfwGetTime();
 		deltaTime = now - lastTime;
 		Tiempo += now - lastTime;
-<<<<<<< Updated upstream
-		//printf("tiempo actual :  %f \n", Tiempo);
-=======
 		TiempoCiclo += now - lastTime;
->>>>>>> Stashed changes
 		deltaTime += (now - lastTime) / limitFPS;
 		lastTime = now;
 		animaciones.animacionDado8Caras(
@@ -1063,29 +727,10 @@ int main()
 			mainWindow, &deltaTime
 		);
 
-<<<<<<< Updated upstream
-
-		
-
-
-=======
->>>>>>> Stashed changes
 		//Recibir eventos del usuario
 		glfwPollEvents();
 		camera.keyControl(mainWindow.getsKeys(), deltaTime);
 		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
-<<<<<<< Updated upstream
-		// Control de camaras
-
-		//-------Para Keyframes
-		inputKeyframes(mainWindow.getsKeys());
-		animate();
-
-			// Configura la cámara y la proyección según el modo
-			// Comprobar si el modo de cámara ha cambiado
-		if (camera.getModoCamara() != lastModoCamara) {
-			lastModoCamara = camera.getModoCamara();  // Actualizar el último modo
-=======
 		// --------- Control de camaras ------- 
 		// Configura la cámara y la proyección según el modo
 		PosicionCamara = position;
@@ -1095,17 +740,12 @@ int main()
 
 			// Actualizar el último modo activo
 			lastModoCamara = camera.getModoCamara();
->>>>>>> Stashed changes
 
 			if (camera.getModoCamara() == 1) {
 				// Modo 1: Vista isométrica
 				viewSize = 50.0f;
 				projection = glm::ortho(-viewSize * aspectRatio, viewSize * aspectRatio, -viewSize, viewSize, 1.0f, 1500.0f);
 
-<<<<<<< Updated upstream
-				// Actualizar posición y orientación sin crear una nueva instancia
-=======
->>>>>>> Stashed changes
 				camera.setPosition(glm::vec3(-40.0f, 40.0f, 40.0f));
 				camera.setOrientation(-45.0f, -35.264f);
 				camera.setMovementSpeed(0.0f);
@@ -1116,35 +756,19 @@ int main()
 				viewSize = 75.0f;
 				projection = glm::ortho(-viewSize * aspectRatio, viewSize * aspectRatio, -viewSize, viewSize, 0.1f, 1000.0f);
 
-<<<<<<< Updated upstream
-				// Actualizar posición y orientación sin crear una nueva instancia
-=======
->>>>>>> Stashed changes
 				camera.setPosition(glm::vec3(0.0f, 40.0f, 0.0f));
 				camera.setOrientation(-90.0f, -90.0f);
 				camera.setMovementSpeed(0.5f);
-<<<<<<< Updated upstream
-				camera.setTurnSpeed(0.0f);  // Desactivar rotación de la cámara en modo aéreo
-=======
 				camera.setTurnSpeed(0.0f);
->>>>>>> Stashed changes
 			}
 			else if (camera.getModoCamara() == 3) {
 				// Modo 3: Vista en perspectiva inicializada
 				projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
-<<<<<<< Updated upstream
-
-				// Actualizar posición y orientación sin crear una nueva instancia
-				camera.setPosition(glm::vec3(5.0f, 15.0f, -5.0f));
-				camera.setOrientation(-60.0f, 0.0f);  // Yaw y Pitch
-				camera.setMovementSpeed(0.3f);
-=======
 				glm::vec3 nuevaPosicionCamara = position;
 				nuevaPosicionCamara.y += 5.0f;
 				camera.setPosition(nuevaPosicionCamara);
 				camera.setOrientation(-60.0f, 0.0f);
 				camera.setMovementSpeed(0.0f);
->>>>>>> Stashed changes
 				camera.setTurnSpeed(0.5f);
 			}
 			else if (camera.getModoCamara() == 4) {
@@ -1200,14 +824,6 @@ int main()
 		// luz ligada a la cámara de tipo flash
 		//sirve para que en tiempo de ejecución (dentro del while) se cambien propiedades de la luz
 
-<<<<<<< Updated upstream
-		// luz ligada a la cámara de tipo flash
-		//sirve para que en tiempo de ejecución (dentro del while) se cambien propiedades de la luz
-		glm::vec3 lowerLight = camera.getCameraPosition();
-		lowerLight.y -= 0.3f;
-		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
-=======
->>>>>>> Stashed changes
 
 		//información al shader de fuentes de iluminación
 		shaderList[0].SetDirectionalLight(&mainLight);
@@ -1225,12 +841,7 @@ int main()
 				"Textures/Skybox/EspacioCicloNoche_Ft.tga"
 			};
 
-<<<<<<< Updated upstream
-		// Activación de luces basada en el estado de Bandera
-		if (mainWindow.getBandera() == GL_TRUE) {
-=======
 			skybox.UpdateTextures(nightSkyboxFaces);
->>>>>>> Stashed changes
 			shaderList[0].SetPointLights(pointLights, pointLightCount);
 			shaderList[0].SetSpotLights(spotLights, spotLightCount);
 		}
@@ -1525,109 +1136,6 @@ int main()
 		Fortaleza.RenderModel();
 
 
-		//------------- Escenografía
-		//Mystery Shack
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-140.0f, -0.5f, -60.0f));
-		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
-		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		mystery_shack.RenderModel();
-		//Castillo Bowser
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-140.0f, -0.5f, 40.0f));
-		model = glm::scale(model, glm::vec3(30.0f, 30.0f, 30.0f));
-		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		CastilloBow.RenderModel();
-		//Castillo Peach
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(110.0f, 20.5f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.5f, 2.5f, 2.5f));
-		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		PeachCastle.RenderModel();
-		//Arcade
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-30.0f, 0.0f, -130.0f));
-		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
-		//model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		arcade.RenderModel();
-		//Mansion Noroeste
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(30.0f, 28.0f, 130.0f));
-		model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));
-		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		mansion.RenderModel();
-		//Fortaleza en cada esquina
-		//Primera esquina
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-160.0f, -1.0f, 160.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		model = glm::rotate(model, glm::radians(135.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		Fortaleza.RenderModel();
-		//Segunda esquina
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(160.0f, -1.0f, 160.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		model = glm::rotate(model, glm::radians(-135.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		Fortaleza.RenderModel();
-		//Tercera esquina
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(160.0f, -1.0f, -160.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		model = glm::rotate(model, glm::radians(-45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		Fortaleza.RenderModel();
-		//Cuarta esquina
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-160.0f, -1.0f, -160.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		Fortaleza.RenderModel();
-
-
 		//-------------Postes de luz
 		//Poste casilla start
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
@@ -1712,20 +1220,9 @@ int main()
 		// --- TORZO
 		model = glm::mat4(1.0);
 		model = glm::translate(model, position);
-<<<<<<< Updated upstream
-		// Extraer la posición actual de la matriz de model
 		animaciones.movimientoTableroBender(position, rotacionBender, saltoBenderY, desplazamientoBender, pasos, deltaTime, mainWindow, Tiempo, desplazamientoBenderz, rotacionBenderAux);
 		model = glm::translate(model, glm::vec3(0.0f + desplazamientoBender, 0.0f, 0.0f + desplazamientoBenderz));
 		model = glm::rotate(model, (rotacionBender + rotacionBenderAux - 180) * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		/*std::cout << "Posición actual del modelo: "
-			<< "X: " << position.x << ", "
-			<< "Y: " << position.y << ", "
-			<< "Z: " << position.z << std::endl;*/
-=======
-		animaciones.movimientoTableroBender(position, rotacionBender, saltoBenderY, desplazamientoBender, pasos, deltaTime, mainWindow, Tiempo, desplazamientoBenderz, rotacionBenderAux);
-		model = glm::translate(model, glm::vec3(0.0f + desplazamientoBender, 0.0f, 0.0f + desplazamientoBenderz));
-		model = glm::rotate(model, (rotacionBender + rotacionBenderAux - 180) * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
->>>>>>> Stashed changes
 		modelaux = model;
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		color = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -1733,13 +1230,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		BenderTorzo.RenderModel();
 
-<<<<<<< Updated upstream
-
 		// Imprimir la posición
-
-=======
-		// Imprimir la posición
->>>>>>> Stashed changes
 		//-- Cabeza
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(0.0f, 2.7f, 0.0f));
@@ -1828,26 +1319,6 @@ int main()
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glDisable(GL_BLEND);
 
-<<<<<<< Updated upstream
-		//------------*MODELO JERARQUICO DE DIPPER -------------------*
-		// --- TORSO
-		model = glm::mat4(1.0);
-		model = glm::translate(model, positionDipper);
-		//model = glm::translate(model, glm::vec3(-0.3f + desplazamientoBender, 0.5f, 0.0f + desplazamientoBenderz));
-		animaciones.movimientoTableroDipper(positionDipper, rotacionDipper, saltoDipperY, desplazamientoDipper, pasos, deltaTime, mainWindow, Tiempo, desplazamientoDipperz, rotacionDipperAux);
-		model = glm::translate(model, glm::vec3(0.0f + desplazamientoDipper, 0.0f, 0.0f + desplazamientoDipperz));
-		model = glm::rotate(model, (rotacionDipper + rotacionDipperAux - 180) * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		/*std::cout << "Posición actual del modelo: "
-			<< "X: " << position.x << ", "
-			<< "Y: " << position.y << ", "
-			<< "Z: " << position.z << std::endl;*/
-		modelaux = model;
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		color = glm::vec3(1.0f, 1.0f, 1.0f);
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		torsoDipper.RenderModel();
-=======
 		////------------*MODELO JERARQUICO DE DIPPER -------------------*
 		//// --- TORSO
 		//model = glm::mat4(1.0);
@@ -1867,7 +1338,6 @@ int main()
 		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		//torsoDipper.RenderModel();
 		//// Imprimir la posición
->>>>>>> Stashed changes
 
 		////-- Cabeza
 		//model = modelaux;
@@ -1957,108 +1427,9 @@ int main()
 		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		//glDisable(GL_BLEND);
 
-<<<<<<< Updated upstream
-		// Imprimir la posición
-
-		//-- Cabeza
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.05f, 0.48f, 0.13f));
-		model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		color = glm::vec3(1.0f, 1.0f, 1.0f);
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		cabezaDipper.RenderModel();
-		//-- Brazo Derecho 
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(-0.35f, 0.28f, 0.1f));
-		model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		modelaux2 = model;
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		color = glm::vec3(1.0f, 1.0f, 1.0f);
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		brazoDipper_der.RenderModel();
-		// -- Antebrazo Derecho
-		model = modelaux2;
-		model = glm::translate(model, glm::vec3(-0.02f, -0.57f, 0.05f));
-		//model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		color = glm::vec3(1.0f, 1.0f, 1.0f);
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		antebrazoDipper_der.RenderModel();
-		// Brazo Izquierdo
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.36f, 0.28f, 0.1f));
-		model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		modelaux2 = model;
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		color = glm::vec3(1.0f, 1.0f, 1.0f);
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		brazoDipper_izq.RenderModel();
-		// Antebrazo izquierdo
-		model = modelaux2;
-		model = glm::translate(model, glm::vec3(0.01f, -0.59f, 0.02f));
-		//model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		color = glm::vec3(1.0f, 1.0f, 1.0f);
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		antebrazoDipper_izq.RenderModel();
-		// Muslo Derecha
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(-0.1f, -0.52f, 0.05f));
-		model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		modelaux2 = model;
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		color = glm::vec3(1.0f, 1.0f, 1.0f);
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		musloDipper_der.RenderModel();
-		// Pierna Derecha
-		model = modelaux2;
-		model = glm::translate(model, glm::vec3(-0.027f, -0.3f, 0.031f));
-		//model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		color = glm::vec3(1.0f, 1.0f, 1.0f);
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		piernaDipper_der.RenderModel();
-		// Muslo  Izquierdo contador
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.21f, -0.5f, 0.05f));
-		model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		modelaux2 = model;
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		color = glm::vec3(1.0f, 1.0f, 1.0f);
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		musloDipper_izq.RenderModel();
-		// Pierna Izquierda
-		model = modelaux2;
-		model = glm::translate(model, glm::vec3(-0.022f, -0.32f, 0.07f));
-		//model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		color = glm::vec3(1.0f, 1.0f, 1.0f);
-		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		piernaDipper_izq.RenderModel();
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glDisable(GL_BLEND);
-
-		// Aqui inicia el sufrir unu
-				//------------------------ OBJETOS TABLERO
-		//Llamada a controlAnimacionTablero con las coordenadas de la bicicleta y todos los objetos de nuestro tablero (Ajustar traslacion y escala si es necesario para su objeto)
-
-		//Llamada a función con posicion del personaje para activar animación de tablero
-		animaciones.controlAnimacionTablero(TurnoActual, posYObjeto1, rotacionObjeto1, posYObjeto2, rotacionObjeto2, posYObjeto3, rotacionObjeto3, posYObjeto4, rotacionObjeto4, posYObjeto5, rotacionObjeto5, posYObjeto6, rotacionObjeto6, posYObjeto7, rotacionObjeto7, posYObjeto8, rotacionObjeto8, posYObjeto9, rotacionObjeto9, posYObjeto10, rotacionObjeto10, posYObjeto11, rotacionObjeto11, posYObjeto12, rotacionObjeto12, posYObjeto13, rotacionObjeto13, posYObjeto14, rotacionObjeto14, posYObjeto15, rotacionObjeto15, posYObjeto16, rotacionObjeto16, posYObjeto17, rotacionObjeto17, posYObjeto18, rotacionObjeto18, posYObjeto19, rotacionObjeto19, posYObjeto20, rotacionObjeto20, posYObjeto21, rotacionObjeto21, posYObjeto22, rotacionObjeto22, posYObjeto23, rotacionObjeto23, posYObjeto24, rotacionObjeto24, posYObjeto25, rotacionObjeto25, posYObjeto26, rotacionObjeto26, posYObjeto27, rotacionObjeto27, posYObjeto28, rotacionObjeto28, posYObjeto29, rotacionObjeto29, posYObjeto30, rotacionObjeto30, posYObjeto31, rotacionObjeto31, posYObjeto32, rotacionObjeto32, posYObjeto33, rotacionObjeto33, posYObjeto34, rotacionObjeto34, posYObjeto35, rotacionObjeto35, posYObjeto36, rotacionObjeto36, posYObjeto37, rotacionObjeto37, posYObjeto38, rotacionObjeto38, posYObjeto39, rotacionObjeto39, posYObjeto40, rotacionObjeto40, deltaTime, Tiempo);
-=======
 		//------------------------ OBJETOS TABLERO	
 		//Llamada a funci�n con posicion del personaje para activar animaci�n de tablero
 		animaciones.controlAnimacionTablero(position, posYObjeto1, rotacionObjeto1, posYObjeto2, rotacionObjeto2, posYObjeto3, rotacionObjeto3, posYObjeto4, rotacionObjeto4, posYObjeto5, rotacionObjeto5, posYObjeto6, rotacionObjeto6, posYObjeto7, rotacionObjeto7, posYObjeto8, rotacionObjeto8, posYObjeto9, rotacionObjeto9, posYObjeto10, rotacionObjeto10, posYObjeto11, rotacionObjeto11, posYObjeto12, rotacionObjeto12, posYObjeto13, rotacionObjeto13, posYObjeto14, rotacionObjeto14, posYObjeto15, rotacionObjeto15, posYObjeto16, rotacionObjeto16, posYObjeto17, rotacionObjeto17, posYObjeto18, rotacionObjeto18, posYObjeto19, rotacionObjeto19, posYObjeto20, rotacionObjeto20, posYObjeto21, rotacionObjeto21, posYObjeto22, rotacionObjeto22, posYObjeto23, rotacionObjeto23, posYObjeto24, rotacionObjeto24, posYObjeto25, rotacionObjeto25, posYObjeto26, rotacionObjeto26, posYObjeto27, rotacionObjeto27, posYObjeto28, rotacionObjeto28, posYObjeto29, rotacionObjeto29, posYObjeto30, rotacionObjeto30, posYObjeto31, rotacionObjeto31, posYObjeto32, rotacionObjeto32, posYObjeto33, rotacionObjeto33, posYObjeto34, rotacionObjeto34, posYObjeto35, rotacionObjeto35, posYObjeto36, rotacionObjeto36, posYObjeto37, rotacionObjeto37, posYObjeto38, rotacionObjeto38, posYObjeto39, rotacionObjeto39, posYObjeto40, rotacionObjeto40, deltaTime, Tiempo, mainWindow);
->>>>>>> Stashed changes
 		//Casilla Start
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		model = glm::mat4(1.0);
@@ -2075,14 +1446,8 @@ int main()
 		//Casilla Guau
 		model = glm::mat4(1.0);
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-<<<<<<< Updated upstream
-		//model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-37.0f, posYObjeto40, -17.0f));
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-=======
 		model = glm::translate(model, glm::vec3(-37.0f, posYObjeto40, -22.0f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
->>>>>>> Stashed changes
 		model = glm::rotate(model, glm::radians(rotacionObjeto40), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, 90.0f * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, -90.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
@@ -2090,13 +1455,9 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-<<<<<<< Updated upstream
-		Oruga.RenderModel();
-=======
 		PerroFry.RenderModel();
 		color = glm::vec3(1.0f, 1.0f, 1.0f);
 
->>>>>>> Stashed changes
 		//Reestablece
 		//Casilla Sigue Avanzando
 		model = glm::mat4(1.0);
@@ -2133,12 +1494,8 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-<<<<<<< Updated upstream
-		PeachCastle.RenderModel();
-=======
 		soos.RenderModel();
 
->>>>>>> Stashed changes
 		//Reestablece
 		//Casilla Gran Castillo (6)
 		model = glm::mat4(1.0);
@@ -2167,23 +1524,14 @@ int main()
 		//Casilla Nueva luz (8)
 		model = glm::mat4(1.0);
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-<<<<<<< Updated upstream
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-37.0f, posYObjeto34, 12.0f));
-=======
 		model = glm::translate(model, glm::vec3(-37.0f, posYObjeto34, 7.0f));
->>>>>>> Stashed changes
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, glm::radians(rotacionObjeto34), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-<<<<<<< Updated upstream
-		Toad.RenderModel();
-=======
 		bill.RenderModel();
 
->>>>>>> Stashed changes
 		//Reestablece
 		//Casilla Kinopio (9)
 		model = glm::mat4(1.0);
@@ -2242,12 +1590,8 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-<<<<<<< Updated upstream
-		FlorFuego.RenderModel();
-=======
 		Fry.RenderModel();
 
->>>>>>> Stashed changes
 		//Reestablece
 		//Casilla Te tengo (14)
 		model = glm::mat4(1.0);
@@ -2258,12 +1602,8 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-<<<<<<< Updated upstream
-		Koopa.RenderModel();
-=======
 		FlorFuego.RenderModel();
 
->>>>>>> Stashed changes
 		//Reestablece
 		//Casilla Destronador (15)
 		model = glm::mat4(1.0);
@@ -2275,10 +1615,7 @@ int main()
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		Koopa.RenderModel();
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 		//Reestablece
 		//Casilla trebol de 7 (16)
 		model = glm::mat4(1.0);
@@ -2297,25 +1634,15 @@ int main()
 		//Casilla Estafado (17)
 		model = glm::mat4(1.0);
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-<<<<<<< Updated upstream
-		//model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(8.0f, posYObjeto25, 38.0f));
-		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
-=======
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(2.5f, posYObjeto25, 38.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
->>>>>>> Stashed changes
 		model = glm::rotate(model, glm::radians(rotacionObjeto25), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-<<<<<<< Updated upstream
-		Fortaleza.RenderModel();
-=======
 		stan.RenderModel();
 
->>>>>>> Stashed changes
 		//Reestablece
 		//Casilla Mazmorra (18)
 		model = glm::mat4(1.0);
@@ -2362,12 +1689,8 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-<<<<<<< Updated upstream
-		Yoshi.RenderModel();
-=======
 		Casino.RenderModel();
 
->>>>>>> Stashed changes
 		//Reestablece
 		//Casilla Saltarin (22)
 		model = glm::mat4(1.0);
@@ -2390,12 +1713,8 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-<<<<<<< Updated upstream
-		Planta_Carnivora.RenderModel();
-=======
 		cabra.RenderModel();
 
->>>>>>> Stashed changes
 		//Reestablece
 		//Casilla a comer (24)
 		model = glm::mat4(1.0);
@@ -2430,12 +1749,8 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-<<<<<<< Updated upstream
-		Goomba.RenderModel();
-=======
 		mansion.RenderModel();
 
->>>>>>> Stashed changes
 		//Reestablece
 		//Casilla Furia(27)
 		model = glm::mat4(1.0);
@@ -2470,12 +1785,8 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-<<<<<<< Updated upstream
-		CastilloBow.RenderModel();
-=======
 		wendy.RenderModel();
 
->>>>>>> Stashed changes
 		//Reestablece
 		//Casilla Castillo del terror (30)
 		model = glm::mat4(1.0);
@@ -2510,12 +1821,8 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-<<<<<<< Updated upstream
-		Mario.RenderModel();
-=======
 		mystery_shack.RenderModel();
 
->>>>>>> Stashed changes
 		//Reestablece
 		//Casilla Yahoo (33)
 		model = glm::mat4(1.0);
@@ -2544,24 +1851,14 @@ int main()
 		//Casilla Bulldog (35)
 		model = glm::mat4(1.0);
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-<<<<<<< Updated upstream
-		//model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(4.0f, posYObjeto7, -39.0f));
-		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
-=======
 		model = glm::translate(model, glm::vec3(8.f, posYObjeto7, -39.0f));
 		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
->>>>>>> Stashed changes
 		model = glm::rotate(model, glm::radians(rotacionObjeto7), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-<<<<<<< Updated upstream
-		IceFlower.RenderModel();
-=======
 		bulldog.RenderModel();
 
->>>>>>> Stashed changes
 		//Reestablece
 		//Casilla Impacto (36)
 		model = glm::mat4(1.0);
@@ -2572,12 +1869,8 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-<<<<<<< Updated upstream
-		FlorFuego.RenderModel();
-=======
 		IceFlower.RenderModel();
 
->>>>>>> Stashed changes
 		//Reestablece
 		//Casilla Determined (37)
 		model = glm::mat4(1.0);
@@ -2606,33 +1899,12 @@ int main()
 		//Casilla Floripondio (39)
 		model = glm::mat4(1.0);
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-<<<<<<< Updated upstream
-		model = glm::translate(model, glm::vec3(-19.5f, posYObjeto3, -39.0f));
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-=======
 		model = glm::translate(model, glm::vec3(-13.0f, posYObjeto3, -39.0f));
 		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
->>>>>>> Stashed changes
 		model = glm::rotate(model, glm::radians(rotacionObjeto3), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
-<<<<<<< Updated upstream
-		Cheep.RenderModel();
-
-		//--------------Keyframe de bill
-		model = glm::mat4(1.0);
-		posBill = glm::vec3(posXbill + movBill_x, posYbill + movBill_y, posZbill);
-		model = glm::translate(model, posBill);
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		model = glm::rotate(model, giroBill * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
-		Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		billNuevo.RenderModel();
-
-=======
 		Floripondio.RenderModel();
 
 		//Reestablece
@@ -2646,7 +1918,6 @@ int main()
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 		glUniform2fv(uniformTextureOffset, 1, glm::value_ptr(toffset));
 		Cheep.RenderModel();
->>>>>>> Stashed changes
 
 		glUseProgram(0);
 
@@ -2654,44 +1925,4 @@ int main()
 	}
 
 	return 0;
-}
-
-void inputKeyframes(bool* keys)
-{
-	if (keys[GLFW_KEY_Z])
-	{
-		if (reproduciranimacion < 1)
-		{
-			if (play == false && (FrameIndex > 1))
-			{
-				resetElements();
-				//First Interpolation				
-				interpolation();
-				play = true;
-				playIndex = 0;
-				i_curr_steps = 0;
-				reproduciranimacion++;
-				printf("\n presiona 0 para habilitar reproducir de nuevo la animación'\n");
-				habilitaranimacion = 0;
-
-			}
-			else
-			{
-				play = false;
-
-			}
-		}
-	}
-	if (keys[GLFW_KEY_0])
-	{
-		if (habilitaranimacion < 1 && reproduciranimacion>0)
-		{
-			printf("Ya puedes reproducir de nuevo la animación con la tecla de barra espaciadora'\n");
-			reproduciranimacion = 0;
-
-		}
-	}
-
-	
-
 }
