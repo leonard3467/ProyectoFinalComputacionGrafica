@@ -48,7 +48,7 @@ private:
 	static void ManejaMouse(GLFWwindow* window, double xPos, double yPos);
 	// Variables para el temporizador de luces
 	float tiempoLuces = 0.0f;
-	const float intervaloEncendido = 15.0f; // Intervalo de 150 segundos
+	const float intervaloEncendido = 5.0f; // Intervalo de 150 segundos
 
 };
 
