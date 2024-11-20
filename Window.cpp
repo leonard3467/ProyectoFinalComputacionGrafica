@@ -41,7 +41,7 @@ int Window::Initialise()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	//CREAR VENTANA
-	mainWindow = glfwCreateWindow(width, height, "JUEGO", NULL, NULL);
+	mainWindow = glfwCreateWindow(width, height, "Ciudad Virtual con Tablero de Juego Interactivo", NULL, NULL);
 
 	if (!mainWindow)
 	{
@@ -105,31 +105,10 @@ GLboolean Window::getBandera()
 
 void Window::update(float& Tiempo)
 {
-<<<<<<< Updated upstream
-	// Incrementa el temporizador
-	tiempoLuces += deltaTime;
-
-	// Verifica si han pasado 150 segundos
-	if (tiempoLuces >= intervaloEncendido) {
-		// Alterna el estado de Bandera para encender/apagar las luces
-		if (Bandera == GL_FALSE) {
-			
-			Bandera = GL_TRUE;
-		}
-		else {
-			
-			Bandera = GL_FALSE;
-		}
-
-		// Reinicia el temporizador después de alcanzar el intervalo
-		tiempoLuces = 0.0f;
-=======
 	if (Tiempo >= intervaloEncendido) {
 		Tiempo = 0.0f;
 		CicloNoche = !CicloNoche;
-		printf("¿Ciclo Noche? %s \n", CicloNoche ? "En efecto" : "Nel");
 		
->>>>>>> Stashed changes
 	}
 
 }
@@ -155,11 +134,11 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	if (key == GLFW_KEY_F && action == GLFW_RELEASE) // para poder manejar la accion de que solo se puslo una ves la tecla queda asi uwu
 	{
 		if (theWindow->Bandera == GL_FALSE) {
-			//printf("Faro Prendido  \n");
+			printf("Faro Prendido  \n");
 			theWindow->Bandera = GL_TRUE;
 		}
 		else {
-			//printf("Faro apagado \n");
+			printf("Faro apagado \n");
 			theWindow->Bandera = GL_FALSE;
 		}
 

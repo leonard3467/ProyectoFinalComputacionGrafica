@@ -1004,7 +1004,6 @@ void Animaciones::controlAnimacionTablero(glm::vec3& posicion,
     float& posY40, float& rotacion40,
     float deltaTime,float Tiempo, Window& mainWindow) {
     int idCasilla = obtenerIDCasilla(posicion);
-    printf("Entre en caso %i \n", idCasilla);
     switch (idCasilla) {
     case 1:
         animacionTablero(posY1, rotacion1, deltaTime,Tiempo, mainWindow); //Casilla Guau contador
