@@ -18,7 +18,7 @@ public:
     void movimientoTableroDipper(glm::vec3& posicion, float& rotacionBender, float& saltoBenderY, float& desplazamientoBender, int& pasos, float& deltaTime, Window& mainWindow, float& Tiempo, float& desplazamientoBenderz, float& rotacionBenderAux);
 
     //animaciones para tablero modelos
-    void animacionTablero(float& posYObjeto, float& rotacionObjeto, float deltaTime, float Tiempo);
+    void animacionTablero(float& posYObjeto, float& rotacionObjeto, float deltaTime, float Tiempo, Window& mainWindow);
     void controlAnimacionTablero(glm::vec3& posicion,
         float& posY1, float& rotacion1,
         float& posY2, float& rotacion2,
@@ -60,7 +60,7 @@ public:
         float& posY38, float& rotacion38,
         float& posY39, float& rotacion39,
         float& posY40, float& rotacion40,
-        float deltaTime, float Tiempo);
+        float deltaTime, float Tiempo, Window& mainWindow);
     int obtenerIDCasilla(glm::vec3& posicion);
     // Declaraciones públicas de las variables
     int randomNumber1;
@@ -70,4 +70,7 @@ public:
     bool numRandom1 = false;
     bool animacionActiva = false;
     GLfloat tiempo3segundos;
+    GLfloat tiempo10segundos=0;
+    bool DadoCayendo=true;
+    float posYObjetoAnterior, rotacionObjetoAnterior;
 };

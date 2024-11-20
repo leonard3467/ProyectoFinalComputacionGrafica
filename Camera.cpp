@@ -40,60 +40,77 @@ void Camera::keyControl(bool* keys, GLfloat deltaTime)
 {
     GLfloat velocity = moveSpeed * deltaTime;
 
-    // Detectar una sola pulsación en la tecla '5'
+    // Detectar una sola pulsación en la tecla '5' para cambiar de modo
     if (keys[GLFW_KEY_5] && !lastKeyState)
     {
-        printf("\nestado de la camara : %d \n",ModoCamara);
+      
         ModoCamara += 1;
-        if (ModoCamara > 3)
+        if (ModoCamara > 4)
         {
             ModoCamara = 1;
         }
     }
     lastKeyState = keys[GLFW_KEY_5]; // Actualizar el estado de la tecla 5
 
-    if (ModoCamara == 2) // Lógica de cámara ortográfica
+    // Lógica específica para cada modo
+    if (ModoCamara == 2) // Modo 2: Cámara ortográfica
     {
-        // Crear un vector en el plano XZ para movimiento en W y S
+        // Movimiento en el plano XZ
         glm::vec3 forwardXZ = glm::normalize(glm::vec3(front.x, 0.0f, front.z));
 
         if (keys[GLFW_KEY_W])
         {
             position += forwardXZ * velocity;
         }
-
         if (keys[GLFW_KEY_S])
         {
             position -= forwardXZ * velocity;
         }
-
         if (keys[GLFW_KEY_A])
         {
             position -= right * velocity;
         }
-
         if (keys[GLFW_KEY_D])
         {
             position += right * velocity;
         }
     }
-    else // Lógica normal de cámara en perspectiva
+    else if (ModoCamara == 4) // Modo 4: Perspectiva con posición dinámica
+    {
+             // Movimiento en perspectiva usando WASD
+        if (keys[GLFW_KEY_W])
+        {
+            PosicionCamara4 += front * velocity; 
+        }
+        if (keys[GLFW_KEY_S])
+        {
+            PosicionCamara4 -= front * velocity; 
+        }
+        if (keys[GLFW_KEY_A])
+        {
+            PosicionCamara4 -= right * velocity; 
+        }
+        if (keys[GLFW_KEY_D])
+        {
+            PosicionCamara4 += right * velocity; 
+        }
+ 
+        
+    }
+    else // Otros modos (incluido Modo 1 y Modo 3)
     {
         if (keys[GLFW_KEY_W])
         {
             position += front * velocity;
         }
-
         if (keys[GLFW_KEY_S])
         {
             position -= front * velocity;
         }
-
         if (keys[GLFW_KEY_A])
         {
             position -= right * velocity;
         }
-
         if (keys[GLFW_KEY_D])
         {
             position += right * velocity;
