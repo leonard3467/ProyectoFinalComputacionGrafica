@@ -14,4 +14,5 @@ newmtl Default_OBJ_002
 	Ni 1.5200
 	Ke 0.0000 0.0000 0.0000
 	illum 2
-	map_Kd C:\Users\Visitante\Downloads\practice kart.fbm\r_0128_d.png
+	# map_Kd C:\Users\Visitante\Downloads\practice kart.fbm\r_0128_d.png
+	map_Kd r_0128_d.png

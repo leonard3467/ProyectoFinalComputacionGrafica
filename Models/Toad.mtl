@@ -14,7 +14,8 @@ newmtl Material__65
 	Ni 1.5200
 	Ke 0.0000 0.0000 0.0000
 	illum 2
-	map_Kd C:\Users\Visitante\Desktop\Shareny\Proyectofinal\Proyectofinal\Textures\T_FRkinopio_head_D.png
+	# map_Kd C:\Users\Visitante\Desktop\Shareny\Proyectofinal\Proyectofinal\Textures\T_FRkinopio_head_D.png
+	map_Kd T_FRkinopio_head_D.png
 
 newmtl Material__68
 	Kd 0.5000 0.5000 0.5000
@@ -29,7 +30,8 @@ newmtl Material__68
 	Ni 1.5200
 	Ke 0.0000 0.0000 0.0000
 	illum 2
-	map_Kd C:\Users\Visitante\Desktop\Shareny\Proyectofinal\Proyectofinal\Textures\T_FRkinopio_eye_0.png
+	# map_Kd C:\Users\Visitante\Desktop\Shareny\Proyectofinal\Proyectofinal\Textures\T_FRkinopio_eye_0.png
+	map_Kd T_FRkinopio_eye_0.png
 
 newmtl Material__67
 	Kd 0.5000 0.5000 0.5000
@@ -44,7 +46,8 @@ newmtl Material__67
 	Ni 1.5200
 	Ke 0.0000 0.0000 0.0000
 	illum 2
-	map_Kd C:\Users\Visitante\Desktop\Shareny\Proyectofinal\Proyectofinal\Textures\T_FRkinopio_skin_D.png
+	# map_Kd C:\Users\Visitante\Desktop\Shareny\Proyectofinal\Proyectofinal\Textures\T_FRkinopio_skin_D.png
+	map_Kd T_FRkinopio_skin_D.png
 
 newmtl Material__66
 	Kd 0.5000 0.5000 0.5000
@@ -59,4 +62,5 @@ newmtl Material__66
 	Ni 1.5200
 	Ke 0.0000 0.0000 0.0000
 	illum 2
-	map_Kd C:\Users\Visitante\Desktop\Shareny\Proyectofinal\Proyectofinal\Textures\T_FRkinopio_body_D.png
+	# map_Kd C:\Users\Visitante\Desktop\Shareny\Proyectofinal\Proyectofinal\Textures\T_FRkinopio_body_D.png
+	map_Kd T_FRkinopio_body_D.png

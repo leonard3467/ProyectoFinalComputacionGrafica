@@ -28,7 +28,8 @@ newmtl Material__48
 	Ni 1.5000
 	Ke 0.0000 0.0000 0.0000
 	illum 2
-	map_Kd C:\Users\Visitante\Desktop\Texturas\images.jpeg
+	# map_Kd C:\Users\Visitante\Desktop\Texturas\images.jpeg
+	map_Kd images.jpeg
 
 newmtl Material_7
 	Kd 0.8000 0.8000 0.8000
@@ -85,7 +86,8 @@ newmtl Material__51
 	Ni 1.5000
 	Ke 0.0000 0.0000 0.0000
 	illum 2
-	map_Kd C:\Users\Visitante\Desktop\Texturas\Material_0_Color.jpg
+	# map_Kd C:\Users\Visitante\Desktop\Texturas\Material_0_Color.jpg
+	map_Kd Material_0_Color.jpg
 
 newmtl Mat_1
 	Kd 1.0000 0.2900 0.4320
