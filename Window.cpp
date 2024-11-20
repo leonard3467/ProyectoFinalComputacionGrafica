@@ -19,9 +19,6 @@ Window::Window(GLint windowWidth, GLint windowHeight)
 	rotx = 0;
 	roty = 0;
 	rotz = 0;
-
-
-
 	for (size_t i = 0; i < 1024; i++)
 	{
 		keys[i] = 0;
@@ -106,9 +103,9 @@ GLboolean Window::getBandera()
 	return Bandera;
 }
 
-
-void Window::update(float deltaTime)
+void Window::update(float& Tiempo)
 {
+<<<<<<< Updated upstream
 	// Incrementa el temporizador
 	tiempoLuces += deltaTime;
 
@@ -126,8 +123,18 @@ void Window::update(float deltaTime)
 
 		// Reinicia el temporizador después de alcanzar el intervalo
 		tiempoLuces = 0.0f;
+=======
+	if (Tiempo >= intervaloEncendido) {
+		Tiempo = 0.0f;
+		CicloNoche = !CicloNoche;
+		printf("¿Ciclo Noche? %s \n", CicloNoche ? "En efecto" : "Nel");
+		
+>>>>>>> Stashed changes
 	}
+
 }
+
+
 
 void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode)
 {
@@ -158,7 +165,6 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 
 
 	}
-
 	if (key == GLFW_KEY_B ) // Detecta solo un pulso de la tecla Espacio
 	{
 		theWindow->rotx += 1;
@@ -191,22 +197,35 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	}
 	if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE) // Detecta solo un pulso de la tecla Espacio
 	{
-		theWindow->Avanza = !theWindow->Avanza;
-		printf("¿Dado cae? %s \n", theWindow->Avanza ? "En efecto" : "Nel");
-
-		printf("\nCantidadEsp =: %d \n", theWindow->CantidadEsp);
-		// Cambia de turno en cada segunda pulsación
-		if (theWindow->CantidadEsp == 0) {
-			theWindow->CantidadEsp = 1; // Marca la primera pulsación
+		if (theWindow->AnimacionDadoActiva == false && theWindow->AnimacionRecorridoActiva == false && theWindow->AnimacionCasilla == false){
+			theWindow->Avanza = !theWindow->Avanza;
+			printf("¿Dado cae? %s \n", theWindow->Avanza ? "En efecto" : "Nel");
 		}
 		else {
-			// Segunda pulsación: cambia el turno
-			theWindow->turno += 1; // Incrementa el turno
-			if (theWindow->turno > 2) { // Resetea el turno si excede 2
-				theWindow->turno = 1;
+			if (theWindow->AnimacionDadoActiva ){
+				printf("---------- No puedes presionar espacio si La animacion de Dado activa----\n");
 			}
-			theWindow->CantidadEsp = 0;
+			else if (theWindow->AnimacionRecorridoActiva){
+				printf("---------- No puedes presionar espacio si La animacion de Recorrido esta activa----\n");
+			}
+			else if (theWindow->AnimacionCasilla) {
+				printf("---------- No puedes presionar espacio si La animacion de Casilla esta activa----\n");
+			}
 		}
+
+		//printf("\nCantidadEsp =: %d \n", theWindow->CantidadEsp);
+		//// Cambia de turno en cada segunda pulsación
+		//if (theWindow->CantidadEsp == 0) {
+		//	theWindow->CantidadEsp = 1; // Marca la primera pulsación
+		//}
+		//else {
+		//	// Segunda pulsación: cambia el turno
+		//	theWindow->turno += 1; // Incrementa el turno
+		//	if (theWindow->turno > 2) { // Resetea el turno si excede 2
+		//		theWindow->turno = 1;
+		//	}
+		//	theWindow->CantidadEsp = 0;
+		//}
 
 		
 		

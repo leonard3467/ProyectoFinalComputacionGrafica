@@ -1,6 +1,6 @@
 ﻿  ProyectoFinal.cpp
 C:\Users\leonard\source\repos\Proyecto_finalCompugrafica\Proyecto_finalCompugrafica\Window.h(12,36): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
 C:\Users\leonard\source\repos\Proyecto_finalCompugrafica\Proyecto_finalCompugrafica\Window.h(13,37): warning C4244: 'return': conversión de 'GLint' a 'GLfloat'; posible pérdida de datos
-C:\Users\leonard\source\repos\Proyecto_finalCompugrafica\Proyecto_finalCompugrafica\ProyectoFinal.cpp(296,15): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-C:\Users\leonard\source\repos\Proyecto_finalCompugrafica\Proyecto_finalCompugrafica\ProyectoFinal.cpp(298,33): warning C4244: '+=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\source\repos\Proyecto_finalCompugrafica\Proyecto_finalCompugrafica\ProyectoFinal.cpp(711,15): warning C4244: 'inicializando': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+C:\Users\leonard\source\repos\Proyecto_finalCompugrafica\Proyecto_finalCompugrafica\ProyectoFinal.cpp(715,33): warning C4244: '+=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
   Proyecto_finalCompugrafica.vcxproj -> C:\Users\leonard\source\repos\Proyecto_finalCompugrafica\Debug\Proyecto_finalCompugrafica.exe

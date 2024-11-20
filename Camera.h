@@ -22,6 +22,8 @@ public:
 	glm::vec3 getCameraPosition();
 	glm::vec3 getCameraDirection();
 	glm::mat4 calculateViewMatrix();
+	glm::vec3 PosicionCamara4 = glm::vec3(5.0f, 15.0f, -5.0f);
+	// Getter para la posición guardada del Modo 4
 
 	~Camera();
 
@@ -40,6 +42,7 @@ private:
 
 	GLfloat moveSpeed;
 	GLfloat turnSpeed;
+
 
 	void update();
 };

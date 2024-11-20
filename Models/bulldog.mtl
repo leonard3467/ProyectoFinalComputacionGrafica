@@ -1,7 +1,7 @@
 # 3ds Max Wavefront OBJ Exporter v0.99 - (c)2007 guruware
-# File Created: 06.11.2024 11:39:09
+# File Created: 19.11.2024 12:32:49
 
-newmtl grass_field_MAIMG_20180327_195424
+newmtl bulldog_EnglishBulldog_by_AlexLashko_FreeSample_mso
 	Ns 10.0000
 	Ni 1.5000
 	d 1.0000
@@ -12,10 +12,10 @@ newmtl grass_field_MAIMG_20180327_195424
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka EnglishBulldog_COLOR_01.png
-	map_Kd COLOR_01.png
+	map_Ka TexturaBuldog.png
+	map_Kd TexturaBuldog.png
 
-newmtl PAPER_hat_wire_255255255
+newmtl 02___Default
 	Ns 10.0000
 	Ni 1.5000
 	d 1.0000
@@ -26,5 +26,5 @@ newmtl PAPER_hat_wire_255255255
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka 1212.jpg
-	map_Kd 1212.jpg
+	map_Ka Sombrero.jpg
+	map_Kd Sombrero.jpg

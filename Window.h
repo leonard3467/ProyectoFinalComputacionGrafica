@@ -23,10 +23,11 @@ public:
 	bool* getsKeys() { return keys; }
 	void swapBuffers() { return glfwSwapBuffers(mainWindow); }
 	bool getAvanza() { return Avanza; }
-
-	// Declaración de la función updateTimer
-	void update(float deltaTime);
-	
+	void update(float& Tiempo);
+	bool AnimacionDadoActiva = false;
+	bool AnimacionRecorridoActiva = false;
+	bool AnimacionCasilla = false;
+	bool CicloNoche;
 	~Window();
 private: 
 	GLFWwindow *mainWindow;
@@ -40,14 +41,14 @@ private:
 	GLfloat yChange;
 	GLfloat muevex;
 	
-	// Variables para el temporizador de luces
-	float tiempoLuces = 0.0f;
-	const float intervaloEncendido = 150.0f; // Intervalo de 150 segundos
 	
 	GLboolean Bandera;
 	bool mouseFirstMoved, Avanza;
 	static void ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode);
 	static void ManejaMouse(GLFWwindow* window, double xPos, double yPos);
+	// Variables para el temporizador de luces
+	float tiempoLuces = 0.0f;
+	const float intervaloEncendido = 15.0f; // Intervalo de 150 segundos
 
 };
 

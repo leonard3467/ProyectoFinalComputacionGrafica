@@ -94,8 +94,11 @@ newmtl Material__81
 	Ni 1.5200
 	Ke 0.0000 0.0000 0.0000
 	illum 2
+<<<<<<< Updated upstream
 	# map_Kd C:\Users\Visitante\Desktop\Shareny\Proyectofinal\Proyectofinal\Textures\blanco2.png
 	map_Kd blanco2.png
+=======
+>>>>>>> Stashed changes
 
 newmtl Material__82
 	Kd 0.5000 0.5000 0.5000
