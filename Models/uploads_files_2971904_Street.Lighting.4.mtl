@@ -1,0 +1,44 @@
+# Blender MTL File: 'Street.Lightings.2k.blend'
+# Material Count: 3
+
+newmtl Black.Street.Lighting.4
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump Street.Lighting,4_Black.Street.Lighting.4_Normal.png
+map_Kd Street.Lighting,4_Black.Street.Lighting.4_BaseColor.png
+map_Ns Street.Lighting,4_Black.Street.Lighting.4_Roughness.png
+refl Street.Lighting,4_Black.Street.Lighting.4_Metallic.png
+
+newmtl Grey.Street.Lighting.4
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.262251 0.242281 0.171441
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump Street.Lighting,4_Grey.Street.Lighting.4_Normal.png
+map_Kd Street.Lighting,4_Grey.Street.Lighting.4_BaseColor.png
+map_Ns Street.Lighting,4_Grey.Street.Lighting.4_Roughness.png
+refl Street.Lighting,4_Grey.Street.Lighting.4_Metallic.png
+
+newmtl White.Street.Lighting.4
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump Street.Lighting,4_White.Street.Lighting.4_Normal.png
+map_Kd Street.Lighting,4_White.Street.Lighting.4_BaseColor.png
+map_Ns Street.Lighting,4_White.Street.Lighting.4_Roughness.png
+refl Street.Lighting,4_White.Street.Lighting.4_Metallic.png

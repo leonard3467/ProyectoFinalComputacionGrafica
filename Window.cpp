@@ -16,6 +16,12 @@ Window::Window(GLint windowWidth, GLint windowHeight)
 	muevex = 2.0f;
 	Bandera = GL_TRUE;
 	Avanza = false;
+	rotx = 0;
+	roty = 0;
+	rotz = 0;
+
+
+
 	for (size_t i = 0; i < 1024; i++)
 	{
 		keys[i] = 0;
@@ -38,7 +44,7 @@ int Window::Initialise()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	//CREAR VENTANA
-	mainWindow = glfwCreateWindow(width, height, "Ejercicio Practica08:Iluminacion 2", NULL, NULL);
+	mainWindow = glfwCreateWindow(width, height, "JUEGO", NULL, NULL);
 
 	if (!mainWindow)
 	{
@@ -101,7 +107,27 @@ GLboolean Window::getBandera()
 }
 
 
+void Window::update(float deltaTime)
+{
+	// Incrementa el temporizador
+	tiempoLuces += deltaTime;
 
+	// Verifica si han pasado 150 segundos
+	if (tiempoLuces >= intervaloEncendido) {
+		// Alterna el estado de Bandera para encender/apagar las luces
+		if (Bandera == GL_FALSE) {
+			
+			Bandera = GL_TRUE;
+		}
+		else {
+			
+			Bandera = GL_FALSE;
+		}
+
+		// Reinicia el temporizador después de alcanzar el intervalo
+		tiempoLuces = 0.0f;
+	}
+}
 
 void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode)
 {
@@ -113,29 +139,78 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	}
 	if (key == GLFW_KEY_Y)
 	{
-		theWindow-> muevex += 1.0;
+		theWindow->muevex += 1.0;
 	}
 	if (key == GLFW_KEY_U)
 	{
-		theWindow-> muevex -= 1.0;
+		theWindow->muevex -= 1.0;
 	}
 	if (key == GLFW_KEY_F && action == GLFW_RELEASE) // para poder manejar la accion de que solo se puslo una ves la tecla queda asi uwu
 	{
-		if(theWindow->Bandera == GL_FALSE){
-			printf("Faro Prendido  \n");
+		if (theWindow->Bandera == GL_FALSE) {
+			//printf("Faro Prendido  \n");
 			theWindow->Bandera = GL_TRUE;
 		}
 		else {
-			printf("Faro apagado \n");
+			//printf("Faro apagado \n");
 			theWindow->Bandera = GL_FALSE;
 		}
-		
-		
+
+
+	}
+
+	if (key == GLFW_KEY_B ) // Detecta solo un pulso de la tecla Espacio
+	{
+		theWindow->rotx += 1;
+		printf("rotacion X con angulo de %d \n", theWindow->rotx);
+	}
+	if (key == GLFW_KEY_N ) // Detecta solo un pulso de la tecla Espacio
+	{
+		theWindow->roty += 1;
+		printf("rotacion Y con angulo de %d \n", theWindow->roty);
+	}
+	if (key == GLFW_KEY_M ) // Detecta solo un pulso de la tecla Espacio
+	{
+		theWindow->rotz += 1;
+		printf("rotacion Z con angulo de %d \n", theWindow->rotz);
+	}
+	if (key == GLFW_KEY_H ) // Detecta solo un pulso de la tecla Espacio
+	{
+		theWindow->rotx -= 1;
+		printf("rotacion X con angulo de %d \n", theWindow->rotx);
+	}
+	if (key == GLFW_KEY_J ) // Detecta solo un pulso de la tecla Espacio
+	{
+		theWindow->roty -= 1;
+		printf("roty con angulo de %d \n", theWindow->roty);
+	}
+	if (key == GLFW_KEY_K ) // Detecta solo un pulso de la tecla Espacio
+	{
+		theWindow->rotz -= 1;
+		printf("rotz con angulo de %d \n", theWindow->rotz);
 	}
 	if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE) // Detecta solo un pulso de la tecla Espacio
 	{
 		theWindow->Avanza = !theWindow->Avanza;
 		printf("¿Dado cae? %s \n", theWindow->Avanza ? "En efecto" : "Nel");
+
+		printf("\nCantidadEsp =: %d \n", theWindow->CantidadEsp);
+		// Cambia de turno en cada segunda pulsación
+		if (theWindow->CantidadEsp == 0) {
+			theWindow->CantidadEsp = 1; // Marca la primera pulsación
+		}
+		else {
+			// Segunda pulsación: cambia el turno
+			theWindow->turno += 1; // Incrementa el turno
+			if (theWindow->turno > 2) { // Resetea el turno si excede 2
+				theWindow->turno = 1;
+			}
+			theWindow->CantidadEsp = 0;
+		}
+
+		
+		
+		
 	}
 
 
