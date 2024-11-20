@@ -4,7 +4,7 @@ Animaciones::Animaciones()
 }
 void Animaciones::animacionDado8Caras(float* rotDadox, float* rotDadoy, float* rotDadoz, float* rotDadoxOffset, float* rotDadoyOffset, float* rotDadozOffset, float* movDado, float* movOffset, Window& mainWindow, float* deltaTime) {
     if (mainWindow.getAvanza() == true) {
-        // Inicializar el generador de nï¿½meros aleatorios solo una vez
+        // Inicializar el generador de números aleatorios solo una vez
         //en 2 se queda paralela al suelo
         // // teoria cada 90 grados se va moviendo en una nueva cara 
         // para obtener el numero 3 rotar directamente 52 grados en eje x 
@@ -449,7 +449,7 @@ void Animaciones::movimientoTableroDipper(glm::vec3& posicion, float& rotacionBe
                 rotacionBender = 0;
                 posicion.x += 7.75f;
                 desplazamientoBender = 0;
-                std::cout << "Posiciï¿½n actual del modelo: "
+                std::cout << "Posición actual del modelo: "
                     << "X: " << posicion.x << ", "
                     << "Y: " << posicion.y << ", "
                     << "Z: " << posicion.z << std::endl;
@@ -471,7 +471,7 @@ void Animaciones::movimientoTableroDipper(glm::vec3& posicion, float& rotacionBe
                 rotacionBender = 0;
                 posicion.z += 7.4f;
                 desplazamientoBenderz = 0;
-                std::cout << "Posiciï¿½n actual del modelo: "
+                std::cout << "Posición actual del modelo: "
                     << "X: " << posicion.x << ", "
                     << "Y: " << posicion.y << ", "
                     << "Z: " << posicion.z << std::endl;
@@ -493,7 +493,7 @@ void Animaciones::movimientoTableroDipper(glm::vec3& posicion, float& rotacionBe
                 rotacionBender = 0;
                 posicion.x -= 7.75f;
                 desplazamientoBender = 0;
-                std::cout << "Posiciï¿½n actual del modelo: "
+                std::cout << "Posición actual del modelo: "
                     << "X: " << posicion.x << ", "
                     << "Y: " << posicion.y << ", "
                     << "Z: " << posicion.z << std::endl;
@@ -515,7 +515,7 @@ void Animaciones::movimientoTableroDipper(glm::vec3& posicion, float& rotacionBe
                 rotacionBender = 0;
                 posicion.z -= 7.4f;
                 desplazamientoBenderz = 0;
-                std::cout << "Posiciï¿½n actual del modelo: "
+                std::cout << "Posición actual del modelo: "
                     << "X: " << posicion.x << ", "
                     << "Y: " << posicion.y << ", "
                     << "Z: " << posicion.z << std::endl;
@@ -534,7 +534,7 @@ void Animaciones::movimientoTableroDipper(glm::vec3& posicion, float& rotacionBe
 
                     posicion.x += 7.75f;
                     desplazamientoBender = 0;
-                    std::cout << "Posiciï¿½n actual del modelo: "
+                    std::cout << "Posición actual del modelo: "
                         << "X: " << posicion.x << ", "
                         << "Y: " << posicion.y << ", "
                         << "Z: " << posicion.z << std::endl;
@@ -549,7 +549,7 @@ void Animaciones::movimientoTableroDipper(glm::vec3& posicion, float& rotacionBe
 
                     posicion.x += 5.5f;
                     desplazamientoBender = 0;
-                    std::cout << "Posiciï¿½n actual del modelo: "
+                    std::cout << "Posición actual del modelo: "
                         << "X: " << posicion.x << ", "
                         << "Y: " << posicion.y << ", "
                         << "Z: " << posicion.z << std::endl;
@@ -570,7 +570,7 @@ void Animaciones::movimientoTableroDipper(glm::vec3& posicion, float& rotacionBe
 
                     posicion.x -= 7.75f;
                     desplazamientoBender = 0;
-                    std::cout << "Posiciï¿½n actual del modelo: "
+                    std::cout << "Posición actual del modelo: "
                         << "X: " << posicion.x << ", "
                         << "Y: " << posicion.y << ", "
                         << "Z: " << posicion.z << std::endl;
@@ -585,7 +585,7 @@ void Animaciones::movimientoTableroDipper(glm::vec3& posicion, float& rotacionBe
 
                     posicion.x -= 5.5f;
                     desplazamientoBender = 0;
-                    std::cout << "Posiciï¿½n actual del modelo: "
+                    std::cout << "Posición actual del modelo: "
                         << "X: " << posicion.x << ", "
                         << "Y: " << posicion.y << ", "
                         << "Z: " << posicion.z << std::endl;
@@ -604,7 +604,7 @@ void Animaciones::movimientoTableroDipper(glm::vec3& posicion, float& rotacionBe
                     cantidadCasillas--;
                     posicion.z += 7.4f;
                     desplazamientoBenderz = 0;
-                    std::cout << "-----Posiciï¿½n actual del modelo: "
+                    std::cout << "-----Posición actual del modelo: "
                         << "X: " << posicion.x << ", "
                         << "Y: " << posicion.y << ", "
                         << "Z: " << posicion.z << std::endl;
@@ -618,7 +618,7 @@ void Animaciones::movimientoTableroDipper(glm::vec3& posicion, float& rotacionBe
                     cantidadCasillas--;
                     posicion.z += 4.8f;
                     desplazamientoBenderz = 0;
-                    std::cout << "Posiciï¿½n actual del modelo: "
+                    std::cout << "Posición actual del modelo: "
                         << "X: " << posicion.x << ", "
                         << "Y: " << posicion.y << ", "
                         << "Z: " << posicion.z << std::endl;
@@ -643,7 +643,7 @@ void Animaciones::movimientoTableroDipper(glm::vec3& posicion, float& rotacionBe
                     desplazamientoBender = 0;
                     rotacionBender = 0;
                     rotacionBenderAux = 0;
-                    std::cout << "-----Posiciï¿½n actual del modelo: "
+                    std::cout << "-----Posición actual del modelo: "
                         << "X: " << posicion.x << ", "
                         << "Y: " << posicion.y << ", "
                         << "Z: " << posicion.z << std::endl;
@@ -657,7 +657,7 @@ void Animaciones::movimientoTableroDipper(glm::vec3& posicion, float& rotacionBe
                     cantidadCasillas--;
                     posicion.z -= 4.8f;
                     desplazamientoBenderz = 0;
-                    std::cout << "Posiciï¿½n actual del modelo: "
+                    std::cout << "Posición actual del modelo: "
                         << "X: " << posicion.x << ", "
                         << "Y: " << posicion.y << ", "
                         << "Z: " << posicion.z << std::endl;
@@ -671,19 +671,226 @@ void Animaciones::movimientoTableroDipper(glm::vec3& posicion, float& rotacionBe
 
 //parte animacion de otro modelos
 
+void Animaciones::TexturaIluminada(float& toffsetCasillaIluminadau, float& toffsetCasillaIluminadav, glm::vec3& posicion, int& caso) {
+    int idCasilla = obtenerIDCasilla(posicion);
+    switch (idCasilla) {
+    case 1:
+        toffsetCasillaIluminadau = .5;
+        toffsetCasillaIluminadav = -.5;             //Casilla Start
+        caso = 3;                       
+        break;
+    case 2:
+        toffsetCasillaIluminadau = 0.0;
+        toffsetCasillaIluminadav = -0.3125; //Casilla Chapoteo
+        caso = 1;
+        break;
+    case 3:
+        toffsetCasillaIluminadau = .125;
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 1;                        //Casilla Floripondio
+        break;
+    case 4:
+        toffsetCasillaIluminadau = 2 * .125;
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 1;                       // Casilla Brillantina
+        break;
+    case 5:
+        toffsetCasillaIluminadau = 3 * .125;
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 1;                //Casilla Determindes
+        break;
+    case 6:
+        toffsetCasillaIluminadau = 4 * .125;
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 1;                //Casilla Impacto
+        break;
+    case 7:
+        toffsetCasillaIluminadau = 5 * .125;
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 1;               //Casilla Sr Bulldog
+        break;
+    case 8:
+        toffsetCasillaIluminadau = 6 * .125;
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 1;
+        break;                       //Casilla Esperanza 
+    case 9:
+        toffsetCasillaIluminadau = 7 * .125;
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 1;                    //Casilla Yahoo 
+        break;
+    case 10:
+        toffsetCasillaIluminadau = 0.0;
+        toffsetCasillaIluminadav = -.5;
+        caso = 3;                       //Mystery shack
+        break;
+    case 11:
+        toffsetCasillaIluminadau = 3 * .125;
+        toffsetCasillaIluminadav = -2 * 0.3125;
+        caso = 2;                       //Casilla lento
+        break;
+    case 12:
+        toffsetCasillaIluminadau = 2 * .125;
+        toffsetCasillaIluminadav = -2 * 0.3125;
+        caso = 2;                        //Casilla Castillo del terror
+        break;
+    case 13:
+        toffsetCasillaIluminadau = 1 * .125;
+        toffsetCasillaIluminadav = -2 * 0.3125;
+        caso = 2;                         //Casilla Relajate
+        break;
+    case 14:
+        toffsetCasillaIluminadau = 0.0;
+        toffsetCasillaIluminadav = -2 * 0.3125;
+        caso = 2;                         //Casilla Cuidado
+        break;
+    case 15:
+        toffsetCasillaIluminadau = 7 * .125;
+        toffsetCasillaIluminadav = -0.3125;         //Casilla Furia
+        caso = 2;
+        break;
+    case 16:
+        toffsetCasillaIluminadau = 6 * .125;
+        toffsetCasillaIluminadav = -0.3125;         //Casilla Noroeste
+        caso = 2;
+        break;
+    case 17:
+        toffsetCasillaIluminadau = 5 * .125;        //Casilla langosta
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 2;
+        break;
+    case 18:
+        toffsetCasillaIluminadau = 4 * .125;
+        toffsetCasillaIluminadav = -0.3125;         //Casilla A   Comer
+        caso = 2;
+        break;
+    case 19:
+        toffsetCasillaIluminadau = 3 * .125;
+        toffsetCasillaIluminadav = -0.3125;         //Casilla  The Goat
+        caso = 2;
+        break;
+    case 20:
+        toffsetCasillaIluminadau = 2 * .125;       //Casilla  Saltarin
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 2;
+        break;
+    case 21:
+        toffsetCasillaIluminadau = 0.5;
+        toffsetCasillaIluminadav = 0.0;             //Casilla Stellar Winn
+        caso = 3;
+        break;
+    case 22:
+        toffsetCasillaIluminadau = 7 * .125;       
+        toffsetCasillaIluminadav = 0.0;
+        caso = 1;
+        break;
+    case 23:
+        toffsetCasillaIluminadau = 6 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 1;
+        break;
+    case 24:
+        toffsetCasillaIluminadau = 5 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 1;
+        break;
+    case 25:
+        toffsetCasillaIluminadau = 4 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 1;
+        break;
+    case 26:
+        toffsetCasillaIluminadau = 3 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 1;
+        break;
+    case 27:
+        toffsetCasillaIluminadau = 2 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 1;
+        break;
+    case 28:
+        toffsetCasillaIluminadau = 1 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 1;
+        break;
+    case 29:
+        toffsetCasillaIluminadau = 0.0;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 1;
+        break;
+    case 30:
+        toffsetCasillaIluminadau = 0.0;
+        toffsetCasillaIluminadav = 0.0;             //Casilla Insert Coin
+        caso = 3;
+        break;
+    case 31:
+        toffsetCasillaIluminadau = 0.0;
+        toffsetCasillaIluminadav = 0.0;         
+        caso = 2;
+        break;
+    case 32:
+        toffsetCasillaIluminadau = 1 * .125;
+        toffsetCasillaIluminadav = 0.0;         
+        caso = 2;
+        break;
+    case 33:
+        toffsetCasillaIluminadau = 2 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 2;
+        break;
+    case 34:
+        toffsetCasillaIluminadau = 3 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 2;
+        break;
+    case 35:
+        toffsetCasillaIluminadau = 4 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 2;
+        break;
+    case 36:
+        toffsetCasillaIluminadau = 5 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 2;
+        break;
+    case 37:
+        toffsetCasillaIluminadau = 6 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 2;
+        break;
+    case 38:
+        toffsetCasillaIluminadau = 7 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 2;
+        break;
+    case 39:
+        toffsetCasillaIluminadau = 0.0;       
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 2;
+        break;
+    case 40:
+        toffsetCasillaIluminadau = 1 * .125;       
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 2;
+        break;
+    default:
+        break;
+    }
 
+}
 void Animaciones::animacionTablero(float& posYObjeto, float& rotacionObjeto, float deltaTime, float Tiempo, Window& mainWindow) {
-    // Activa la animaciï¿½n solo si no estï¿½ activa y han pasado 10 segundos desde la ï¿½ltima ejecuciï¿½n
+    // Activa la animación solo si no está activa y han pasado 10 segundos desde la última ejecución
     if (!animacionActiva && (Tiempo >= tiempo10segundos || tiempo10segundos == 0)) {
         tiempo3segundos = Tiempo + 3.0f;
         animacionActiva = true;
         mainWindow.AnimacionCasilla = true;
     }
 
-    // Lï¿½gica de la animaciï¿½n
+    // Lógica de la animación
     if (animacionActiva && cantidadCasillas == 0) {
         if (Tiempo < tiempo3segundos) {
-            // Mueve el objeto a la posiciï¿½n alta y realiza la rotaciï¿½n
+            // Mueve el objeto a la posición alta y realiza la rotación
             posYObjeto = 5.0f;
             if (rotacionObjeto > -360.0f) {
                 rotacionObjeto -= (1.0f) * deltaTime;
@@ -691,10 +898,10 @@ void Animaciones::animacionTablero(float& posYObjeto, float& rotacionObjeto, flo
         }
         else if (Tiempo >= tiempo3segundos) {
             tiempo10segundos = Tiempo + 3.0f;  // Marca 10 segundos desde el tiempo actual
-            animacionActiva = false;       // Desactiva la animaciï¿½n para esperar los 10 segundos
+            animacionActiva = false;       // Desactiva la animación para esperar los 10 segundos
             mainWindow.AnimacionCasilla = false;
             posYObjeto = -5.0f;            // Baja el objeto
-            rotacionObjeto = 0.0f;         // Resetea la rotaciï¿½n del objeto
+            rotacionObjeto = 0.0f;         // Resetea la rotación del objeto
         }
     }
 }
@@ -797,6 +1004,7 @@ void Animaciones::controlAnimacionTablero(glm::vec3& posicion,
     float& posY40, float& rotacion40,
     float deltaTime,float Tiempo, Window& mainWindow) {
     int idCasilla = obtenerIDCasilla(posicion);
+    printf("Entre en caso %i \n", idCasilla);
     switch (idCasilla) {
     case 1:
         animacionTablero(posY1, rotacion1, deltaTime,Tiempo, mainWindow); //Casilla Guau contador
@@ -922,4 +1130,3 @@ void Animaciones::controlAnimacionTablero(glm::vec3& posicion,
         break;
     }
 }
-
