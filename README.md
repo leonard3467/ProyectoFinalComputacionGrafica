@@ -76,7 +76,7 @@ Para mantener un control organizado del proyecto, todos los documentos y bitáco
 ### 🗃️ Bitácoras y Registros
 - **Bitácora de Desarrollo:** [Ver Bitácora](https://drive.google.com/drive/folders/1zOJvUHKKpyKG5N6svKZg5g6TgdxUNg6y?usp=drive_link)
 - **Manuales de Usuario:** [Manual de Usuario](https://drive.google.com/drive/folders/1Nip-Stdszvcpd0RmCOs0T8Frw_eYj4FT?usp=drive_link)
-- **General:** [Carpeta General](https://drive.google.com/drive/folders/15wHKjsd4ezUdf1cwdhT9cBkUrV6wJz4e?usp=drive_link)
+- **General:** [Carpeta General](https://drive.google.com/drive/folders/1u5RA5fl1nEaoeoIAdxCIaVFTT6og7LA-)
 
 ### Ejemplo de Registro de Bitácora:
 ```markdown
