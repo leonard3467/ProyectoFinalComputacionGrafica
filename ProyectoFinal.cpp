@@ -11,6 +11,9 @@
 #include <glm.hpp>
 #include <gtc\matrix_transform.hpp>
 #include <gtc\type_ptr.hpp>
+//Biblioteca para nuestro sonido
+#include <irrKlang.h>
+using namespace irrklang;
 //para probar el importer
 //#include<assimp/Importer.hpp>
 
@@ -72,6 +75,8 @@ float saltoBenderY = 0.0f;          // Altura del salto en el eje Y
 float desplazamientoBender = 0.0f;  // Desplazamiento inicial
 float desplazamientoBenderz = 0.0f;
 int pasos = 0;                      // Contador de pasos
+float rotBrazoDerInf = 0.0f, rotBrazoIzqInf = 0.0f, rotBrazoDerSup = 0.0f, rotBrazoIzqSup = 0.0f, rotPiernaIzqSup = 0.0f, rotPiernaDerSup = 0.0f, rotPiernaIzqInf = 0.0f, rotPiernaDerInf = 0.0f;
+float rotacionX = 0.0f, rotacionY = 0.0f, rotacionZ = 0.0f;
 
 //Movimiento tablero dipper
 float rotacionDipper = 0.0f;        // Inicializar rotación de Bender
@@ -442,7 +447,8 @@ void CreateShaders()
 //Posición inicial Bender
 glm::vec3 position(-27.0f, 2.5f, -29.0f);
 //Auxiliar posicion de Dipper
-glm::vec3 positionDipper(-27.0f, 3.5f, -29.0f);
+//-30.0f, 0.0f, -130.0f
+glm::vec3 positionDipper(-30.0f, 0.3f, -80.0f);
 //Posicion del turno actual 
 glm::vec3 TurnoActual(0.0f, 0.0f, 0.0f);
 
@@ -478,12 +484,14 @@ int main()
 	Casilla2.LoadTextureA();
 	Casilla3 = Texture("Textures/Casillas3.tga");
 	Casilla3.LoadTextureA();
+
 	Casilla1Iluminada = Texture("Textures/Casillas1Iluminada.tga");
 	Casilla1Iluminada.LoadTextureA();
 	Casilla2Iluminada = Texture("Textures/Casillas2Iluminada.tga");
 	Casilla2Iluminada.LoadTextureA();
 	Casilla3Iluminada = Texture("Textures/Casillas3Iluminada.tga");
 	Casilla3Iluminada.LoadTextureA();
+
 	dado_8_Caras = Texture("Textures/Dado8carasFinal.tga");
 	dado_8_Caras.LoadTextureA();
 	dado_4_Caras = Texture("Textures/Dado_4caras.tga");
@@ -496,7 +504,22 @@ int main()
 	dado8Caras = Model();
 	dado8Caras.LoadModel("Models/Dado8Caras.obj");
 
+	//---------------- Música
+	// Crea el motor de sonido
 
+	ISoundEngine* engine = createIrrKlangDevice();
+	if (!engine) {
+		std::cout << "Error al inicializar irrKlang" << std::endl;
+		return 0;
+	}
+	// Configura el volumen global del sonido (entre 0.0 y 1.0)
+	engine->setSoundVolume(0.8f);
+	// Reproduce un archivo de sonido
+	engine->play2D("media/audio_principal.ogg", true);
+	
+	// Bucle principal
+	bool isRunning = true;
+	while (isRunning) {
 	////------------------- Modelos Futurama -----------
 	BenderCabeza = Model();
 	BenderCabeza.LoadModel("Models/Bender_Cabeza.obj");
@@ -526,114 +549,114 @@ int main()
 
 	BenderPiernaIzqSup = Model();
 	BenderPiernaIzqSup.LoadModel("Models/Bender_PiernaIzqSup.obj");
-	//
-	//PerroFry = Model();
-	//PerroFry.LoadModel("Models/PerroFry.fbx");
-	//Zoiberg = Model();
-	//Zoiberg.LoadModel("Models/Zoiberg.obj");
-	//Leela = Model();
-	//Leela.LoadModel("Models/LEELA.obj");
-	//Fry = Model();
-	//Fry.LoadModel("Models/Fry.obj");
-	//Nopal = Model();
-	//Nopal.LoadModel("Models/nopal.obj");
-	//Floripondio = Model();
-	//Floripondio.LoadModel("Models/florpondio.obj");
-	//Naturaleza = Model();
-	//Naturaleza.LoadModel("Models/Naturaleza.obj");
-	//Tortuga = Model();
-	//Tortuga.LoadModel("Models/Tortuga.obj");
-	//BabyBender = Model();
-	//BabyBender.LoadModel("Models/BabyBender.obj");
-	//Trebol = Model();
-	//Trebol.LoadModel("Models/Trebol.obj");
-	//PlanetExpres = Model();
-	//PlanetExpres.LoadModel("Models/PlanetExpress.obj");
-	//CasillaJungla = Model();
-	//CasillaJungla.LoadModel("Models/Jungla.obj");
-	//Casino = Model();
-	//Casino.LoadModel("Models/casino.obj");
-	//DiabloRobot = Model();
-	//DiabloRobot.LoadModel("Models/DiabloRobot.obj");
+	
+	PerroFry = Model();
+	PerroFry.LoadModel("Models/PerroFry.fbx");
+	Zoiberg = Model();
+	Zoiberg.LoadModel("Models/Zoiberg.obj");
+	Leela = Model();
+	Leela.LoadModel("Models/LEELA.obj");
+	Fry = Model();
+	Fry.LoadModel("Models/Fry.obj");
+	Nopal = Model();
+	Nopal.LoadModel("Models/nopal.obj");
+	Floripondio = Model();
+	Floripondio.LoadModel("Models/florpondio.obj");
+	Naturaleza = Model();
+	Naturaleza.LoadModel("Models/Naturaleza.obj");
+	Tortuga = Model();
+	Tortuga.LoadModel("Models/Tortuga.obj");
+	BabyBender = Model();
+	BabyBender.LoadModel("Models/BabyBender.obj");
+	Trebol = Model();
+	Trebol.LoadModel("Models/Trebol.obj");
+	PlanetExpres = Model();
+	PlanetExpres.LoadModel("Models/PlanetExpress.obj");
+	CasillaJungla = Model();
+	CasillaJungla.LoadModel("Models/Jungla.obj");
+	Casino = Model();
+	Casino.LoadModel("Models/casino.obj");
+	DiabloRobot = Model();
+	DiabloRobot.LoadModel("Models/DiabloRobot.obj");
 
-	////----------------------------------Modelos Gravity Falls
-	//bill = Model();
-	//bill.LoadModel("Models/bill.obj");
-	//cabra = Model();
-	//cabra.LoadModel("Models/cabra.obj");
-	//cerdo = Model();
-	//cerdo.LoadModel("Models/cerdo.obj");
-	//dipper = Model();
-	//dipper.LoadModel("Models/dipper.obj");
-	//soos = Model();
-	//soos.LoadModel("Models/soos.obj");
-	//flor_azul = Model();
-	//flor_azul.LoadModel("Models/flor_azul.obj");
-	//mabel = Model();
-	//mabel.LoadModel("Models/mabel.obj");
-	//stan = Model();
-	//stan.LoadModel("Models/stan.obj");
-	//wendy = Model();
-	//wendy.LoadModel("Models/wendy.obj");
-	//mystery_shack = Model();
-	//mystery_shack.LoadModel("Models/mystery_shack.obj");
-	//mansion = Model();
-	//mansion.LoadModel("Models/mansion.obj");
-	//bulldog = Model();
-	//bulldog.LoadModel("Models/bulldog.obj");
-	//arcade = Model();
-	//arcade.LoadModel("Models/arcade.obj");
-	////Dipper
-	//cabezaDipper = Model();
-	//cabezaDipper.LoadModel("Models/cabezaDipper.obj");
-	//torsoDipper = Model();
-	//torsoDipper.LoadModel("Models/torsoDipper.obj");
-	//antebrazoDipper_der = Model();
-	//antebrazoDipper_der.LoadModel("Models/antebrazoDipper_der.obj");
-	//antebrazoDipper_izq = Model();
-	//antebrazoDipper_izq.LoadModel("Models/antebrazoDipper_izq.obj");
-	//brazoDipper_der = Model();
-	//brazoDipper_der.LoadModel("Models/brazoDipper_der.obj");
-	//brazoDipper_izq = Model();
-	//brazoDipper_izq.LoadModel("Models/brazoDipper_izq.obj");
-	//musloDipper_der = Model();
-	//musloDipper_der.LoadModel("Models/musloDipper_der.obj");
-	//musloDipper_izq = Model();
-	//musloDipper_izq.LoadModel("Models/musloDipper_izq.obj");
-	//piernaDipper_der = Model();
-	//piernaDipper_der.LoadModel("Models/piernaDipper_der.obj");
-	//piernaDipper_izq = Model();
-	//piernaDipper_izq.LoadModel("Models/piernaDipper_izq.obj");
+	/*----------------------------------Modelos Gravity Falls*/
+	bill = Model();
+	bill.LoadModel("Models/bill.obj");
+	cabra = Model();
+	cabra.LoadModel("Models/cabra.obj");
+	cerdo = Model();
+	cerdo.LoadModel("Models/cerdo.obj");
+	dipper = Model();
+	dipper.LoadModel("Models/dipper.obj");
+	soos = Model();
+	soos.LoadModel("Models/soos.obj");
+	flor_azul = Model();
+	flor_azul.LoadModel("Models/flor_azul.obj");
+	mabel = Model();
+	mabel.LoadModel("Models/mabel.obj");
+	stan = Model();
+	stan.LoadModel("Models/stan.obj");
+	wendy = Model();
+	wendy.LoadModel("Models/wendy.obj");
+	mystery_shack = Model();
+	mystery_shack.LoadModel("Models/mystery_shack.obj");
+	mansion = Model();
+	mansion.LoadModel("Models/mansion.obj");
+	bulldog = Model();
+	bulldog.LoadModel("Models/bulldog.obj");
+	arcade = Model();
+	arcade.LoadModel("Models/arcade.obj");
+	//Dipper
+	cabezaDipper = Model();
+	cabezaDipper.LoadModel("Models/cabezaDipper.obj");
+	torsoDipper = Model();
+	torsoDipper.LoadModel("Models/torsoDipper.obj");
+	antebrazoDipper_der = Model();
+	antebrazoDipper_der.LoadModel("Models/antebrazoDipper_der.obj");
+	antebrazoDipper_izq = Model();
+	antebrazoDipper_izq.LoadModel("Models/antebrazoDipper_izq.obj");
+	brazoDipper_der = Model();
+	brazoDipper_der.LoadModel("Models/brazoDipper_der.obj");
+	brazoDipper_izq = Model();
+	brazoDipper_izq.LoadModel("Models/brazoDipper_izq.obj");
+	musloDipper_der = Model();
+	musloDipper_der.LoadModel("Models/musloDipper_der.obj");
+	musloDipper_izq = Model();
+	musloDipper_izq.LoadModel("Models/musloDipper_izq.obj");
+	piernaDipper_der = Model();
+	piernaDipper_der.LoadModel("Models/piernaDipper_der.obj");
+	piernaDipper_izq = Model();
+	piernaDipper_izq.LoadModel("Models/piernaDipper_izq.obj");
 
-	//// Modelos Mario 
-	//CastilloBow = Model();
-	//CastilloBow.LoadModel("Models/CastilloBow.obj");
-	//Cheep = Model();
-	//Cheep.LoadModel("Models/Cheep.obj");
-	//FlorFuego = Model();
-	//FlorFuego.LoadModel("Models/FlorFuego.obj");
-	//Fortaleza = Model();
-	//Fortaleza.LoadModel("Models/Fortaleza.obj");
-	//Goomba = Model();
-	//Goomba.LoadModel("Models/Goomba.obj");
-	//IceFlower = Model();
-	//IceFlower.LoadModel("Models/IceFlower.obj");
-	//Koopa = Model();
-	//Koopa.LoadModel("Models/Koopa.obj");
-	//Mario = Model();
-	//Mario.LoadModel("Models/Mario.obj");
-	//Monstruito = Model();
-	//Monstruito.LoadModel("Models/Monstruito.obj");
-	//PeachCastle = Model();
-	//PeachCastle.LoadModel("Models/PeachCastle.obj");
-	//Planta_Carnivora = Model();
-	//Planta_Carnivora.LoadModel("Models/Planta_Carnivora.obj");
-	//Toad = Model();
-	//Toad.LoadModel("Models/Toad.obj");
-	//Yoshi = Model();
-	//Yoshi.LoadModel("Models/Yoshi.obj");
-	//Oruga = Model();
-	//Oruga.LoadModel("Models/Oruga.obj");
+	// Modelos Mario 
+	CastilloBow = Model();
+	CastilloBow.LoadModel("Models/CastilloBow.obj");
+	Cheep = Model();
+	Cheep.LoadModel("Models/Cheep.obj");
+	FlorFuego = Model();
+	FlorFuego.LoadModel("Models/FlorFuego.obj");
+	Fortaleza = Model();
+	Fortaleza.LoadModel("Models/Fortaleza.obj");
+	Goomba = Model();
+	Goomba.LoadModel("Models/Goomba.obj");
+	IceFlower = Model();
+	IceFlower.LoadModel("Models/IceFlower.obj");
+	Koopa = Model();
+	Koopa.LoadModel("Models/Koopa.obj");
+	Mario = Model();
+	Mario.LoadModel("Models/Mario.obj");
+	Monstruito = Model();
+	Monstruito.LoadModel("Models/Monstruito.obj");
+	PeachCastle = Model();
+	PeachCastle.LoadModel("Models/PeachCastle.obj");
+	Planta_Carnivora = Model();
+	Planta_Carnivora.LoadModel("Models/Planta_Carnivora.obj");
+	Toad = Model();
+	Toad.LoadModel("Models/Toad.obj");
+	Yoshi = Model();
+	Yoshi.LoadModel("Models/Yoshi.obj");
+	Oruga = Model();
+	Oruga.LoadModel("Models/Oruga.obj");
 
 	std::vector<std::string> skyboxFaces;
 
@@ -671,6 +694,7 @@ int main()
 		-35.5f, 8.5f, -38.0f,                        // Posición de la luz
 		0.3f, 0.05f, 0.02f);                      // Coeficientes de atenuación ajustados
 	pointLightCount++;
+
 
 	unsigned int spotLightCount = 0;
 	//Luz Spotlight
@@ -936,16 +960,18 @@ int main()
 			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 			color = glm::vec3(1.0f, 1.0f, 1.0f);
 			glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-			if (caso==1) {
+			if (caso == 1) {
 				Casilla1Iluminada.UseTexture();
 				meshList[5]->RenderMesh();
-			}else if (caso == 2) {
+			}
+			else if (caso == 2) {
 				Casilla2Iluminada.UseTexture();
 				meshList[5]->RenderMesh();
-			}else{
+			}
+			else {
 				Casilla3Iluminada.UseTexture();
 				meshList[6]->RenderMesh();
-				
+
 			}
 			
 			Material_brillante.UseMaterial(uniformSpecularIntensity, uniformShininess);
@@ -1307,7 +1333,7 @@ int main()
 		toffset = glm::vec2(toffsetCasillau, toffsetCasillav);
 		model = glm::mat4(1.0);
 		model = glm::translate(model, position);
-		animaciones.movimientoTableroBender(position, rotacionBender, saltoBenderY, desplazamientoBender, pasos, deltaTime, mainWindow, Tiempo, desplazamientoBenderz, rotacionBenderAux);
+		animaciones.movimientoTableroBender(position, rotacionBender, saltoBenderY, desplazamientoBender, pasos, deltaTime, mainWindow, Tiempo, desplazamientoBenderz, rotacionBenderAux,rotBrazoDerInf, rotBrazoIzqInf, rotBrazoDerSup, rotBrazoIzqSup, rotPiernaIzqSup, rotPiernaDerSup, rotPiernaIzqInf, rotPiernaDerInf, rotacionX, rotacionY, rotacionZ);
 		model = glm::translate(model, glm::vec3(0.0f + desplazamientoBender, 0.0f, 0.0f + desplazamientoBenderz));
 		model = glm::rotate(model, (rotacionBender + rotacionBenderAux - 180) * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		modelaux = model;
@@ -1332,7 +1358,7 @@ int main()
 		//-- Brazo Derecho 
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(.9f, 0.7f, 0.0f));
-		model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, rotBrazoDerSup, glm::vec3(rotacionX, rotacionY, rotacionZ));
 		modelaux2 = model;
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		color = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -1353,7 +1379,7 @@ int main()
 		// Brazo Izquierdo
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(-.9f, 0.7f, 0.0f));
-		model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, rotBrazoIzqSup, glm::vec3(rotacionX, rotacionY, rotacionZ));
 		modelaux2 = model;
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		color = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -1374,7 +1400,7 @@ int main()
 		// Pierna Derecha
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(-.5f, -.9f, 0.0f));
-		model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, rotPiernaDerSup, glm::vec3(rotacionX, rotacionY, rotacionZ));
 		modelaux2 = model;
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		color = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -1395,7 +1421,7 @@ int main()
 		// Pierna  Izquierdo
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(.5f, -.9f, 0.0f));
-		model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, rotPiernaIzqSup, glm::vec3(rotacionX, rotacionY, rotacionZ));
 		modelaux2 = model;
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		color = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -1416,113 +1442,108 @@ int main()
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glDisable(GL_BLEND);
 
-		////------------*MODELO JERARQUICO DE DIPPER -------------------*
-		//// --- TORSO
-		//model = glm::mat4(1.0);
-		//model = glm::translate(model, positionDipper);
-		////model = glm::translate(model, glm::vec3(-0.3f + desplazamientoBender, 0.5f, 0.0f + desplazamientoBenderz));
-		//animaciones.movimientoTableroDipper(positionDipper, rotacionDipper, saltoDipperY, desplazamientoDipper, pasos, deltaTime, mainWindow, Tiempo, desplazamientoDipperz, rotacionDipperAux);
-		//model = glm::translate(model, glm::vec3(0.0f + desplazamientoDipper, 0.0f, 0.0f + desplazamientoDipperz));
-		//model = glm::rotate(model, (rotacionDipper + rotacionDipperAux - 180) * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		///*std::cout << "Posición actual del modelo: "
-		//	<< "X: " << position.x << ", "
-		//	<< "Y: " << position.y << ", "
-		//	<< "Z: " << position.z << std::endl;*/
-		//modelaux = model;
-		//model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		//color = glm::vec3(1.0f, 1.0f, 1.0f);
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//torsoDipper.RenderModel();
-		//// Imprimir la posición
+		//------------*MODELO JERARQUICO DE DIPPER -------------------*
+		// --- TORSO
+		model = glm::mat4(1.0);
+		model = glm::translate(model, positionDipper);
+		model = glm::translate(model, glm::vec3(0.0f + desplazamientoDipper, 0.0f, 0.0f + desplazamientoDipperz));
+		model = glm::rotate(model, (rotacionDipper + rotacionDipperAux ) * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 3.0f));
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		torsoDipper.RenderModel();
+		// Imprimir la posición
 
-		////-- Cabeza
-		//model = modelaux;
-		//model = glm::translate(model, glm::vec3(0.05f, 0.48f, 0.13f));
-		//model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		//color = glm::vec3(1.0f, 1.0f, 1.0f);
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//cabezaDipper.RenderModel();
-		////-- Brazo Derecho 
-		//model = modelaux;
-		//model = glm::translate(model, glm::vec3(-0.35f, 0.28f, 0.1f));
-		//model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		//modelaux2 = model;
-		//model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		//color = glm::vec3(1.0f, 1.0f, 1.0f);
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//brazoDipper_der.RenderModel();
-		//// -- Antebrazo Derecho
-		//model = modelaux2;
-		//model = glm::translate(model, glm::vec3(-0.02f, -0.57f, 0.05f));
-		////model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		//color = glm::vec3(1.0f, 1.0f, 1.0f);
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//antebrazoDipper_der.RenderModel();
-		//// Brazo Izquierdo
-		//model = modelaux;
-		//model = glm::translate(model, glm::vec3(0.36f, 0.28f, 0.1f));
-		//model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		//modelaux2 = model;
-		//model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		//color = glm::vec3(1.0f, 1.0f, 1.0f);
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//brazoDipper_izq.RenderModel();
-		//// Antebrazo izquierdo
-		//model = modelaux2;
-		//model = glm::translate(model, glm::vec3(0.01f, -0.59f, 0.02f));
-		////model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		//color = glm::vec3(1.0f, 1.0f, 1.0f);
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//antebrazoDipper_izq.RenderModel();
-		//// Muslo Derecha
-		//model = modelaux;
-		//model = glm::translate(model, glm::vec3(-0.1f, -0.52f, 0.05f));
-		//model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		//modelaux2 = model;
-		//model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		//color = glm::vec3(1.0f, 1.0f, 1.0f);
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//musloDipper_der.RenderModel();
-		//// Pierna Derecha
-		//model = modelaux2;
-		//model = glm::translate(model, glm::vec3(-0.027f, -0.3f, 0.031f));
-		////model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		//color = glm::vec3(1.0f, 1.0f, 1.0f);
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//piernaDipper_der.RenderModel();
-		//// Muslo  Izquierdo contador
-		//model = modelaux;
-		//model = glm::translate(model, glm::vec3(0.21f, -0.5f, 0.05f));
-		//model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		//modelaux2 = model;
-		//model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		//color = glm::vec3(1.0f, 1.0f, 1.0f);
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//musloDipper_izq.RenderModel();
-		//// Pierna Izquierda
-		//model = modelaux2;
-		//model = glm::translate(model, glm::vec3(-0.022f, -0.32f, 0.07f));
-		////model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		//color = glm::vec3(1.0f, 1.0f, 1.0f);
-		//glUniform3fv(uniformColor, 1, glm::value_ptr(color));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//piernaDipper_izq.RenderModel();
-		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		//glDisable(GL_BLEND);
+		//-- Cabeza
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.05f, 0.48f, 0.13f));
+		model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		cabezaDipper.RenderModel();
+		//-- Brazo Derecho 
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-0.35f, 0.28f, 0.1f));
+		model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		modelaux2 = model;
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		brazoDipper_der.RenderModel();
+		// -- Antebrazo Derecho
+		model = modelaux2;
+		model = glm::translate(model, glm::vec3(-0.02f, -0.57f, 0.05f));
+		//model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		antebrazoDipper_der.RenderModel();
+		// Brazo Izquierdo
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.36f, 0.28f, 0.1f));
+		model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		modelaux2 = model;
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		brazoDipper_izq.RenderModel();
+		// Antebrazo izquierdo
+		model = modelaux2;
+		model = glm::translate(model, glm::vec3(0.01f, -0.59f, 0.02f));
+		//model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		antebrazoDipper_izq.RenderModel();
+		// Muslo Derecha
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-0.1f, -0.52f, 0.05f));
+		model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		modelaux2 = model;
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		musloDipper_der.RenderModel();
+		// Pierna Derecha
+		model = modelaux2;
+		model = glm::translate(model, glm::vec3(-0.027f, -0.3f, 0.031f));
+		//model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		piernaDipper_der.RenderModel();
+		// Muslo  Izquierdo contador
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.21f, -0.5f, 0.05f));
+		model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		modelaux2 = model;
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		musloDipper_izq.RenderModel();
+		// Pierna Izquierda
+		model = modelaux2;
+		model = glm::translate(model, glm::vec3(-0.022f, -0.32f, 0.07f));
+		//model = glm::rotate(model, mainWindow.rotx * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		color = glm::vec3(1.0f, 1.0f, 1.0f);
+		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		piernaDipper_izq.RenderModel();
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glDisable(GL_BLEND);
 
 		//------------------------ OBJETOS TABLERO	
 		//Llamada a funci�n con posicion del personaje para activar animaci�n de tablero
@@ -2020,6 +2041,9 @@ int main()
 
 		mainWindow.swapBuffers();
 	}
+		}
+		// Libera recursos de irrKlang
+		engine->drop();
 
 	return 0;
 }

@@ -4,19 +4,7 @@ Animaciones::Animaciones()
 }
 void Animaciones::animacionDado8Caras(float* rotDadox, float* rotDadoy, float* rotDadoz, float* rotDadoxOffset, float* rotDadoyOffset, float* rotDadozOffset, float* movDado, float* movOffset, Window& mainWindow, float* deltaTime) {
     if (mainWindow.getAvanza() == true) {
-        // Inicializar el generador de números aleatorios solo una vez
-        //en 2 se queda paralela al suelo
-        // // teoria cada 90 grados se va moviendo en una nueva cara 
-        // para obtener el numero 3 rotar directamente 52 grados en eje x 
-        // para obtener elnuemro 2 rotar 52 grados en x y 90 en y 
-        // para obtener el numero 8 rotar -52 gradosx
-        // para obtener el numero 5 rotar  -52 grados en z 
-        // con eso concluye cara piramide superiro
-        // 180 grados en x para poder mostrar la cara de abajo
-        // para obtener el numero 4 rotar 52 grados en z 
-        // para obtener el numero 7 rotar -52 grados en z
-        // para obtener el numero 1 rotar -52 grados en eje x 
-        // para obtener el numero 6 rotar 52 grados en eje x 
+
         static bool initialized = false;
         if (!initialized) {
             std::srand(static_cast<unsigned int>(std::time(nullptr)));
@@ -224,15 +212,24 @@ void Animaciones::animacionDado4Caras(float* rotDado4x, float* rotDado4y, float*
         numRandom1 = false;
     }
 }
-void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBender, float& saltoBenderY, float& desplazamientoBender, int& pasos, float& deltaTime, Window& mainWindow, float& Tiempo, float& desplazamientoBenderz, float& rotacionBenderAux) {
+void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBender, float& saltoBenderY, float& desplazamientoBender, int& pasos, float& deltaTime, Window& mainWindow, float& Tiempo, float& desplazamientoBenderz, float& rotacionBenderAux, float& rotBrazoDerInf, float& rotBrazoIzqInf, float& rotBrazoDerSup, float& rotBrazoIzqSup, float& rotPiernaIzqSup, float& rotPiernaDerSup, float& rotPiernaIzqInf, float& rotPiernaDerInf, float& rotacionX, float& rotacionY, float& rotacionZ) {
     // el offset de el dezplazamiento de mi modelo sera siempre de .05
     GLfloat rotacionBenderauxiliar = 0;
     GLfloat desplazamientoBenderauxiliar = 0;
+    // Variables de control
+    float incrementoMovimiento = 2.0f; // Incremento por cuadro
+    float limiteMovimiento = 20.0f;   // Límite máximo de rotación en grados
+    
+
     if (cantidadCasillas != 0 && mainWindow.turno==2 && mainWindow.AnimacionDadoActiva==false) {
         mainWindow.AnimacionRecorridoActiva = true;
 
         // esquina inferior izquierda
         if (posicion.x > -32.0f && posicion.x < -22.0f && posicion.z > -34.0f && posicion.z < -24.0f) {
+            rotBrazoDerSup = 0.0f; // Rotación para brazo derecho
+            rotBrazoIzqSup = 0.0f; // Rotación para brazo izquierdo
+            rotPiernaDerSup = 0.0f;
+            rotPiernaIzqSup = 0.0f;
             if (rotacionBender > -90.0f) {
                 rotacionBender -= (.5f) * (deltaTime);
             }
@@ -251,6 +248,10 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
         }
         // esquina inferior derecha
         else if (posicion.x >= 22.0f && posicion.x <= 32.0f && posicion.z >= -34.0f && posicion.z <= -24.0f) {
+            rotBrazoDerSup = 0.0f; // Rotación para brazo derecho
+            rotBrazoIzqSup = 0.0f; // Rotación para brazo izquierdo
+            rotPiernaDerSup = 0.0f;
+            rotPiernaIzqSup = 0.0f;
             if (rotacionBender > -90.0f) {
                 rotacionBender -= (.5f) * (deltaTime);
             }
@@ -271,6 +272,10 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
         }
         // esquina Superior derecha
         else if (posicion.x >= 22.0f && posicion.x <= 32.0f && posicion.z >= 24.0f && posicion.z <= 34.0f) {
+            rotBrazoDerSup = 0.0f; // Rotación para brazo derecho
+            rotBrazoIzqSup = 0.0f; // Rotación para brazo izquierdo
+            rotPiernaDerSup = 0.0f;
+            rotPiernaIzqSup = 0.0f;
             if (rotacionBender > -90.0f) {
                 rotacionBender -= (.5f) * (deltaTime);
             }
@@ -289,6 +294,10 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
         }
         // esquina Superior Izquierda
         if (posicion.x >= -32.0f && posicion.x <= -22.0f && posicion.z >= 24.0f && posicion.z <= 34.0f) {
+            rotBrazoDerSup = 0.0f; // Rotación para brazo derecho
+            rotBrazoIzqSup = 0.0f; // Rotación para brazo izquierdo
+            rotPiernaDerSup = 0.0f;
+            rotPiernaIzqSup = 0.0f;
             if (rotacionBender > -90.0f) {
                 rotacionBender -= (.5f) * (deltaTime);
 
@@ -308,6 +317,23 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
         }
         // lineas verticales 1
         else if ((posicion.x >= -22.0f && posicion.x <= 22.0f) && posicion.z <= -29.0f) {
+            rotacionX = 1.0f;
+            rotacionZ = 0.0f;
+            if (rotBrazoDerSup >= limiteMovimiento && rotBrazoIzqSup <= -limiteMovimiento) {
+                rotBrazoDerSup -= incrementoMovimiento /2; // Rotación para brazo derecho
+                rotBrazoIzqSup += incrementoMovimiento / 2; // Rotación para brazo izquierdo
+                rotPiernaDerSup += incrementoMovimiento / 2;
+                rotPiernaIzqSup -= incrementoMovimiento / 2;
+            }
+            else {
+                rotBrazoDerSup += incrementoMovimiento; // Rotación para brazo derecho
+                rotBrazoIzqSup -= incrementoMovimiento; // Rotación para brazo izquierdo
+                rotPiernaDerSup -= incrementoMovimiento;
+                rotPiernaIzqSup += incrementoMovimiento;
+            }
+         
+
+
             if (posicion.x == 19.25f) {
                 if (desplazamientoBender < 7.75f) {
                     desplazamientoBender += (.05f) * (deltaTime);
@@ -338,6 +364,24 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
         }
         // lineas verticales 2
         else if ((posicion.x >= -22.0f && posicion.x <= 22.0f) && posicion.z >= 29.0f) {
+            rotacionX = 1.0f;
+            rotacionZ = 0.0f;
+            if (rotBrazoDerSup >= limiteMovimiento && rotBrazoIzqSup <= -limiteMovimiento) {
+                rotBrazoDerSup -= incrementoMovimiento; // Rotación para brazo derecho
+                rotBrazoIzqSup += incrementoMovimiento; // Rotación para brazo izquierdo
+                rotPiernaDerSup += incrementoMovimiento;
+                rotPiernaIzqSup -= incrementoMovimiento;
+            }
+            else {
+                rotBrazoDerSup += incrementoMovimiento; // Rotación para brazo derecho
+                rotBrazoIzqSup -= incrementoMovimiento; // Rotación para brazo izquierdo
+                rotPiernaDerSup -= incrementoMovimiento;
+                rotPiernaIzqSup += incrementoMovimiento;
+            }
+
+
+
+
             if (posicion.x == -19.25f) {
                 if (desplazamientoBender > -7.75f) {
                     desplazamientoBender -= (.05f) * (deltaTime);
@@ -368,6 +412,21 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
         }
         // Lineas Horizontales
         else if ((posicion.z >= -24.0f && posicion.z <= 24.0f) && posicion.x == 27.0f) {
+            rotacionX = 1.0f;
+            rotacionZ = 0.0f;
+            if (rotBrazoDerSup >= limiteMovimiento && rotBrazoIzqSup <= -limiteMovimiento) {
+                rotBrazoDerSup -= incrementoMovimiento; // Rotación para brazo derecho
+                rotBrazoIzqSup += incrementoMovimiento; // Rotación para brazo izquierdo
+                rotPiernaDerSup += incrementoMovimiento;
+                rotPiernaIzqSup -= incrementoMovimiento;
+            }
+            else {
+                rotBrazoDerSup += incrementoMovimiento; // Rotación para brazo derecho
+                rotBrazoIzqSup -= incrementoMovimiento; // Rotación para brazo izquierdo
+                rotPiernaDerSup -= incrementoMovimiento;
+                rotPiernaIzqSup += incrementoMovimiento;
+            }
+
             if (posicion.z >= 21.6f) { // se pone mayur  o igual ya que puede que el aumento lo tetecte como 21.600000000005 
                 if (desplazamientoBenderz < 7.4f) {
                     desplazamientoBenderz += (.05f) * (deltaTime);
@@ -394,6 +453,20 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
         }
         // Lineas Horizontales 2
         else if ((posicion.z >= -24.0f && posicion.z <= 24.0f) && posicion.x == -27.0f) {
+            rotacionX = 1.0f;
+            rotacionZ = 0.0f;
+            if (rotBrazoDerSup >= limiteMovimiento && rotBrazoIzqSup <= -limiteMovimiento) {
+                rotBrazoDerSup -= incrementoMovimiento; // Rotación para brazo derecho
+                rotBrazoIzqSup += incrementoMovimiento; // Rotación para brazo izquierdo
+                rotPiernaDerSup += incrementoMovimiento;
+                rotPiernaIzqSup -= incrementoMovimiento;
+            }
+            else {
+                rotBrazoDerSup += incrementoMovimiento; // Rotación para brazo derecho
+                rotBrazoIzqSup -= incrementoMovimiento; // Rotación para brazo izquierdo
+                rotPiernaDerSup -= incrementoMovimiento;
+                rotPiernaIzqSup += incrementoMovimiento;
+            }
             if (posicion.z >= -21.7f && posicion.z <= -21.5f) {
                 if (desplazamientoBenderz > -7.4f) {
 
@@ -1004,6 +1077,7 @@ void Animaciones::controlAnimacionTablero(glm::vec3& posicion,
     float& posY40, float& rotacion40,
     float deltaTime,float Tiempo, Window& mainWindow) {
     int idCasilla = obtenerIDCasilla(posicion);
+    //printf("Entre en caso %i \n", idCasilla);
     switch (idCasilla) {
     case 1:
         animacionTablero(posY1, rotacion1, deltaTime,Tiempo, mainWindow); //Casilla Guau contador

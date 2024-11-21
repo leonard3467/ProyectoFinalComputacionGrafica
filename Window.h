@@ -19,7 +19,8 @@ public:
 	GLint turno = 1;
 	GLint CantidadEsp = 0;
 	bool getShouldClose() {
-		return  glfwWindowShouldClose(mainWindow);}
+		return  glfwWindowShouldClose(mainWindow);
+	}
 	bool* getsKeys() { return keys; }
 	void swapBuffers() { return glfwSwapBuffers(mainWindow); }
 	bool getAvanza() { return Avanza; }
@@ -29,8 +30,8 @@ public:
 	bool AnimacionCasilla = false;
 	bool CicloNoche;
 	~Window();
-private: 
-	GLFWwindow *mainWindow;
+private:
+	GLFWwindow* mainWindow;
 	GLint width, height;
 	bool keys[1024];
 	GLint bufferWidth, bufferHeight;
@@ -40,8 +41,8 @@ private:
 	GLfloat xChange;
 	GLfloat yChange;
 	GLfloat muevex;
-	
-	
+
+
 	GLboolean Bandera;
 	bool mouseFirstMoved, Avanza;
 	static void ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode);
@@ -51,4 +52,3 @@ private:
 	const float intervaloEncendido = 5.0f; // Intervalo de 150 segundos
 
 };
-
