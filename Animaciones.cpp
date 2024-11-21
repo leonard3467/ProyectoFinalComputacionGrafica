@@ -24,7 +24,7 @@ void Animaciones::animacionDado8Caras(float* rotDadox, float* rotDadoy, float* r
         }
         if (!numRandom) {
             randomNumber1 = (std::rand() % 8) + 1;
-            printf(" \nel numero random numero 1 para dado de 8 caras es de : %d \n", randomNumber1);
+            //printf(" \nel numero random numero 1 para dado de 8 caras es de : %d \n", randomNumber1);
             cantidadCasillas += randomNumber1;
             numRandom = true;
         }
@@ -136,16 +136,16 @@ void Animaciones::animacionDado4Caras(float* rotDado4x, float* rotDado4y, float*
         //para 2 es rotacion en x de 250  y en y de -120 
     if (mainWindow.getAvanza() == true) {
         static bool initialized = false;
-
+        mainWindow.AnimacionDadoActiva = true;
         if (!initialized) {
             std::srand(static_cast<unsigned int>(std::time(nullptr)));
             initialized = true;
         }
         if (!numRandom1) {
             randomNumber2 = (std::rand() % 4) + 1;
-            printf(" \nel numero random numero 2 para dado de 4 caras es de : %d \n", randomNumber2);
+            //printf(" \nel numero random numero 2 para dado de 4 caras es de : %d \n", randomNumber2);
             cantidadCasillas += randomNumber2;
-            printf(" \n ----- nos dezplazaremos : %d \n", cantidadCasillas);
+            //printf(" \n ----- nos dezplazaremos : %d \n", cantidadCasillas);
             numRandom1 = true;
         }
 
@@ -153,10 +153,16 @@ void Animaciones::animacionDado4Caras(float* rotDado4x, float* rotDado4y, float*
             if (*movDado4 > -10.0f) {
                 *movDado4 -= (*mov4Offset) * (*deltaTime);
             }
+            else if (*movDado4 < -10.0f) {
+                mainWindow.AnimacionDadoActiva = false;
+            }
         }
         else {
             if (*movDado4 > -14.0f) {
                 *movDado4 -= (*mov4Offset) * (*deltaTime);
+            }
+            else if (*movDado4 < -14.0f) {
+                mainWindow.AnimacionDadoActiva = false;
             }
         }
 
@@ -216,17 +222,26 @@ void Animaciones::animacionDado4Caras(float* rotDado4x, float* rotDado4y, float*
         *rotDado4z = 0.0f;
         *rotDado4zOffset = 3.0f;
         numRandom1 = false;
-        cantidadCasillas = 0;
     }
 }
-
-void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBender, float& saltoBenderY, float& desplazamientoBender, int& pasos, float& deltaTime, Window& mainWindow, float& Tiempo, float& desplazamientoBenderz, float& rotacionBenderAux) {
+void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBender, float& saltoBenderY, float& desplazamientoBender, int& pasos, float& deltaTime, Window& mainWindow, float& Tiempo, float& desplazamientoBenderz, float& rotacionBenderAux, float& rotBrazoDerInf, float& rotBrazoIzqInf, float& rotBrazoDerSup, float& rotBrazoIzqSup, float& rotPiernaIzqSup, float& rotPiernaDerSup, float& rotPiernaIzqInf, float& rotPiernaDerInf, float& rotacionX, float& rotacionY, float& rotacionZ) {
     // el offset de el dezplazamiento de mi modelo sera siempre de .05
     GLfloat rotacionBenderauxiliar = 0;
     GLfloat desplazamientoBenderauxiliar = 0;
-    if (cantidadCasillas != 0 && mainWindow.turno==2) {
+    // Variables de control
+    float incrementoMovimiento = 2.0f; // Incremento por cuadro
+    float limiteMovimiento = 20.0f;   // Límite máximo de rotación en grados
+    
+
+    if (cantidadCasillas != 0 && mainWindow.turno==2 && mainWindow.AnimacionDadoActiva==false) {
+        mainWindow.AnimacionRecorridoActiva = true;
+
         // esquina inferior izquierda
         if (posicion.x > -32.0f && posicion.x < -22.0f && posicion.z > -34.0f && posicion.z < -24.0f) {
+            rotBrazoDerSup = 0.0f; // Rotación para brazo derecho
+            rotBrazoIzqSup = 0.0f; // Rotación para brazo izquierdo
+            rotPiernaDerSup = 0.0f;
+            rotPiernaIzqSup = 0.0f;
             if (rotacionBender > -90.0f) {
                 rotacionBender -= (.5f) * (deltaTime);
             }
@@ -239,15 +254,16 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
                 rotacionBender = 0;
                 posicion.x += 7.75f;
                 desplazamientoBender = 0;
-                std::cout << "Posición actual del modelo: "
-                    << "X: " << posicion.x << ", "
-                    << "Y: " << posicion.y << ", "
-                    << "Z: " << posicion.z << std::endl;
+                //
             }
 
         }
         // esquina inferior derecha
         else if (posicion.x >= 22.0f && posicion.x <= 32.0f && posicion.z >= -34.0f && posicion.z <= -24.0f) {
+            rotBrazoDerSup = 0.0f; // Rotación para brazo derecho
+            rotBrazoIzqSup = 0.0f; // Rotación para brazo izquierdo
+            rotPiernaDerSup = 0.0f;
+            rotPiernaIzqSup = 0.0f;
             if (rotacionBender > -90.0f) {
                 rotacionBender -= (.5f) * (deltaTime);
             }
@@ -261,16 +277,17 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
                 rotacionBender = 0;
                 posicion.z += 7.4f;
                 desplazamientoBenderz = 0;
-                std::cout << "Posición actual del modelo: "
-                    << "X: " << posicion.x << ", "
-                    << "Y: " << posicion.y << ", "
-                    << "Z: " << posicion.z << std::endl;
+
 
             }
 
         }
         // esquina Superior derecha
         else if (posicion.x >= 22.0f && posicion.x <= 32.0f && posicion.z >= 24.0f && posicion.z <= 34.0f) {
+            rotBrazoDerSup = 0.0f; // Rotación para brazo derecho
+            rotBrazoIzqSup = 0.0f; // Rotación para brazo izquierdo
+            rotPiernaDerSup = 0.0f;
+            rotPiernaIzqSup = 0.0f;
             if (rotacionBender > -90.0f) {
                 rotacionBender -= (.5f) * (deltaTime);
             }
@@ -283,15 +300,16 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
                 rotacionBender = 0;
                 posicion.x -= 7.75f;
                 desplazamientoBender = 0;
-                std::cout << "Posición actual del modelo: "
-                    << "X: " << posicion.x << ", "
-                    << "Y: " << posicion.y << ", "
-                    << "Z: " << posicion.z << std::endl;
+
             }
 
         }
         // esquina Superior Izquierda
         if (posicion.x >= -32.0f && posicion.x <= -22.0f && posicion.z >= 24.0f && posicion.z <= 34.0f) {
+            rotBrazoDerSup = 0.0f; // Rotación para brazo derecho
+            rotBrazoIzqSup = 0.0f; // Rotación para brazo izquierdo
+            rotPiernaDerSup = 0.0f;
+            rotPiernaIzqSup = 0.0f;
             if (rotacionBender > -90.0f) {
                 rotacionBender -= (.5f) * (deltaTime);
 
@@ -305,15 +323,29 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
                 rotacionBender = 0;
                 posicion.z -= 7.4f;
                 desplazamientoBenderz = 0;
-                std::cout << "Posición actual del modelo: "
-                    << "X: " << posicion.x << ", "
-                    << "Y: " << posicion.y << ", "
-                    << "Z: " << posicion.z << std::endl;
+
             }
 
         }
         // lineas verticales 1
         else if ((posicion.x >= -22.0f && posicion.x <= 22.0f) && posicion.z <= -29.0f) {
+            rotacionX = 1.0f;
+            rotacionZ = 0.0f;
+            if (rotBrazoDerSup >= limiteMovimiento && rotBrazoIzqSup <= -limiteMovimiento) {
+                rotBrazoDerSup -= incrementoMovimiento /2; // Rotación para brazo derecho
+                rotBrazoIzqSup += incrementoMovimiento / 2; // Rotación para brazo izquierdo
+                rotPiernaDerSup += incrementoMovimiento / 2;
+                rotPiernaIzqSup -= incrementoMovimiento / 2;
+            }
+            else {
+                rotBrazoDerSup += incrementoMovimiento; // Rotación para brazo derecho
+                rotBrazoIzqSup -= incrementoMovimiento; // Rotación para brazo izquierdo
+                rotPiernaDerSup -= incrementoMovimiento;
+                rotPiernaIzqSup += incrementoMovimiento;
+            }
+         
+
+
             if (posicion.x == 19.25f) {
                 if (desplazamientoBender < 7.75f) {
                     desplazamientoBender += (.05f) * (deltaTime);
@@ -324,10 +356,7 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
 
                     posicion.x += 7.75f;
                     desplazamientoBender = 0;
-                    std::cout << "Posición actual del modelo: "
-                        << "X: " << posicion.x << ", "
-                        << "Y: " << posicion.y << ", "
-                        << "Z: " << posicion.z << std::endl;
+                   
                 }
             }
             else {
@@ -339,10 +368,7 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
 
                     posicion.x += 5.5f;
                     desplazamientoBender = 0;
-                    std::cout << "Posición actual del modelo: "
-                        << "X: " << posicion.x << ", "
-                        << "Y: " << posicion.y << ", "
-                        << "Z: " << posicion.z << std::endl;
+                   
                 }
             }
 
@@ -350,6 +376,24 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
         }
         // lineas verticales 2
         else if ((posicion.x >= -22.0f && posicion.x <= 22.0f) && posicion.z >= 29.0f) {
+            rotacionX = 1.0f;
+            rotacionZ = 0.0f;
+            if (rotBrazoDerSup >= limiteMovimiento && rotBrazoIzqSup <= -limiteMovimiento) {
+                rotBrazoDerSup -= incrementoMovimiento; // Rotación para brazo derecho
+                rotBrazoIzqSup += incrementoMovimiento; // Rotación para brazo izquierdo
+                rotPiernaDerSup += incrementoMovimiento;
+                rotPiernaIzqSup -= incrementoMovimiento;
+            }
+            else {
+                rotBrazoDerSup += incrementoMovimiento; // Rotación para brazo derecho
+                rotBrazoIzqSup -= incrementoMovimiento; // Rotación para brazo izquierdo
+                rotPiernaDerSup -= incrementoMovimiento;
+                rotPiernaIzqSup += incrementoMovimiento;
+            }
+
+
+
+
             if (posicion.x == -19.25f) {
                 if (desplazamientoBender > -7.75f) {
                     desplazamientoBender -= (.05f) * (deltaTime);
@@ -360,10 +404,7 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
 
                     posicion.x -= 7.75f;
                     desplazamientoBender = 0;
-                    std::cout << "Posición actual del modelo: "
-                        << "X: " << posicion.x << ", "
-                        << "Y: " << posicion.y << ", "
-                        << "Z: " << posicion.z << std::endl;
+                   
                 }
             }
             else {
@@ -375,10 +416,7 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
 
                     posicion.x -= 5.5f;
                     desplazamientoBender = 0;
-                    std::cout << "Posición actual del modelo: "
-                        << "X: " << posicion.x << ", "
-                        << "Y: " << posicion.y << ", "
-                        << "Z: " << posicion.z << std::endl;
+                   
                 }
             }
 
@@ -386,6 +424,21 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
         }
         // Lineas Horizontales
         else if ((posicion.z >= -24.0f && posicion.z <= 24.0f) && posicion.x == 27.0f) {
+            rotacionX = 1.0f;
+            rotacionZ = 0.0f;
+            if (rotBrazoDerSup >= limiteMovimiento && rotBrazoIzqSup <= -limiteMovimiento) {
+                rotBrazoDerSup -= incrementoMovimiento; // Rotación para brazo derecho
+                rotBrazoIzqSup += incrementoMovimiento; // Rotación para brazo izquierdo
+                rotPiernaDerSup += incrementoMovimiento;
+                rotPiernaIzqSup -= incrementoMovimiento;
+            }
+            else {
+                rotBrazoDerSup += incrementoMovimiento; // Rotación para brazo derecho
+                rotBrazoIzqSup -= incrementoMovimiento; // Rotación para brazo izquierdo
+                rotPiernaDerSup -= incrementoMovimiento;
+                rotPiernaIzqSup += incrementoMovimiento;
+            }
+
             if (posicion.z >= 21.6f) { // se pone mayur  o igual ya que puede que el aumento lo tetecte como 21.600000000005 
                 if (desplazamientoBenderz < 7.4f) {
                     desplazamientoBenderz += (.05f) * (deltaTime);
@@ -394,10 +447,7 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
                     cantidadCasillas--;
                     posicion.z += 7.4f;
                     desplazamientoBenderz = 0;
-                    std::cout << "-----Posición actual del modelo: "
-                        << "X: " << posicion.x << ", "
-                        << "Y: " << posicion.y << ", "
-                        << "Z: " << posicion.z << std::endl;
+                
                 }
             }
             else {
@@ -408,16 +458,27 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
                     cantidadCasillas--;
                     posicion.z += 4.8f;
                     desplazamientoBenderz = 0;
-                    std::cout << "Posición actual del modelo: "
-                        << "X: " << posicion.x << ", "
-                        << "Y: " << posicion.y << ", "
-                        << "Z: " << posicion.z << std::endl;
+                    
 
                 }
             }
         }
         // Lineas Horizontales 2
         else if ((posicion.z >= -24.0f && posicion.z <= 24.0f) && posicion.x == -27.0f) {
+            rotacionX = 1.0f;
+            rotacionZ = 0.0f;
+            if (rotBrazoDerSup >= limiteMovimiento && rotBrazoIzqSup <= -limiteMovimiento) {
+                rotBrazoDerSup -= incrementoMovimiento; // Rotación para brazo derecho
+                rotBrazoIzqSup += incrementoMovimiento; // Rotación para brazo izquierdo
+                rotPiernaDerSup += incrementoMovimiento;
+                rotPiernaIzqSup -= incrementoMovimiento;
+            }
+            else {
+                rotBrazoDerSup += incrementoMovimiento; // Rotación para brazo derecho
+                rotBrazoIzqSup -= incrementoMovimiento; // Rotación para brazo izquierdo
+                rotPiernaDerSup -= incrementoMovimiento;
+                rotPiernaIzqSup += incrementoMovimiento;
+            }
             if (posicion.z >= -21.7f && posicion.z <= -21.5f) {
                 if (desplazamientoBenderz > -7.4f) {
 
@@ -433,10 +494,6 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
                     desplazamientoBender = 0;
                     rotacionBender = 0;
                     rotacionBenderAux = 0;
-                    std::cout << "-----Posición actual del modelo: "
-                        << "X: " << posicion.x << ", "
-                        << "Y: " << posicion.y << ", "
-                        << "Z: " << posicion.z << std::endl;
                 }
             }
             else {
@@ -447,13 +504,12 @@ void Animaciones::movimientoTableroBender(glm::vec3& posicion, float& rotacionBe
                     cantidadCasillas--;
                     posicion.z -= 4.8f;
                     desplazamientoBenderz = 0;
-                    std::cout << "Posición actual del modelo: "
-                        << "X: " << posicion.x << ", "
-                        << "Y: " << posicion.y << ", "
-                        << "Z: " << posicion.z << std::endl;
-
                 }
             }
+        }
+    }else{
+        if (cantidadCasillas == 0) {
+            mainWindow.AnimacionRecorridoActiva = false;
         }
     }
 
@@ -463,6 +519,7 @@ void Animaciones::movimientoTableroDipper(glm::vec3& posicion, float& rotacionBe
     GLfloat rotacionBenderauxiliar = 0;
     GLfloat desplazamientoBenderauxiliar = 0;
     if (cantidadCasillas != 0 && mainWindow.turno == 1) {
+        tiempo10segundos = 0;
         // esquina inferior izquierda
         if (posicion.x > -32.0f && posicion.x < -22.0f && posicion.z > -34.0f && posicion.z < -24.0f) {
             if (rotacionBender > -90.0f) {
@@ -699,75 +756,240 @@ void Animaciones::movimientoTableroDipper(glm::vec3& posicion, float& rotacionBe
 
 //parte animacion de otro modelos
 
+void Animaciones::TexturaIluminada(float& toffsetCasillaIluminadau, float& toffsetCasillaIluminadav, glm::vec3& posicion, int& caso) {
+    int idCasilla = obtenerIDCasilla(posicion);
+    switch (idCasilla) {
+    case 1:
+        toffsetCasillaIluminadau = .5;
+        toffsetCasillaIluminadav = -.5;             //Casilla Start
+        caso = 3;                       
+        break;
+    case 2:
+        toffsetCasillaIluminadau = 0.0;
+        toffsetCasillaIluminadav = -0.3125; //Casilla Chapoteo
+        caso = 1;
+        break;
+    case 3:
+        toffsetCasillaIluminadau = .125;
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 1;                        //Casilla Floripondio
+        break;
+    case 4:
+        toffsetCasillaIluminadau = 2 * .125;
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 1;                       // Casilla Brillantina
+        break;
+    case 5:
+        toffsetCasillaIluminadau = 3 * .125;
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 1;                //Casilla Determindes
+        break;
+    case 6:
+        toffsetCasillaIluminadau = 4 * .125;
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 1;                //Casilla Impacto
+        break;
+    case 7:
+        toffsetCasillaIluminadau = 5 * .125;
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 1;               //Casilla Sr Bulldog
+        break;
+    case 8:
+        toffsetCasillaIluminadau = 6 * .125;
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 1;
+        break;                       //Casilla Esperanza 
+    case 9:
+        toffsetCasillaIluminadau = 7 * .125;
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 1;                    //Casilla Yahoo 
+        break;
+    case 10:
+        toffsetCasillaIluminadau = 0.0;
+        toffsetCasillaIluminadav = -.5;
+        caso = 3;                       //Mystery shack
+        break;
+    case 11:
+        toffsetCasillaIluminadau = 3 * .125;
+        toffsetCasillaIluminadav = -2 * 0.3125;
+        caso = 2;                       //Casilla lento
+        break;
+    case 12:
+        toffsetCasillaIluminadau = 2 * .125;
+        toffsetCasillaIluminadav = -2 * 0.3125;
+        caso = 2;                        //Casilla Castillo del terror
+        break;
+    case 13:
+        toffsetCasillaIluminadau = 1 * .125;
+        toffsetCasillaIluminadav = -2 * 0.3125;
+        caso = 2;                         //Casilla Relajate
+        break;
+    case 14:
+        toffsetCasillaIluminadau = 0.0;
+        toffsetCasillaIluminadav = -2 * 0.3125;
+        caso = 2;                         //Casilla Cuidado
+        break;
+    case 15:
+        toffsetCasillaIluminadau = 7 * .125;
+        toffsetCasillaIluminadav = -0.3125;         //Casilla Furia
+        caso = 2;
+        break;
+    case 16:
+        toffsetCasillaIluminadau = 6 * .125;
+        toffsetCasillaIluminadav = -0.3125;         //Casilla Noroeste
+        caso = 2;
+        break;
+    case 17:
+        toffsetCasillaIluminadau = 5 * .125;        //Casilla langosta
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 2;
+        break;
+    case 18:
+        toffsetCasillaIluminadau = 4 * .125;
+        toffsetCasillaIluminadav = -0.3125;         //Casilla A   Comer
+        caso = 2;
+        break;
+    case 19:
+        toffsetCasillaIluminadau = 3 * .125;
+        toffsetCasillaIluminadav = -0.3125;         //Casilla  The Goat
+        caso = 2;
+        break;
+    case 20:
+        toffsetCasillaIluminadau = 2 * .125;       //Casilla  Saltarin
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 2;
+        break;
+    case 21:
+        toffsetCasillaIluminadau = 0.5;
+        toffsetCasillaIluminadav = 0.0;             //Casilla Stellar Winn
+        caso = 3;
+        break;
+    case 22:
+        toffsetCasillaIluminadau = 7 * .125;       
+        toffsetCasillaIluminadav = 0.0;
+        caso = 1;
+        break;
+    case 23:
+        toffsetCasillaIluminadau = 6 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 1;
+        break;
+    case 24:
+        toffsetCasillaIluminadau = 5 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 1;
+        break;
+    case 25:
+        toffsetCasillaIluminadau = 4 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 1;
+        break;
+    case 26:
+        toffsetCasillaIluminadau = 3 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 1;
+        break;
+    case 27:
+        toffsetCasillaIluminadau = 2 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 1;
+        break;
+    case 28:
+        toffsetCasillaIluminadau = 1 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 1;
+        break;
+    case 29:
+        toffsetCasillaIluminadau = 0.0;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 1;
+        break;
+    case 30:
+        toffsetCasillaIluminadau = 0.0;
+        toffsetCasillaIluminadav = 0.0;             //Casilla Insert Coin
+        caso = 3;
+        break;
+    case 31:
+        toffsetCasillaIluminadau = 0.0;
+        toffsetCasillaIluminadav = 0.0;         
+        caso = 2;
+        break;
+    case 32:
+        toffsetCasillaIluminadau = 1 * .125;
+        toffsetCasillaIluminadav = 0.0;         
+        caso = 2;
+        break;
+    case 33:
+        toffsetCasillaIluminadau = 2 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 2;
+        break;
+    case 34:
+        toffsetCasillaIluminadau = 3 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 2;
+        break;
+    case 35:
+        toffsetCasillaIluminadau = 4 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 2;
+        break;
+    case 36:
+        toffsetCasillaIluminadau = 5 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 2;
+        break;
+    case 37:
+        toffsetCasillaIluminadau = 6 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 2;
+        break;
+    case 38:
+        toffsetCasillaIluminadau = 7 * .125;
+        toffsetCasillaIluminadav = 0.0;
+        caso = 2;
+        break;
+    case 39:
+        toffsetCasillaIluminadau = 0.0;       
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 2;
+        break;
+    case 40:
+        toffsetCasillaIluminadau = 1 * .125;       
+        toffsetCasillaIluminadav = -0.3125;
+        caso = 2;
+        break;
+    default:
+        break;
+    }
 
-void Animaciones::animacionTablero(float& posYObjeto, float& rotacionObjeto, float deltaTime,float Tiempo) {
-    if (!animacionActiva ) {
+}
+void Animaciones::animacionTablero(float& posYObjeto, float& rotacionObjeto, float deltaTime, float Tiempo, Window& mainWindow) {
+    // Activa la animación solo si no está activa y han pasado 10 segundos desde la última ejecución
+    if (!animacionActiva && (Tiempo >= tiempo10segundos || tiempo10segundos == 0)) {
         tiempo3segundos = Tiempo + 3.0f;
         animacionActiva = true;
+        mainWindow.AnimacionCasilla = true;
     }
-    // Usar `objetoID` para cambiar el comportamiento de la animación
+
+    // Lógica de la animación
     if (animacionActiva && cantidadCasillas == 0) {
-        if (posYObjeto < 5.0f && Tiempo < tiempo3segundos ) {
-            posYObjeto += 2.0f * deltaTime;
-            rotacionObjeto += 90.0f * deltaTime;
+        if (Tiempo < tiempo3segundos) {
+            // Mueve el objeto a la posición alta y realiza la rotación
+            posYObjeto = 5.0f;
+            if (rotacionObjeto > -360.0f) {
+                rotacionObjeto -= (1.0f) * deltaTime;
+            }
         }
         else if (Tiempo >= tiempo3segundos) {
-            posYObjeto -= 2.0f * deltaTime;
-            rotacionObjeto += 90.0f * deltaTime;
-            if (posYObjeto <= -5.0f) {
-                animacionActiva = false;
-                posYObjeto = -5.0f;
-                rotacionObjeto = 0.0f;
-            }
+            tiempo10segundos = Tiempo + 3.0f;  // Marca 10 segundos desde el tiempo actual
+            animacionActiva = false;       // Desactiva la animación para esperar los 10 segundos
+            mainWindow.AnimacionCasilla = false;
+            posYObjeto = -5.0f;            // Baja el objeto
+            rotacionObjeto = 0.0f;         // Resetea la rotación del objeto
         }
     }
 }
-// Función para convertir (X, Z) a un ID de casilla único
-/*int Animaciones::obtenerIDCasilla(float posXBici, float posZBici) {
-    if (posXBici == -28.0098f && posZBici == -24.488f) return 1; // Inicio casilla perro
-    if (posXBici == -28.0098f && posZBici == -18.8f) return 2; // Inicio casilla
-    if (posXBici == -28.0098f && posZBici == -15.08f) return 3; //Inicio casilla
-    if (posXBici == -28.0098f && posZBici == -10.77f) return 4; //Inicio casilla
-    if (posXBici == -28.0098f && posZBici == -5.18f) return 5; //Inicio casilla
-    if (posXBici == -28.0098f && posZBici == -0.49f) return 6; //Inicio casilla elefanbra
-    if (posXBici == -28.0098f && posZBici == 4.29f) return 7; //Inicio casilla nueva luz
-    if (posXBici == -28.0098f && posZBici == 9.53f) return 8; //Inicio casilla kinopio
-    if (posXBici == -28.0098f && posZBici == 13.31f) return 9; //Inicio casilla oink
-    if (posXBici == -28.0098f && posZBici == 18.68f) return 10; //Inicio casilla Puerto diversion
-    if (posXBici == -28.0098f && posZBici == 22.37f) return 11; //Inicio casilla Insert Coin
-    if (posXBici == -21.66f && posZBici == 28.0299f) return 12; //Inicio casilla mordelon
-    if (posXBici == -16.08f && posZBici == 28.0299f) return 13; //Inicio casilla te tengo
-    if (posXBici == -10.97f && posZBici == 28.0299f) return 14; //Inicio casilla destronador
-    if (posXBici == -5.43f && posZBici == 28.0299f) return 15; //Inicio casilla trebol 7
-    if (posXBici == -0.28f && posZBici == 28.0299f) return 16; //Inicio casilla estafado
-    if (posXBici == 5.17f && posZBici == 28.0299f) return 17; //Inicio casilla Mazmorra
-    if (posXBici == 10.2f && posZBici == 28.0299f) return 18; //Inicio casilla devorado
-    if (posXBici == 16.28f && posZBici == 28.0299f) return 19; //Inicio casilla gnomo
-    if (posXBici == 21.49f && posZBici == 28.0299f) return 20; //Inicio casilla Palacio (esquina)
-    if (posXBici == 28.0067f && posZBici == 23.08f) return 21; //Inicio casilla saltarin
-    if (posXBici == 28.0067f && posZBici == 18.87f) return 22; //Inicio casilla GOAT
-    if (posXBici == 28.0067f && posZBici == 14.28f) return 23; //Inicio casilla a comer
-    if (posXBici == 28.0067f && posZBici == 9.32f) return 24; //Inicio casilla mr langosta
-    if (posXBici == 28.0067f && posZBici == 4.05f) return 25; //Inicio casilla mansion noroeste
-    if (posXBici == 28.0067f && posZBici == 0.34f) return 26; //Inicio casilla furia
-    if (posXBici == 28.0067f && posZBici == -4.67f) return 27; //Inicio casilla cuidado
-    if (posXBici == 28.0067f && posZBici == -9.55f) return 28; //Inicio casilla relajate
-    if (posXBici == 28.0067f && posZBici == -14.27f) return 29; //Inicio casilla castillo de terror
-    if (posXBici == 28.0067f && posZBici == -18.64f) return 30; //Inicio casilla lento
-    if (posXBici == 28.0067f && posZBici == -23.99f) return 31; //Inicio casilla Mystery Shack
-    if (posXBici == 21.82f && posZBici == -28.0086f) return 32; //Inicio casilla yahoo
-    if (posXBici == 15.99f && posZBici == -28.0086f) return 33; //Inicio casilla esperanza
-    if (posXBici == 10.08f && posZBici == -28.0086f) return 34; //Inicio casilla sr bulldog
-    if (posXBici == 4.87f && posZBici == -28.0086f) return 35; //Inicio casilla impacto
-    if (posXBici == -0.20f && posZBici == -28.0086f) return 36; //Inicio casilla determined
-    if (posXBici == -4.97f && posZBici == -28.0086f) return 37; //Inicio casilla brillantina
-    if (posXBici == -10.72f && posZBici == -28.0086f) return 38; //Inicio casilla floripondio
-    if (posXBici == -15.95f && posZBici == -28.0086f) return 39; //Inicio casilla chapoteo
-    if (posXBici == -20.9104f && posZBici == -28.0086f) return 40; //Inicio casilla start
-    return -1;  // Retorna -1 si no hay coincidencia
-}*/
-
-
 int Animaciones::obtenerIDCasilla(glm::vec3& posicion) {
     //Esquina start
     if (posicion.x > -32.0f && posicion.x < -22.0f && posicion.z > -34.0f && posicion.z < -24.0f) {
@@ -824,177 +1046,6 @@ int Animaciones::obtenerIDCasilla(glm::vec3& posicion) {
 
 
 }
-
-/*
-void Animaciones::controlAnimacionTablero(float posXBici, float posZBici,
-    float& posY1, float& rotacion1,
-    float& posY2, float& rotacion2,
-    float& posY3, float& rotacion3,
-    float& posY4, float& rotacion4,
-    float& posY5, float& rotacion5,
-    float& posY6, float& rotacion6,
-    float& posY7, float& rotacion7,
-    float& posY8, float& rotacion8,
-    float& posY9, float& rotacion9,
-    float& posY10, float& rotacion10,
-    float& posY11, float& rotacion11,
-    float& posY12, float& rotacion12,
-    float& posY13, float& rotacion13,
-    float& posY14, float& rotacion14,
-    float& posY15, float& rotacion15,
-    float& posY16, float& rotacion16,
-    float& posY17, float& rotacion17,
-    float& posY18, float& rotacion18,
-    float& posY19, float& rotacion19,
-    float& posY20, float& rotacion20,
-    float& posY21, float& rotacion21,
-    float& posY22, float& rotacion22,
-    float& posY23, float& rotacion23,
-    float& posY24, float& rotacion24,
-    float& posY25, float& rotacion25,
-    float& posY26, float& rotacion26,
-    float& posY27, float& rotacion27,
-    float& posY28, float& rotacion28,
-    float& posY29, float& rotacion29,
-    float& posY30, float& rotacion30,
-    float& posY31, float& rotacion31,
-    float& posY32, float& rotacion32,
-    float& posY33, float& rotacion33,
-    float& posY34, float& rotacion34,
-    float& posY35, float& rotacion35,
-    float& posY36, float& rotacion36,
-    float& posY37, float& rotacion37,
-    float& posY38, float& rotacion38,
-    float& posY39, float& rotacion39,
-    float& posY40, float& rotacion40,
-    float deltaTime) {
-    int idCasilla = obtenerIDCasilla(posXBici, posZBici);
-    switch (idCasilla) {
-    case 1:  // Casilla 1
-        animacionTablero(posY1, rotacion1, deltaTime);
-        break;
-    case 2:  // Casilla 2
-        animacionTablero(posY2, rotacion2, deltaTime);
-        break;
-    case 3:  // Casilla 3
-        animacionTablero(posY3, rotacion3, deltaTime);
-        break;
-    case 4:  // Casilla 4
-        animacionTablero(posY4, rotacion4, deltaTime);
-        break;
-    case 5:
-        animacionTablero(posY5, rotacion5, deltaTime);
-        break;
-    case 6:
-        animacionTablero(posY6, rotacion6, deltaTime);
-        break;
-    case 7:
-        animacionTablero(posY7, rotacion7, deltaTime);
-        break;
-    case 8:
-        animacionTablero(posY8, rotacion8, deltaTime);
-        break;
-    case 9:
-        animacionTablero(posY9, rotacion9, deltaTime);
-        break;
-    case 10:
-        animacionTablero(posY10, rotacion10, deltaTime);
-        break;
-    case 11:
-        animacionTablero(posY11, rotacion11, deltaTime);
-        break;
-    case 12:
-        animacionTablero(posY12, rotacion12, deltaTime);
-        break;
-    case 13:
-        animacionTablero(posY13, rotacion13, deltaTime);
-        break;
-    case 14:
-        animacionTablero(posY14, rotacion14, deltaTime);
-        break;
-    case 15:
-        animacionTablero(posY15, rotacion15, deltaTime);
-        break;
-    case 16:
-        animacionTablero(posY16, rotacion16, deltaTime);
-        break;
-    case 17:
-        animacionTablero(posY17, rotacion17, deltaTime);
-        break;
-    case 18:
-        animacionTablero(posY18, rotacion18, deltaTime);
-        break;
-    case 19:
-        animacionTablero(posY19, rotacion19, deltaTime);
-        break;
-    case 20:
-        animacionTablero(posY20, rotacion20, deltaTime);
-        break;
-    case 21:
-        animacionTablero(posY21, rotacion21, deltaTime);
-        break;
-    case 22:
-        animacionTablero(posY22, rotacion22, deltaTime);
-        break;
-    case 23:
-        animacionTablero(posY23, rotacion23, deltaTime);
-        break;
-    case 24:
-        animacionTablero(posY24, rotacion24, deltaTime);
-        break;
-    case 25:
-        animacionTablero(posY25, rotacion25, deltaTime);
-        break;
-    case 26:
-        animacionTablero(posY26, rotacion26, deltaTime);
-        break;
-    case 27:
-        animacionTablero(posY27, rotacion27, deltaTime);
-        break;
-    case 28:
-        animacionTablero(posY28, rotacion28, deltaTime);
-        break;
-    case 29:
-        animacionTablero(posY29, rotacion29, deltaTime);
-        break;
-    case 30:
-        animacionTablero(posY30, rotacion30, deltaTime);
-        break;
-    case 31:
-        animacionTablero(posY31, rotacion31, deltaTime);
-        break;
-    case 32:
-        animacionTablero(posY32, rotacion32, deltaTime);
-        break;
-    case 33:
-        animacionTablero(posY33, rotacion33, deltaTime);
-        break;
-    case 34:
-        animacionTablero(posY34, rotacion34, deltaTime);
-        break;
-    case 35:
-        animacionTablero(posY35, rotacion35, deltaTime);
-        break;
-    case 36:
-        animacionTablero(posY36, rotacion36, deltaTime);
-        break;
-    case 37:
-        animacionTablero(posY37, rotacion37, deltaTime);
-        break;
-    case 38:
-        animacionTablero(posY38, rotacion38, deltaTime);
-        break;
-    case 39:
-        animacionTablero(posY39, rotacion39, deltaTime);
-        break;
-    case 40:
-        animacionTablero(posY40, rotacion40, deltaTime);
-        break;
-    default:
-        break;
-    }
-}*/
-
 void Animaciones::controlAnimacionTablero(glm::vec3& posicion,
     float& posY1, float& rotacion1,
     float& posY2, float& rotacion2,
@@ -1036,128 +1087,129 @@ void Animaciones::controlAnimacionTablero(glm::vec3& posicion,
     float& posY38, float& rotacion38,
     float& posY39, float& rotacion39,
     float& posY40, float& rotacion40,
-    float deltaTime,float Tiempo) {
+    float deltaTime,float Tiempo, Window& mainWindow) {
     int idCasilla = obtenerIDCasilla(posicion);
+    //printf("Entre en caso %i \n", idCasilla);
     switch (idCasilla) {
     case 1:
-        animacionTablero(posY1, rotacion1, deltaTime,Tiempo); //Casilla Guau contador
+        animacionTablero(posY1, rotacion1, deltaTime,Tiempo, mainWindow); //Casilla Guau contador
         break;
     case 2:
-        animacionTablero(posY2, rotacion2, deltaTime, Tiempo); //Casilla Start
+        animacionTablero(posY2, rotacion2, deltaTime, Tiempo, mainWindow); //Casilla Start
         break;
     case 3:
-        animacionTablero(posY3, rotacion3, deltaTime, Tiempo); //Casilla Chapoteo
+        animacionTablero(posY3, rotacion3, deltaTime, Tiempo, mainWindow); //Casilla Chapoteo
         break;
     case 4:
-        animacionTablero(posY4, rotacion4, deltaTime, Tiempo); //Casilla Floripondio
+        animacionTablero(posY4, rotacion4, deltaTime, Tiempo, mainWindow); //Casilla Floripondio
         break;
     case 5:
-        animacionTablero(posY5, rotacion5, deltaTime, Tiempo); // Casilla Brillantina
+        animacionTablero(posY5, rotacion5, deltaTime, Tiempo, mainWindow); // Casilla Brillantina
         break;
     case 6:
-        animacionTablero(posY6, rotacion6, deltaTime, Tiempo); //Casilla Determindes
+        animacionTablero(posY6, rotacion6, deltaTime, Tiempo, mainWindow); //Casilla Determindes
         break;
     case 7:
-        animacionTablero(posY7, rotacion7, deltaTime, Tiempo); //Casilla Impacto
+        animacionTablero(posY7, rotacion7, deltaTime, Tiempo, mainWindow); //Casilla Impacto
         break;
     case 8:
-        animacionTablero(posY8, rotacion8, deltaTime, Tiempo);
+        animacionTablero(posY8, rotacion8, deltaTime, Tiempo, mainWindow);
         break;
     case 9:
-        animacionTablero(posY9, rotacion9, deltaTime, Tiempo); //Casilla Esperanza 
+        animacionTablero(posY9, rotacion9, deltaTime, Tiempo, mainWindow); //Casilla Esperanza 
         break;
     case 10:
-        animacionTablero(posY10, rotacion10, deltaTime, Tiempo); //Casilla Yahoo 
+        animacionTablero(posY10, rotacion10, deltaTime, Tiempo, mainWindow); //Casilla Yahoo 
         break;
     case 11:
-        animacionTablero(posY11, rotacion11, deltaTime, Tiempo); //Mystery shack
+        animacionTablero(posY11, rotacion11, deltaTime, Tiempo, mainWindow); //Mystery shack
         break;
     case 12:
-        animacionTablero(posY12, rotacion12, deltaTime, Tiempo); //Casilla lento
+        animacionTablero(posY12, rotacion12, deltaTime, Tiempo, mainWindow); //Casilla lento
         break;
     case 13:
-        animacionTablero(posY13, rotacion13, deltaTime, Tiempo); //Casilla Castillo del terror
+        animacionTablero(posY13, rotacion13, deltaTime, Tiempo, mainWindow); //Casilla Castillo del terror
         break;
     case 14:
-        animacionTablero(posY14, rotacion14, deltaTime, Tiempo); //Casilla Relajate
+        animacionTablero(posY14, rotacion14, deltaTime, Tiempo, mainWindow); //Casilla Relajate
         break;
     case 15:
-        animacionTablero(posY15, rotacion15, deltaTime, Tiempo); //Casilla Cuidado
+        animacionTablero(posY15, rotacion15, deltaTime, Tiempo, mainWindow); //Casilla Cuidado
         break;
     case 16:
-        animacionTablero(posY16, rotacion16, deltaTime, Tiempo);
+        animacionTablero(posY16, rotacion16, deltaTime, Tiempo, mainWindow);
         break;
     case 17:
-        animacionTablero(posY17, rotacion17, deltaTime, Tiempo);
+        animacionTablero(posY17, rotacion17, deltaTime, Tiempo, mainWindow);
         break;
     case 18:
-        animacionTablero(posY18, rotacion18, deltaTime, Tiempo);
+        animacionTablero(posY18, rotacion18, deltaTime, Tiempo, mainWindow);
         break;
     case 19:
-        animacionTablero(posY19, rotacion19, deltaTime, Tiempo);
+        animacionTablero(posY19, rotacion19, deltaTime, Tiempo, mainWindow);
         break;
     case 20:
-        animacionTablero(posY20, rotacion20, deltaTime, Tiempo);
+        animacionTablero(posY20, rotacion20, deltaTime, Tiempo, mainWindow);
         break;
     case 21:
-        animacionTablero(posY21, rotacion21, deltaTime, Tiempo);
+        animacionTablero(posY21, rotacion21, deltaTime, Tiempo, mainWindow);
         break;
     case 22:
-        animacionTablero(posY22, rotacion22, deltaTime, Tiempo);
+        animacionTablero(posY22, rotacion22, deltaTime, Tiempo, mainWindow);
         break;
     case 23:
-        animacionTablero(posY23, rotacion23, deltaTime, Tiempo);
+        animacionTablero(posY23, rotacion23, deltaTime, Tiempo, mainWindow);
         break;
     case 24:
-        animacionTablero(posY24, rotacion24, deltaTime, Tiempo);
+        animacionTablero(posY24, rotacion24, deltaTime, Tiempo, mainWindow);
         break;
     case 25:
-        animacionTablero(posY25, rotacion25, deltaTime, Tiempo);
+        animacionTablero(posY25, rotacion25, deltaTime, Tiempo, mainWindow);
         break;
     case 26:
-        animacionTablero(posY26, rotacion26, deltaTime, Tiempo);
+        animacionTablero(posY26, rotacion26, deltaTime, Tiempo, mainWindow);
         break;
     case 27:
-        animacionTablero(posY27, rotacion27, deltaTime, Tiempo);
+        animacionTablero(posY27, rotacion27, deltaTime, Tiempo, mainWindow);
         break;
     case 28:
-        animacionTablero(posY28, rotacion28, deltaTime, Tiempo);
+        animacionTablero(posY28, rotacion28, deltaTime, Tiempo, mainWindow);
         break;
     case 29:
-        animacionTablero(posY29, rotacion29, deltaTime, Tiempo);
+        animacionTablero(posY29, rotacion29, deltaTime, Tiempo, mainWindow);
         break;
     case 30:
-        animacionTablero(posY30, rotacion30, deltaTime, Tiempo);
+        animacionTablero(posY30, rotacion30, deltaTime, Tiempo, mainWindow);
         break;
     case 31:
-        animacionTablero(posY31, rotacion31, deltaTime, Tiempo);
+        animacionTablero(posY31, rotacion31, deltaTime, Tiempo, mainWindow);
         break;
     case 32:
-        animacionTablero(posY32, rotacion32, deltaTime, Tiempo);
+        animacionTablero(posY32, rotacion32, deltaTime, Tiempo, mainWindow);
         break;
     case 33:
-        animacionTablero(posY33, rotacion33, deltaTime, Tiempo);
+        animacionTablero(posY33, rotacion33, deltaTime, Tiempo, mainWindow);
         break;
     case 34:
-        animacionTablero(posY34, rotacion34, deltaTime, Tiempo);
+        animacionTablero(posY34, rotacion34, deltaTime, Tiempo, mainWindow);
         break;
     case 35:
-        animacionTablero(posY35, rotacion35, deltaTime, Tiempo);
+        animacionTablero(posY35, rotacion35, deltaTime, Tiempo, mainWindow);
         break;
     case 36:
-        animacionTablero(posY36, rotacion36, deltaTime, Tiempo);
+        animacionTablero(posY36, rotacion36, deltaTime, Tiempo, mainWindow);
         break;
     case 37:
-        animacionTablero(posY37, rotacion37, deltaTime, Tiempo);
+        animacionTablero(posY37, rotacion37, deltaTime, Tiempo, mainWindow);
         break;
     case 38:
-        animacionTablero(posY38, rotacion38, deltaTime, Tiempo);
+        animacionTablero(posY38, rotacion38, deltaTime, Tiempo, mainWindow);
         break;
     case 39:
-        animacionTablero(posY39, rotacion39, deltaTime, Tiempo);
+        animacionTablero(posY39, rotacion39, deltaTime, Tiempo, mainWindow);
         break;
     case 40:
-        animacionTablero(posY40, rotacion40, deltaTime, Tiempo);
+        animacionTablero(posY40, rotacion40, deltaTime, Tiempo, mainWindow);
         break;
     default:
         break;
